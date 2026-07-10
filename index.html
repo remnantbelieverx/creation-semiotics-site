@@ -911,7 +911,7 @@ async function subscribeButtondown(email, listTag, popupRef){
   }
 
   const esc = (s) => String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
-  /* Build popup HTML without a literal </script> — that would close this page's script tag. */
+  /* Build popup HTML without a literal closing script tag (would end this page's script). */
   const formHtml = [
     "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\">",
     "<title>Confirm subscription</title>",
