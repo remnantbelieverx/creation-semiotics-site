@@ -20,6 +20,7 @@ architecture or phase gates change; this README stays run/routes-focused.
 | `/branch.html#/N` | `branch.html` | **library** | Branch view (positions 1–7) |
 | `/entry.html` · `#/<slug>` | `entry.html` | **library** | Public entry reader (allowlist summaries) |
 | `/care/welcome.html` | `care/welcome.html` | **grace** | Next steps + church help |
+| `/library.html` | `library.html` | **library** | Membership Library shell + waitlist |
 
 ## Design system
 

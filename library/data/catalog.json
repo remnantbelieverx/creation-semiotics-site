@@ -1,0 +1,476 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-10T04:31:22+00:00",
+  "note": "Free rows from Public-Publish-Allowlist; member teasers are planned, not vault dumps.",
+  "tiers": [
+    {
+      "id": "free",
+      "name": "Front door",
+      "price": "Free forever",
+      "includes": [
+        "The Verdict",
+        "Free Signs gallery",
+        "Public entry summaries",
+        "Lamp + Branch map",
+        "Care / church help"
+      ]
+    },
+    {
+      "id": "library",
+      "name": "Library membership",
+      "price": "About $9/mo or $79/yr (indicative)",
+      "includes": [
+        "Deeper allowlisted entry bodies (sod stripped)",
+        "Full reading paths",
+        "Search over member catalog",
+        "Priority updates as the lamp fills"
+      ]
+    },
+    {
+      "id": "pastor",
+      "name": "Pastor / Teacher",
+      "price": "About $19/mo (indicative)",
+      "includes": [
+        "Everything in Library",
+        "Sermon illustration packs",
+        "Teaching license for church use",
+        "Quarterly new-signs briefs"
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "id": "A-01",
+      "title": "Entry 1.1 — Conscience",
+      "source": "Entry 1.1 — Conscience",
+      "pos": "1",
+      "surface": "public",
+      "altitude": "general",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/conscience",
+      "memberHref": null,
+      "blurb": "Forensic tribunal; core of The Verdict",
+      "slug": "conscience"
+    },
+    {
+      "id": "A-02",
+      "title": "CDP-XIII — Robe Exchange (Verdict path)",
+      "source": "CDP-XIII — Robe Exchange (Verdict path)",
+      "pos": "—",
+      "surface": "public",
+      "altitude": "general",
+      "access": "free",
+      "status": "live",
+      "publicHref": "index.html#/verdict/0",
+      "memberHref": null,
+      "blurb": "Gospel as legal exchange; no sod dump",
+      "slug": null
+    },
+    {
+      "id": "A-03",
+      "title": "Entry 2.1 — Snowflake",
+      "source": "Entry 2.1 — Snowflake",
+      "pos": "2",
+      "surface": "public",
+      "altitude": "general",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/snowflake",
+      "memberHref": null,
+      "blurb": "Seed example; precision: pairing derived",
+      "slug": "snowflake"
+    },
+    {
+      "id": "A-04",
+      "title": "Entry 2.4 — Triple Point",
+      "source": "Entry 2.4 — Triple Point",
+      "pos": "2",
+      "surface": "public",
+      "altitude": "general",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/triplepoint",
+      "memberHref": null,
+      "blurb": "Modalism-correction framing on site",
+      "slug": "triplepoint"
+    },
+    {
+      "id": "A-05",
+      "title": "Entry 2.6 — Visible Light / Feasts",
+      "source": "Entry 2.6 — Visible Light / Feasts",
+      "pos": "2",
+      "surface": "public",
+      "altitude": "general",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/spectrum",
+      "memberHref": null,
+      "blurb": "Newton-convention honesty on site",
+      "slug": "spectrum"
+    },
+    {
+      "id": "A-06",
+      "title": "Entry 2.36 — Cymatics",
+      "source": "Entry 2.36 — Cymatics",
+      "pos": "2",
+      "surface": "public",
+      "altitude": "general",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/cymatics",
+      "memberHref": null,
+      "blurb": "No sound-healing claims",
+      "slug": "cymatics"
+    },
+    {
+      "id": "A-07",
+      "title": "Entry 2.7 — Fire",
+      "source": "Entry 2.7 — Fire",
+      "pos": "4",
+      "surface": "public",
+      "altitude": "general",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/fire",
+      "memberHref": null,
+      "blurb": "Throne-fire / seven properties; taxonomy honesty",
+      "slug": "fire"
+    },
+    {
+      "id": "A-08",
+      "title": "Entry 3.1 — Harmonic Series",
+      "source": "Entry 3.1 — Harmonic Series",
+      "pos": "3",
+      "surface": "public",
+      "altitude": "general",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/harmonics",
+      "memberHref": null,
+      "blurb": "7-limit + infinity honesty",
+      "slug": "harmonics"
+    },
+    {
+      "id": "A-09",
+      "title": "Entry 3.2 — Menorah & Canon",
+      "source": "Entry 3.2 — Menorah & Canon",
+      "pos": "3",
+      "surface": "public",
+      "altitude": "library",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/golden-ratio-canon",
+      "memberHref": null,
+      "blurb": "Public summary only; not full canon table dump",
+      "slug": "golden-ratio-canon"
+    },
+    {
+      "id": "A-10",
+      "title": "Entry 4.3 — Menorah Pairing",
+      "source": "Entry 4.3 — Menorah Pairing",
+      "pos": "3/4",
+      "surface": "public",
+      "altitude": "library",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/menorah-pairing",
+      "memberHref": null,
+      "blurb": "Bilateral architecture summary",
+      "slug": "menorah-pairing"
+    },
+    {
+      "id": "A-11",
+      "title": "Entry 4.5 — Aaronic Blessing",
+      "source": "Entry 4.5 — Aaronic Blessing",
+      "pos": "4",
+      "surface": "public",
+      "altitude": "library",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/aaronic-blessing",
+      "memberHref": null,
+      "blurb": "Liturgical light; public altitude",
+      "slug": "aaronic-blessing"
+    },
+    {
+      "id": "A-12",
+      "title": "Menorah Disciplines Map",
+      "source": "Menorah Disciplines Map",
+      "pos": "all",
+      "surface": "public",
+      "altitude": "library",
+      "access": "free",
+      "status": "live",
+      "publicHref": "menorah.html",
+      "memberHref": null,
+      "blurb": "Governing ref; public coordinate copy",
+      "slug": null
+    },
+    {
+      "id": "A-13",
+      "title": "Entry 4.7 — Psalm 19",
+      "source": "Entry 4.7 — Psalm 19",
+      "pos": "4",
+      "surface": "public",
+      "altitude": "library",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/psalm-19",
+      "memberHref": null,
+      "blurb": "Heavens declare — public thread",
+      "slug": "psalm-19"
+    },
+    {
+      "id": "A-14",
+      "title": "Entry 1.1 + Verdict path (Fear branch)",
+      "source": "Entry 1.1 + Verdict path (Fear branch)",
+      "pos": "1",
+      "surface": "public",
+      "altitude": "general",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/conscience",
+      "memberHref": null,
+      "blurb": "Threshold stack; reuses A-01",
+      "slug": "conscience"
+    },
+    {
+      "id": "A-15",
+      "title": "Entry 4.3 — Wisdom ⇌ Understanding",
+      "source": "Entry 4.3 — Wisdom ⇌ Understanding",
+      "pos": "5",
+      "surface": "public",
+      "altitude": "library",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/menorah-pairing",
+      "memberHref": null,
+      "blurb": "Wisdom ⇌ Understanding public",
+      "slug": "menorah-pairing"
+    },
+    {
+      "id": "A-16",
+      "title": "John / Colossians public path",
+      "source": "John / Colossians public path",
+      "pos": "5",
+      "surface": "public",
+      "altitude": "general",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/binah-sight",
+      "memberHref": null,
+      "blurb": "Gospel-altitude only; no full systematics",
+      "slug": "binah-sight"
+    },
+    {
+      "id": "A-17",
+      "title": "Position 6 — Counsel (definitional)",
+      "source": "Position 6 — Counsel (definitional)",
+      "pos": "6",
+      "surface": "public",
+      "altitude": "library",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/counsel",
+      "memberHref": null,
+      "blurb": "Reception not construction; no filler shelf",
+      "slug": "counsel"
+    },
+    {
+      "id": "A-18",
+      "title": "Fear ⇌ Might + commission / throne",
+      "source": "Fear ⇌ Might + commission / throne",
+      "pos": "7",
+      "surface": "public",
+      "altitude": "general",
+      "access": "free",
+      "status": "live",
+      "publicHref": "entry.html#/might",
+      "memberHref": null,
+      "blurb": "Co-regency under the Lamb; no triumphalism",
+      "slug": "might"
+    }
+  ],
+  "member_teasers": [
+    {
+      "id": "M-01",
+      "title": "Full multi-lock tables (preview)",
+      "altitude": "member",
+      "access": "member",
+      "pos": null,
+      "blurb": "Side-by-side lock matrices for flagship entries — generated from vault frontmatter when the pipeline is live. Not shipped as raw markdown.",
+      "publicHref": "entry.html#/snowflake",
+      "memberHref": null,
+      "status": "planned"
+    },
+    {
+      "id": "M-02",
+      "title": "Sermon illustration pack (Pastor tier)",
+      "altitude": "member",
+      "access": "pastor",
+      "pos": null,
+      "blurb": "One-page, citation-clean illustrations per allowlisted sign — teaching license for church contexts.",
+      "publicHref": "entry.html",
+      "memberHref": null,
+      "status": "planned"
+    },
+    {
+      "id": "M-03",
+      "title": "Corpus search",
+      "altitude": "member",
+      "access": "member",
+      "pos": null,
+      "blurb": "Full-text search over member-altitude pages (not SecretThings). Static catalog filter is free; true search ships with the build pipeline.",
+      "publicHref": "library.html#catalog",
+      "memberHref": null,
+      "status": "planned"
+    }
+  ],
+  "paths": [
+    {
+      "id": "start-here",
+      "name": "Start here",
+      "audience": "New to the lamp",
+      "access": "free",
+      "steps": [
+        {
+          "label": "The Verdict",
+          "href": "index.html#/verdict/0"
+        },
+        {
+          "label": "Conscience (Entry 1.1)",
+          "href": "entry.html#/conscience"
+        },
+        {
+          "label": "Care — next steps",
+          "href": "care/welcome.html"
+        },
+        {
+          "label": "The Lamp",
+          "href": "menorah.html"
+        }
+      ]
+    },
+    {
+      "id": "water",
+      "name": "Water thread",
+      "audience": "Physical signs",
+      "access": "free",
+      "steps": [
+        {
+          "label": "Snowflake",
+          "href": "entry.html#/snowflake"
+        },
+        {
+          "label": "Triple point",
+          "href": "entry.html#/triplepoint"
+        },
+        {
+          "label": "Knowledge branch",
+          "href": "branch.html#/2"
+        }
+      ]
+    },
+    {
+      "id": "light",
+      "name": "Light & fire",
+      "audience": "Spectrum → shamash",
+      "access": "free",
+      "steps": [
+        {
+          "label": "Visible light / feasts",
+          "href": "entry.html#/spectrum"
+        },
+        {
+          "label": "Fire — seven properties",
+          "href": "entry.html#/fire"
+        },
+        {
+          "label": "Aaronic blessing",
+          "href": "entry.html#/aaronic-blessing"
+        },
+        {
+          "label": "Psalm 19",
+          "href": "entry.html#/psalm-19"
+        }
+      ]
+    },
+    {
+      "id": "court",
+      "name": "Court & robe",
+      "audience": "Conscience → gospel",
+      "access": "free",
+      "steps": [
+        {
+          "label": "Conscience",
+          "href": "entry.html#/conscience"
+        },
+        {
+          "label": "Take the stand",
+          "href": "index.html#/verdict/0"
+        },
+        {
+          "label": "Care welcome",
+          "href": "care/welcome.html"
+        }
+      ]
+    },
+    {
+      "id": "lamp",
+      "name": "Walk the lamp",
+      "audience": "Positions 1–7",
+      "access": "free",
+      "steps": [
+        {
+          "label": "Position 1",
+          "href": "branch.html#/1"
+        },
+        {
+          "label": "Position 2",
+          "href": "branch.html#/2"
+        },
+        {
+          "label": "Position 3",
+          "href": "branch.html#/3"
+        },
+        {
+          "label": "Position 4",
+          "href": "branch.html#/4"
+        },
+        {
+          "label": "Position 5",
+          "href": "branch.html#/5"
+        },
+        {
+          "label": "Position 6",
+          "href": "branch.html#/6"
+        },
+        {
+          "label": "Position 7",
+          "href": "branch.html#/7"
+        }
+      ]
+    },
+    {
+      "id": "member-deep",
+      "name": "Member deep dive (locked)",
+      "audience": "Library members",
+      "access": "member",
+      "steps": [
+        {
+          "label": "Multi-lock matrices",
+          "href": null
+        },
+        {
+          "label": "Extended pairing notes",
+          "href": null
+        },
+        {
+          "label": "Pastor illustration packs",
+          "href": null
+        }
+      ]
+    }
+  ]
+}
