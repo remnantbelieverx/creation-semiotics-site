@@ -24,6 +24,25 @@
     background:var(--bg-1);font-style:italic;color:var(--text);
   }
   .crisis{margin-top:2.5rem;font-size:.9rem;color:var(--text-faint)}
+  .look-for{margin:.75rem 0 0;padding-left:1.1rem;color:var(--text-dim);font-size:.95rem}
+  .look-for li{margin:.35rem 0}
+  .church-box{
+    margin:2rem 0 0;padding:1.35rem 1.4rem;border:1px solid var(--line);
+    background:var(--bg-1);display:flex;flex-direction:column;gap:.85rem;
+  }
+  .church-box h2{font-size:1.15rem;margin:0}
+  .church-box .dim{color:var(--text-dim);font-size:.95rem;margin:0}
+  .church-form{display:flex;flex-direction:column;gap:.65rem;max-width:28rem}
+  .church-form label{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--text-faint)}
+  .church-form input,.church-form textarea{
+    width:100%;padding:.65rem .75rem;border:1px solid var(--line);border-radius:2px;
+    background:var(--bg);color:var(--text);font:inherit;
+  }
+  .church-form textarea{min-height:4.5rem;resize:vertical}
+  .church-form .row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+  #churchNote{font-size:.9rem;color:var(--text-dim);margin:0}
+  #churchNote[hidden]{display:none}
 </style>
 </head>
 <body data-register="grace">
@@ -59,11 +78,20 @@
         believing you may have life in his name” (John 20:31). When a line stops you,
         write one sentence: what this shows you about Jesus.</p>
     </article>
-    <article>
+    <article id="belong">
       <h2>2. Belong — a Bible-teaching church</h2>
-      <p>This was never meant to be walked alone. Find a gathering that opens Scripture
-        and treats Christ as Lord. Tell someone there you trusted Him. If you need help
-        locating a church, write us (see below) with your city.</p>
+      <p>This was never meant to be walked alone. You do not need the perfect church.
+        You need a real one — Scripture opened, Christ as Lord, ordinary people.</p>
+      <ul class="look-for">
+        <li>Scripture read and taught as if it has authority</li>
+        <li>Christ crucified and risen as the center, not a footnote</li>
+        <li>Ordinary people, not a performance only</li>
+        <li>Room to ask questions without being mocked</li>
+      </ul>
+      <p style="margin-top:.85rem;color:var(--text-dim);font-size:.95rem">
+        When you go, tell one person: “I’m new. I trusted Christ this week.”
+        If gathering is impossible right now, still name a Christian who will pray
+        with you by phone this week.</p>
     </article>
     <article>
       <h2>3. Speak — one living person</h2>
@@ -72,10 +100,41 @@
     </article>
   </div>
 
-  <div class="cta-row">
+  <section class="church-box" id="church-help" aria-labelledby="church-help-h">
+    <h2 id="church-help-h">Need help finding a church?</h2>
+    <p class="dim">We do not sell a franchise. Send your city (and country if outside
+      the US). A person will look with you — unhurriedly — using the marks above.
+      This is not an instant directory; it is a human reply.</p>
+    <form class="church-form" id="churchForm">
+      <div>
+        <label for="churchEmail">Your email</label>
+        <input type="email" id="churchEmail" name="email" required autocomplete="email"
+          placeholder="you@example.com">
+      </div>
+      <div>
+        <label for="churchCity">City / region</label>
+        <input type="text" id="churchCity" name="city" required autocomplete="address-level2"
+          placeholder="e.g. Manila · Austin · London">
+      </div>
+      <div>
+        <label for="churchNoteBody">Anything else? (optional)</label>
+        <textarea id="churchNoteBody" name="message"
+          placeholder="Language, transportation limits, family situation…"></textarea>
+      </div>
+      <input type="hidden" name="list" value="church-finder">
+      <input type="hidden" name="_subject" value="The Verdict — church help">
+      <div class="row">
+        <button class="btn btn-primary" type="submit">Ask for help</button>
+        <a class="btn btn-ghost" href="mailto:alvinebreo@gmail.com?subject=The%20Verdict%20%E2%80%94%20church%20help">Or email directly</a>
+      </div>
+      <p id="churchNote" hidden role="status"></p>
+    </form>
+  </section>
+
+  <div class="cta-row" style="margin-top:2rem">
     <a class="btn btn-primary" href="../index.html#/sign">See the signs</a>
     <a class="btn btn-ghost" href="../menorah.html">The lamp (Library map)</a>
-    <a class="btn btn-ghost" id="mailLink" href="mailto:alvinebreo@gmail.com?subject=The%20Verdict%20%E2%80%94%20I%20want%20this%20exchange">Email me these steps</a>
+    <a class="btn btn-ghost" href="../index.html#/verdict/0">Take the stand again</a>
   </div>
 
   <p class="crisis">If what you feel is despair rather than conviction, stop and reach a
@@ -89,14 +148,53 @@
       <a href="../index.html">The Verdict</a>
       <a href="../index.html#/sign">The Signs</a>
       <a href="../menorah.html">The Lamp</a>
+      <a href="#church-help">Church help</a>
     </nav>
-    <p class="fine">A Creation Semiotics project · Care sequences live in
-      Hermes/Drafts until the mail service is connected.</p>
+    <p class="fine">A Creation Semiotics project · The court leads to a people,
+      not only a page.</p>
   </div>
 </footer>
 
 <script>
-/* Optional: keep mailto in sync if parent CONFIG ever injects — static default for now */
+(function(){
+  const FORMSPREE = "https://formspree.io/f/xaqgrqov";
+  const form = document.getElementById("churchForm");
+  const note = document.getElementById("churchNote");
+  if(!form) return;
+  form.addEventListener("submit", async function(e){
+    e.preventDefault();
+    const email = (document.getElementById("churchEmail").value || "").trim().toLowerCase();
+    const city = (document.getElementById("churchCity").value || "").trim();
+    const extra = (document.getElementById("churchNoteBody").value || "").trim();
+    if(!email || !city){ form.reportValidity(); return; }
+    note.hidden = false;
+    note.textContent = "Sending…";
+    try{
+      const res = await fetch(FORMSPREE, {
+        method: "POST",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          city,
+          message: extra || "(no extra note)",
+          list: "church-finder",
+          _subject: "The Verdict — church help",
+        }),
+      });
+      const data = await res.json().catch(function(){ return {}; });
+      if(res.ok || data.ok){
+        note.innerHTML = "Received for <strong>" + email.replace(/</g,"") +
+          "</strong> · " + city.replace(/</g,"") +
+          ". A person will reply unhurriedly with help looking — not a spam list.";
+        form.reset();
+      }else{
+        throw new Error(data.error || res.statusText || "failed");
+      }
+    }catch(_){
+      note.innerHTML = 'Could not send. Email <a href="mailto:alvinebreo@gmail.com">alvinebreo@gmail.com</a> with your city.';
+    }
+  });
+})();
 </script>
 </body>
 </html>
