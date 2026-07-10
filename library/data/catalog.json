@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-07-10T06:08:06+00:00",
+  "generated_at": "2026-07-10T06:11:55+00:00",
   "membership_open": false,
   "note": "Library-first build: free shelves open; member studies locked until membership_open is true and PayMongo is live. Not vault dumps; not sod.",
   "shelves": [
@@ -137,7 +137,8 @@
         "Bilateral pairs in reading order",
         "What not to invent on thin shelves (esp. Counsel)"
       ],
-      "blurb": "Companion to the interactive lamp for serious readers."
+      "blurb": "Companion to the interactive lamp for serious readers. Full draft: Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md (locked until membership opens).",
+      "draft": "Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md"
     },
     {
       "id": "MS-07",
@@ -603,7 +604,7 @@
       "altitude": "member",
       "access": "member",
       "pos": "all",
-      "blurb": "Companion to the interactive lamp for serious readers.",
+      "blurb": "Companion to the interactive lamp for serious readers. Full draft: Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md (locked until membership opens).",
       "publicHref": "menorah.html",
       "memberHref": null,
       "status": "locked"
