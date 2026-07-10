@@ -331,8 +331,9 @@
       <p class="eyebrow" style="color:var(--frost-faint)">The Signature — a weekly letter</p>
       <p style="color:var(--frost-dim);font-size:.95rem">One sign from
         creation, four hundred words, every Saturday. Free.</p>
-      <form class="email-row" id="emailForm">
-        <input type="email" id="emailInput" placeholder="you@example.com" aria-label="Email address" required autocomplete="email">
+      <form class="email-row" id="emailForm" method="post" action="https://buttondown.com/api/emails/embed-subscribe/ebreo">
+        <input type="email" name="email" id="emailInput" placeholder="you@example.com" aria-label="Email address" required autocomplete="email">
+        <input type="hidden" name="tag" value="signature">
         <button class="btn btn-primary" type="submit">Join the waitlist</button>
       </form>
       <p id="emailNote" hidden role="status"></p>
@@ -750,7 +751,7 @@ screens.push({golden: true, render: () => `
           <a class="btn btn-primary" href="${welcome}">Open next steps</a>
           <button class="btn btn-ghost" type="button" id="shareBtn2">Share the card</button>
         </div>
-        <form class="email-row" id="careWantForm" style="margin-top:1.2rem" method="post" target="_blank" rel="noopener">
+        <form class="email-row" id="careWantForm" style="margin-top:1.2rem" method="post" action="https://buttondown.com/api/emails/embed-subscribe/ebreo">
           <input type="email" name="email" id="careWantEmail" placeholder="Email for the 7-day follow-up" aria-label="Email for follow-up" required autocomplete="email">
           <input type="text" name="metadata__city" id="careWantCity" placeholder="City (optional)" aria-label="City optional" style="flex:1 1 8rem;padding:.8rem 1rem;background:var(--night-2);border:1px solid var(--line);color:var(--frost);font:inherit;font-size:.95rem;border-radius:2px">
           <input type="hidden" name="tag" value="verdict-want" id="careWantTag">
@@ -825,19 +826,23 @@ function wireCareForms(mount){
     if(ep.want){
       want.action = ep.want;
       want.method = "post";
+      want.removeAttribute("target"); // same-tab for Turnstile verify page
     }
     want.addEventListener("submit", e => {
-      const email = (mount.querySelector("#careWantEmail").value || "").trim().toLowerCase();
+      const emailEl = mount.querySelector("#careWantEmail");
+      const email = (emailEl.value || "").trim().toLowerCase();
       const city = (mount.querySelector("#careWantCity").value || "").trim();
-      if(!email){ e.preventDefault(); mount.querySelector("#careWantEmail").reportValidity(); return; }
+      if(!email){ e.preventDefault(); emailEl.reportValidity(); return; }
+      emailEl.setAttribute("name", "email");
+      emailEl.value = email;
       storeCareLead("want", {email, city, via: ep.want ? "esp" : "mailto"});
       track("care_want_submit", {has_city: !!city, via: ep.want ? "esp" : "mailto"});
       if(ep.want){
         const note = mount.querySelector("#careWantNote");
         note.hidden = false;
-        note.innerHTML = `Submitting… Check your inbox to confirm, then open
-          <a href="${CONFIG.careWelcome}">next steps</a>.`;
-        return; // native POST to Buttondown
+        note.innerHTML = `Submitting… You may see a short verification page; then check your inbox.
+          <a href="${CONFIG.careWelcome}">Next steps</a> are ready anytime.`;
+        return; // native POST to Buttondown (name=email required)
       }
       e.preventDefault();
       const subject = encodeURIComponent("The Verdict — I want this exchange [verdict-want]");
@@ -1898,7 +1903,9 @@ function drawFlake(ctx, cx, cy, R, rot, opts={}){
 (function wireSignatureForm(){
   const form = document.getElementById("emailForm");
   if(!form) return;
-  // Ensure tag field for Buttondown
+  const input = document.getElementById("emailInput");
+  // Buttondown requires name="email" on the field that is POSTed
+  if(input && !input.getAttribute("name")) input.setAttribute("name", "email");
   if(!form.querySelector('input[name="tag"]')){
     const tag = document.createElement("input");
     tag.type = "hidden"; tag.name = "tag"; tag.value = "signature";
@@ -1906,7 +1913,6 @@ function drawFlake(ctx, cx, cy, R, rot, opts={}){
   }
   form.addEventListener("submit", e => {
     const ep = espEndpoints();
-    const input = document.getElementById("emailInput");
     const note = document.getElementById("emailNote");
     const email = (input.value || "").trim().toLowerCase();
     if(!email || !input.checkValidity()){
@@ -1914,14 +1920,18 @@ function drawFlake(ctx, cx, cy, R, rot, opts={}){
       input.reportValidity();
       return;
     }
+    // Always sync the value into a named field (guards against browsers quirks)
+    input.setAttribute("name", "email");
+    input.value = email;
     if(ep.signature){
       form.action = ep.signature;
       form.method = "post";
-      form.target = "_blank";
+      // same-tab so Turnstile verify page works cleanly
+      form.target = "_self";
       track("waitlist_join", {via: "esp"});
       note.hidden = false;
-      note.innerHTML = `Submitting to The Signature… Confirm the email if asked.`;
-      return; // native POST
+      note.innerHTML = `Submitting… If asked, complete the short verification, then check your inbox to confirm.`;
+      return; // native POST — includes name=email in the body
     }
     e.preventDefault();
     let list = [];
@@ -1938,8 +1948,7 @@ function drawFlake(ctx, cx, cy, R, rot, opts={}){
       `Please add me to The Signature weekly letter.\n\nEmail: ${email}\n`
     );
     note.hidden = false;
-    note.innerHTML = `ESP not configured yet — set <code>CONFIG.esp.buttondownUsername</code>
-      (Hermes/Memory/ESP-Setup.md). Interim:
+    note.innerHTML = `ESP not configured yet.
       <a href="mailto:${CONFIG.contactEmail}?subject=${subject}&body=${body}">email your signup</a>.`;
     input.value = "";
   });
