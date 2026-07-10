@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-07-10T06:01:57+00:00",
+  "generated_at": "2026-07-10T06:04:06+00:00",
   "membership_open": false,
   "note": "Library-first build: free shelves open; member studies locked until membership_open is true and PayMongo is live. Not vault dumps; not sod.",
   "shelves": [
@@ -62,7 +62,8 @@
         "Common overclaims to refuse (five-fold myths, 'secret code' icing)",
         "One discussion question for a small group"
       ],
-      "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file."
+      "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file. Full draft: Hermes/Drafts/Library-Study-MS-01-Snowflake.md (locked until membership opens).",
+      "draft": "Hermes/Drafts/Library-Study-MS-01-Snowflake.md"
     },
     {
       "id": "MS-02",
@@ -543,7 +544,7 @@
       "altitude": "member",
       "access": "member",
       "pos": "2",
-      "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file.",
+      "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file. Full draft: Hermes/Drafts/Library-Study-MS-01-Snowflake.md (locked until membership opens).",
       "publicHref": "entry.html#/snowflake",
       "memberHref": null,
       "status": "locked"
