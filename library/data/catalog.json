@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-07-10T06:05:59+00:00",
+  "generated_at": "2026-07-10T06:08:06+00:00",
   "membership_open": false,
   "note": "Library-first build: free shelves open; member studies locked until membership_open is true and PayMongo is live. Not vault dumps; not sod.",
   "shelves": [
@@ -92,7 +92,8 @@
         "How Branch navigation uses the pairs",
         "What stays vault-side (full lock tables)"
       ],
-      "blurb": "Working map of bilateral architecture for Library readers."
+      "blurb": "Working map of bilateral architecture for Library readers. Full draft: Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md (locked until membership opens).",
+      "draft": "Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md"
     },
     {
       "id": "MS-04",
@@ -106,7 +107,8 @@
         "Aaronic blessing adjacency (public)",
         "Slide-ready image brief (for pastor tier later)"
       ],
-      "blurb": "Shamash-centered study connecting fire exhibit to lamp center."
+      "blurb": "Shamash-centered study connecting fire exhibit to lamp center. Full draft: Hermes/Drafts/Library-Study-MS-04-Fire-Shamash.md (locked until membership opens).",
+      "draft": "Hermes/Drafts/Library-Study-MS-04-Fire-Shamash.md"
     },
     {
       "id": "MS-05",
@@ -120,7 +122,8 @@
         "Robe Exchange as legal exchange (summary)",
         "Follow-up: Care + church help without pressure"
       ],
-      "blurb": "Pastoral-ready path from tribunal within to next steps."
+      "blurb": "Pastoral-ready path from tribunal within to next steps. Full draft: Hermes/Drafts/Library-Study-MS-05-Conscience-Verdict-Care.md (locked until membership opens).",
+      "draft": "Hermes/Drafts/Library-Study-MS-05-Conscience-Verdict-Care.md"
     },
     {
       "id": "MS-06",
@@ -567,7 +570,7 @@
       "altitude": "member",
       "access": "member",
       "pos": "3",
-      "blurb": "Working map of bilateral architecture for Library readers.",
+      "blurb": "Working map of bilateral architecture for Library readers. Full draft: Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md (locked until membership opens).",
       "publicHref": "entry.html#/menorah-pairing",
       "memberHref": null,
       "status": "locked"
@@ -578,7 +581,7 @@
       "altitude": "member",
       "access": "member",
       "pos": "4",
-      "blurb": "Shamash-centered study connecting fire exhibit to lamp center.",
+      "blurb": "Shamash-centered study connecting fire exhibit to lamp center. Full draft: Hermes/Drafts/Library-Study-MS-04-Fire-Shamash.md (locked until membership opens).",
       "publicHref": "entry.html#/fire",
       "memberHref": null,
       "status": "locked"
@@ -589,7 +592,7 @@
       "altitude": "member",
       "access": "member",
       "pos": "1",
-      "blurb": "Pastoral-ready path from tribunal within to next steps.",
+      "blurb": "Pastoral-ready path from tribunal within to next steps. Full draft: Hermes/Drafts/Library-Study-MS-05-Conscience-Verdict-Care.md (locked until membership opens).",
       "publicHref": "entry.html#/conscience",
       "memberHref": null,
       "status": "locked"
