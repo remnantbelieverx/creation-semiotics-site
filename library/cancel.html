@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" data-register="library">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0B0D12">
+<title>Checkout canceled · Library</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/chrome.css">
+<script>window.CS_ANALYTICS = window.CS_ANALYTICS || { domain: "" };</script>
+<script defer src="../js/analytics.js"></script>
+<style>
+  main{max-width:36rem;margin:0 auto;padding:3rem 1.25rem 4rem}
+  h1{font-family:var(--font-display);font-weight:500;font-size:2rem;color:var(--parchment);margin:.5rem 0 1rem}
+  p{color:var(--text-dim);line-height:1.6}
+</style>
+</head>
+<body data-register="library">
+<header class="site-bar">
+  <a class="brand" href="../library.html">
+    <span class="brand-family">Creation Semiotics</span>
+    <span class="brand-page">Library<span class="dot"> ·</span></span>
+  </a>
+  <nav class="site-nav"><a href="../index.html">The Verdict</a><a href="../library.html">Library</a></nav>
+</header>
+<main>
+  <p style="font-family:var(--font-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)">Stripe · canceled</p>
+  <h1>No charge</h1>
+  <p>Checkout was canceled. Nothing was taken. The free Library catalog, Verdict, and Signs remain open.</p>
+  <div class="cta-row" style="margin-top:1.5rem">
+    <a class="btn btn-primary" href="../library.html">Try again</a>
+    <a class="btn btn-ghost" href="../library.html#waitlist">Join waitlist instead</a>
+    <a class="btn btn-ghost" href="../index.html">The Verdict</a>
+  </div>
+</main>
+<script>
+if(typeof csTrack === "function") csTrack("stripe_cancel");
+</script>
+</body>
+</html>

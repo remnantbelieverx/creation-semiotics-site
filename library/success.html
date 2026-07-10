@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" data-register="library">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0B0D12">
+<title>Membership received · Library</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/chrome.css">
+<script>window.CS_ANALYTICS = window.CS_ANALYTICS || { domain: "" };</script>
+<script defer src="../js/analytics.js"></script>
+<style>
+  main{max-width:36rem;margin:0 auto;padding:3rem 1.25rem 4rem}
+  h1{font-family:var(--font-display);font-weight:500;font-size:2rem;color:var(--parchment);margin:.5rem 0 1rem}
+  p{color:var(--text-dim);line-height:1.6}
+  .ok{border:1px solid color-mix(in srgb,var(--gold) 35%,transparent);padding:1.1rem 1.2rem;margin:1.5rem 0;color:var(--parchment)}
+</style>
+</head>
+<body data-register="library">
+<header class="site-bar">
+  <a class="brand" href="../library.html">
+    <span class="brand-family">Creation Semiotics</span>
+    <span class="brand-page">Library<span class="dot"> ·</span></span>
+  </a>
+  <nav class="site-nav"><a href="../index.html">The Verdict</a><a href="../library.html">Library</a></nav>
+</header>
+<main>
+  <p class="eyebrow" style="font-family:var(--font-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)">Stripe · success</p>
+  <h1>Thank you</h1>
+  <div class="ok">
+    Your subscription checkout completed. Stripe has your payment on file.
+    Access to member-depth pages is being connected — the free front door stays open either way.
+  </div>
+  <p>You should receive a receipt from Stripe. We will email Library access instructions
+    when member pages are gated (or reply to your receipt if you need help sooner).</p>
+  <p id="tierLine" style="color:var(--muted);font-size:.9rem"></p>
+  <div class="cta-row" style="margin-top:1.5rem">
+    <a class="btn btn-primary" href="../entry.html">Public entries</a>
+    <a class="btn btn-ghost" href="../menorah.html">The Lamp</a>
+    <a class="btn btn-ghost" href="../library.html">Back to Library</a>
+  </div>
+</main>
+<script>
+(function(){
+  const q = new URLSearchParams(location.search);
+  const tier = q.get("tier") || "";
+  const session = q.get("session_id") || "";
+  const el = document.getElementById("tierLine");
+  if(tier) el.textContent = "Plan: " + tier.replace(/_/g, " ");
+  try{
+    if(tier) localStorage.setItem("cs_member_tier_pending", tier);
+    if(session) localStorage.setItem("cs_checkout_session", session);
+  }catch(_){}
+  if(typeof csTrack === "function") csTrack("stripe_success", { tier: tier || "unknown" });
+})();
+</script>
+</body>
+</html>

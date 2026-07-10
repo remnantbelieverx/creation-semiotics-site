@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "mode": "off",
+  "publishableKey": "",
+  "baseUrl": "https://remnantbelieverx.github.io/creation-semiotics-site",
+  "paymentLinks": {
+    "library_monthly": "",
+    "library_yearly": "",
+    "pastor_monthly": ""
+  },
+  "priceIds": {
+    "library_monthly": "",
+    "library_yearly": "",
+    "pastor_monthly": ""
+  },
+  "productIds": {},
+  "checkoutApi": "",
+  "customerPortalUrl": "",
+  "notes": "Public config only. Run: python3 Hermes/scripts/stripe_provision.py after adding STRIPE_SECRET_KEY to ~/.hermes/profiles/creation-semiotics/.env"
+}

@@ -47,8 +47,12 @@
   .tier.featured{border-color:color-mix(in srgb,var(--gold) 45%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--gold) 15%,transparent)}
   .tier .name{font-family:var(--font-display);font-size:1.15rem;color:var(--parchment)}
   .tier .price{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
-  .tier ul{margin:.4rem 0 0;padding-left:1.1rem;color:var(--text-dim);font-size:.9rem;line-height:1.5}
+  .tier ul{margin:.4rem 0 0;padding-left:1.1rem;color:var(--text-dim);font-size:.9rem;line-height:1.5;flex:1}
   .tier li{margin:.3rem 0}
+  .tier .actions{display:flex;flex-direction:column;gap:.45rem;margin-top:.85rem}
+  .tier .actions .btn{width:100%;text-align:center;justify-content:center}
+  .tier .btn-muted{opacity:.65;pointer-events:none}
+  #stripeStatus{font-size:.88rem;color:var(--muted);margin-top:.75rem}
   .path-list{display:flex;flex-direction:column;gap:.75rem;margin-top:1rem}
   .path-card{
     border:1px solid color-mix(in srgb,var(--gold) 14%,transparent);border-radius:var(--radius);
@@ -124,15 +128,16 @@
     study, full reading paths, and (for pastors) teaching packs. Sod-level material
     is never sold.</p>
 
-  <div class="banner" role="status">
-    <strong>Membership checkout is not live yet.</strong>
-    Join the waitlist below. You can use everything free today — lamp, branches, and
-    <a href="entry.html" style="color:var(--gold)">public entries</a>.
+  <div class="banner" role="status" id="stripeBanner">
+    <strong>Stripe checkout</strong> — subscribe below when Payment Links are provisioned.
+    Until then, join the waitlist. The free front door (Verdict, Signs, public entries) never requires payment.
   </div>
+  <p id="stripeStatus" hidden></p>
 
   <div class="cta-row">
-    <a class="btn btn-primary" href="#waitlist">Join the waitlist</a>
-    <a class="btn btn-ghost" href="menorah.html">Explore the free lamp</a>
+    <a class="btn btn-primary" href="#tiers">Subscribe</a>
+    <a class="btn btn-ghost" href="#waitlist">Waitlist</a>
+    <a class="btn btn-ghost" href="menorah.html">Free lamp</a>
     <a class="btn btn-ghost" href="entry.html">Public entries</a>
   </div>
 
@@ -219,20 +224,109 @@
 
 const FORMSPREE = "https://formspree.io/f/xaqgrqov";
 
+/** Maps catalog tier ids → Stripe payment-link keys */
+const STRIPE_BTNS = {
+  free: [],
+  library: [
+    { tier: "library_monthly", label: "Subscribe · monthly" },
+    { tier: "library_yearly", label: "Subscribe · yearly" },
+  ],
+  pastor: [
+    { tier: "pastor_monthly", label: "Subscribe · Pastor monthly" },
+  ],
+};
+
 async function loadCatalog(){
   const res = await fetch("library/data/catalog.json", { cache: "no-store" });
   if(!res.ok) throw new Error("catalog missing — run build_library_catalog.py");
   return res.json();
 }
 
-function renderTiers(tiers){
+async function loadStripeCfg(){
+  try{
+    const res = await fetch("library/data/stripe.json", { cache: "no-store" });
+    if(!res.ok) return { mode: "off", paymentLinks: {} };
+    return res.json();
+  }catch(_){
+    return { mode: "off", paymentLinks: {} };
+  }
+}
+
+function stripeReady(cfg){
+  const links = (cfg && cfg.paymentLinks) || {};
+  return !!(links.library_monthly || links.library_yearly || links.pastor_monthly);
+}
+
+async function startCheckout(tier, cfg){
+  const links = (cfg && cfg.paymentLinks) || {};
+  const link = links[tier];
+  if(link){
+    if(typeof csTrack === "function") csTrack("stripe_checkout_click", { tier, via: "payment_link" });
+    location.href = link;
+    return;
+  }
+  if(cfg && cfg.checkoutApi){
+    if(typeof csTrack === "function") csTrack("stripe_checkout_click", { tier, via: "api" });
+    try{
+      const res = await fetch(cfg.checkoutApi, {
+        method: "POST",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({ tier }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if(data.url){ location.href = data.url; return; }
+      alert(data.error || "Checkout unavailable. Try the waitlist.");
+    }catch(_){
+      alert("Checkout unavailable. Try the waitlist.");
+    }
+    return;
+  }
+  alert("Stripe is not configured yet. Join the waitlist and we will open membership soon.");
+  location.hash = "#waitlist";
+}
+
+function renderTiers(tiers, stripeCfg){
   const el = document.getElementById("tierMount");
-  el.innerHTML = (tiers || []).map((t, i) => `
-    <article class="tier${t.id === "library" ? " featured" : ""}">
+  const ready = stripeReady(stripeCfg);
+  el.innerHTML = (tiers || []).map((t) => {
+    const btns = STRIPE_BTNS[t.id] || [];
+    let actions = "";
+    if(t.id === "free"){
+      actions = `<div class="actions"><a class="btn btn-ghost" href="entry.html">Use free catalog</a></div>`;
+    }else if(btns.length){
+      actions = `<div class="actions">${btns.map(b => {
+        const has = !!(stripeCfg.paymentLinks && stripeCfg.paymentLinks[b.tier]);
+        const cls = has || stripeCfg.checkoutApi ? "btn btn-primary" : "btn btn-primary btn-muted";
+        return `<button type="button" class="${cls}" data-tier="${b.tier}">${b.label}</button>`;
+      }).join("")}
+      ${!ready ? `<a class="btn btn-ghost" href="#waitlist">Notify me when live</a>` : ""}
+      </div>`;
+    }
+    return `<article class="tier${t.id === "library" ? " featured" : ""}">
       <div class="name">${t.name}</div>
       <div class="price">${t.price}</div>
       <ul>${(t.includes || []).map(x => `<li>${x}</li>`).join("")}</ul>
-    </article>`).join("");
+      ${actions}
+    </article>`;
+  }).join("");
+
+  el.querySelectorAll("button[data-tier]").forEach(btn => {
+    btn.addEventListener("click", () => startCheckout(btn.getAttribute("data-tier"), stripeCfg));
+  });
+
+  const banner = document.getElementById("stripeBanner");
+  const status = document.getElementById("stripeStatus");
+  if(ready){
+    banner.innerHTML = `<strong>Stripe is connected</strong> (${stripeCfg.mode || "test"} mode).
+      Choose a plan below — you will complete payment on Stripe’s secure page.
+      <a href="entry.html" style="color:var(--gold)">Public entries stay free</a>.`;
+    status.hidden = false;
+    status.textContent = "Manage billing later via the link in your Stripe receipt / customer portal.";
+  }else{
+    banner.innerHTML = `<strong>Stripe not provisioned yet.</strong>
+      Owner: add <code>STRIPE_SECRET_KEY</code> and run <code>python3 Hermes/scripts/stripe_provision.py</code>, then redeploy.
+      Until then, use the waitlist. Free catalog remains open.`;
+  }
 }
 
 function renderPaths(paths){
@@ -320,18 +414,20 @@ function wireWaitlist(){
 }
 
 (async function boot(){
+  const stripeCfg = await loadStripeCfg();
   try{
     const cat = await loadCatalog();
-    renderTiers(cat.tiers);
+    renderTiers(cat.tiers, stripeCfg);
     renderPaths(cat.paths);
     renderEntries(cat.entries);
     renderTeasers(cat.member_teasers);
     const filter = document.getElementById("catalogFilter");
     filter.addEventListener("input", () => renderEntries(cat.entries, filter.value));
-    if(typeof csTrack === "function") csTrack("library_view");
+    if(typeof csTrack === "function") csTrack("library_view", { stripe: stripeReady(stripeCfg) ? "on" : "off" });
   }catch(err){
     document.getElementById("entryMount").innerHTML =
       `<p class="fine-print">Catalog unavailable. Run <code>python3 Hermes/scripts/build_library_catalog.py</code> and redeploy.</p>`;
+    renderTiers([], stripeCfg);
   }
   wireWaitlist();
 })();
