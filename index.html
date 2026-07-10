@@ -883,8 +883,8 @@ function wireCareForms(mount){
           _subject: "The Verdict — I want this exchange",
         },
         mount.querySelector("#careWantNote"),
-        `Received. Open <a href="${CONFIG.careWelcome}">next steps</a> now.
-         We will follow up at <strong>${email}</strong>.`
+        `Received for <strong>${email}</strong>. Open <a href="${CONFIG.careWelcome}">next steps</a> now.
+         A person has been notified and will follow up — check spam if you expect a reply.`
       );
       if(ok) want.reset();
     });
@@ -1944,7 +1944,10 @@ function drawFlake(ctx, cx, cy, R, rot, opts={}){
         _subject: "The Signature — waitlist",
       },
       note,
-      `You’re on the list for <strong>${email}</strong>. Watch your inbox.`
+      `Got it — <strong>${email}</strong> is recorded.
+       You won’t get an automated welcome until the newsletter sequence is activated;
+       we’ve been notified and will add you. Open
+       <a href="${CONFIG.careWelcome}">next steps</a> anytime.`
     );
     if(ok) form.reset();
   });
