@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-07-10T05:49:37+00:00",
+  "generated_at": "2026-07-10T06:01:57+00:00",
   "membership_open": false,
   "note": "Library-first build: free shelves open; member studies locked until membership_open is true and PayMongo is live. Not vault dumps; not sod.",
   "shelves": [
@@ -58,7 +58,9 @@
         "Lock inventory: which confirmations are independent vs derived",
         "Bond-angle → lattice chain with precision boundary restated",
         "Menorah pairing: what the crystal does and does not encode",
-        "Teaching sequence: wonder → mechanism → correspondence → doxology"
+        "Teaching sequence: wonder → mechanism → correspondence → doxology",
+        "Common overclaims to refuse (five-fold myths, 'secret code' icing)",
+        "One discussion question for a small group"
       ],
       "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file."
     },
@@ -158,6 +160,90 @@
         "Never indexes SecretThings"
       ],
       "blurb": "Tooling shelf — ships with auth; free filter already works on public catalog."
+    },
+    {
+      "id": "MS-09",
+      "title": "Harmonics — seven-limit honesty sheet",
+      "pos": "3",
+      "access": "member",
+      "related_free": "entry.html#/harmonics",
+      "outline": [
+        "Fundamental + partials in plain language",
+        "What 'seven' does and does not mean in the physics",
+        "Wisdom branch: reception before construction",
+        "Classroom demo ideas (string / app) without mysticism"
+      ],
+      "blurb": "Acoustics study that refuses both reductionism and occult freights."
+    },
+    {
+      "id": "MS-10",
+      "title": "Light, feasts, spectrum — teaching caution",
+      "pos": "2",
+      "access": "member",
+      "related_free": "entry.html#/spectrum",
+      "outline": [
+        "Continuous spectrum vs pedagogical seven",
+        "Leviticus 23 as independently specified",
+        "How to answer 'isn't seven just Newton?'",
+        "Link to free exhibit without overselling"
+      ],
+      "blurb": "Keeps the feast/spectrum thread honest under pressure."
+    },
+    {
+      "id": "MS-11",
+      "title": "Understanding branch — John / Colossians path",
+      "pos": "5",
+      "access": "member",
+      "related_free": "entry.html#/binah-sight",
+      "outline": [
+        "One week in John (chapter plan)",
+        "Colossians 1 as cosmic Christ without jargon dump",
+        "Pair with Wisdom branch (making ⇌ seeing)",
+        "Care welcome handoff for new believers"
+      ],
+      "blurb": "Gospel-altitude study for binah without systematics overload."
+    },
+    {
+      "id": "MS-12",
+      "title": "Might without triumphalism",
+      "pos": "7",
+      "access": "member",
+      "related_free": "entry.html#/might",
+      "outline": [
+        "Fear ⇌ Might as outer pair",
+        "Matthew 28 as received authority",
+        "Lamb on the throne vs beast parody",
+        "Pastoral warnings against swagger politics"
+      ],
+      "blurb": "Co-regency under the Lamb — locked sheet for careful readers."
+    },
+    {
+      "id": "MS-13",
+      "title": "Counsel shelf discipline",
+      "pos": "6",
+      "access": "member",
+      "related_free": "entry.html#/counsel",
+      "outline": [
+        "Why this shelf stays thin in public",
+        "Reception vs construction (Friend, not Servant)",
+        "What never ships (sod / SecretThings)",
+        "How to answer 'why so few cards?'"
+      ],
+      "blurb": "Meta-study: the empty shelf is part of the rigor."
+    },
+    {
+      "id": "MS-14",
+      "title": "Psalm 19 — two books, one Speaker",
+      "pos": "4",
+      "access": "member",
+      "related_free": "entry.html#/psalm-19",
+      "outline": [
+        "Heavens that declare without speech",
+        "Law that revives the soul",
+        "How to refuse nature-only or book-only religion",
+        "Bridge to Verdict and free Signs"
+      ],
+      "blurb": "Shamash-thread reading of Psalm 19 for Library members."
     }
   ],
   "tiers": [
@@ -538,6 +624,72 @@
       "publicHref": "library.html#shelves",
       "memberHref": null,
       "status": "locked"
+    },
+    {
+      "id": "MS-09",
+      "title": "Harmonics — seven-limit honesty sheet",
+      "altitude": "member",
+      "access": "member",
+      "pos": "3",
+      "blurb": "Acoustics study that refuses both reductionism and occult freights.",
+      "publicHref": "entry.html#/harmonics",
+      "memberHref": null,
+      "status": "locked"
+    },
+    {
+      "id": "MS-10",
+      "title": "Light, feasts, spectrum — teaching caution",
+      "altitude": "member",
+      "access": "member",
+      "pos": "2",
+      "blurb": "Keeps the feast/spectrum thread honest under pressure.",
+      "publicHref": "entry.html#/spectrum",
+      "memberHref": null,
+      "status": "locked"
+    },
+    {
+      "id": "MS-11",
+      "title": "Understanding branch — John / Colossians path",
+      "altitude": "member",
+      "access": "member",
+      "pos": "5",
+      "blurb": "Gospel-altitude study for binah without systematics overload.",
+      "publicHref": "entry.html#/binah-sight",
+      "memberHref": null,
+      "status": "locked"
+    },
+    {
+      "id": "MS-12",
+      "title": "Might without triumphalism",
+      "altitude": "member",
+      "access": "member",
+      "pos": "7",
+      "blurb": "Co-regency under the Lamb — locked sheet for careful readers.",
+      "publicHref": "entry.html#/might",
+      "memberHref": null,
+      "status": "locked"
+    },
+    {
+      "id": "MS-13",
+      "title": "Counsel shelf discipline",
+      "altitude": "member",
+      "access": "member",
+      "pos": "6",
+      "blurb": "Meta-study: the empty shelf is part of the rigor.",
+      "publicHref": "entry.html#/counsel",
+      "memberHref": null,
+      "status": "locked"
+    },
+    {
+      "id": "MS-14",
+      "title": "Psalm 19 — two books, one Speaker",
+      "altitude": "member",
+      "access": "member",
+      "pos": "4",
+      "blurb": "Shamash-thread reading of Psalm 19 for Library members.",
+      "publicHref": "entry.html#/psalm-19",
+      "memberHref": null,
+      "status": "locked"
     }
   ],
   "paths": [
@@ -666,13 +818,65 @@
       ]
     },
     {
+      "id": "sound-light",
+      "name": "Sound & light",
+      "audience": "Wisdom / shamash thread",
+      "access": "free",
+      "steps": [
+        {
+          "label": "Harmonic series",
+          "href": "entry.html#/harmonics"
+        },
+        {
+          "label": "Visible light / feasts",
+          "href": "entry.html#/spectrum"
+        },
+        {
+          "label": "Fire — seven properties",
+          "href": "entry.html#/fire"
+        },
+        {
+          "label": "Psalm 19",
+          "href": "entry.html#/psalm-19"
+        },
+        {
+          "label": "Wisdom branch",
+          "href": "branch.html#/3"
+        }
+      ]
+    },
+    {
+      "id": "belong",
+      "name": "Believe → belong",
+      "audience": "After the exchange",
+      "access": "free",
+      "steps": [
+        {
+          "label": "Care — next steps",
+          "href": "care/welcome.html"
+        },
+        {
+          "label": "Church help form",
+          "href": "care/welcome.html#church-help"
+        },
+        {
+          "label": "Conscience entry",
+          "href": "entry.html#/conscience"
+        },
+        {
+          "label": "Understanding path",
+          "href": "entry.html#/binah-sight"
+        }
+      ]
+    },
+    {
       "id": "member-deep",
       "name": "Member deep dive (locked)",
       "audience": "Library members",
       "access": "member",
       "steps": [
         {
-          "label": "Multi-lock matrices",
+          "label": "Multi-lock study sheets",
           "href": null
         },
         {
@@ -681,6 +885,10 @@
         },
         {
           "label": "Pastor illustration packs",
+          "href": null
+        },
+        {
+          "label": "Counsel shelf discipline",
           "href": null
         }
       ]
