@@ -15,6 +15,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/chrome.css">
+<script>
+  /* Set domain when Plausible site is ready — see Hermes/Memory/Public-Domain-Analytics.md */
+  window.CS_ANALYTICS = window.CS_ANALYTICS || { domain: "" };
+</script>
+<script defer src="js/analytics.js"></script>
 </head>
 <body data-register="court">
 <!--ARTIFACT-START-->
@@ -388,7 +393,15 @@ const CONFIG = {
        (see Hermes/scripts/esp_subscribe_proxy). When set, no Turnstile popup. */
     subscribeProxy: "",
   },
+  /* Plausible: set domain string to enable (also window.CS_ANALYTICS.domain). */
+  analytics: {
+    domain: "",  // e.g. "remnantbelieverx.github.io" or custom host
+  },
 };
+
+if(CONFIG.analytics && CONFIG.analytics.domain){
+  window.CS_ANALYTICS = Object.assign({}, window.CS_ANALYTICS || {}, { domain: CONFIG.analytics.domain });
+}
 
 /** Resolve live form endpoints + tags from CONFIG.esp */
 function espEndpoints(){
@@ -410,6 +423,10 @@ const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 /* ---------------- lightweight funnel events ---------------- */
 function track(event, props){
   try{
+    if(typeof window.csTrack === "function"){
+      window.csTrack(event, Object.assign({ hash: location.hash || "#/" }, props || {}));
+      return;
+    }
     const payload = Object.assign({t: Date.now(), path: location.hash || "#/"}, props || {});
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(Object.assign({event}, payload));

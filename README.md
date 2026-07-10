@@ -52,6 +52,12 @@ Cross-links: Verdict ↔ Signs ↔ Lamp ↔ Branches ↔ **Entries** ↔ Care.
 - Optional “Open free exhibit” when a Sign exists
 - Content governed by `Hermes/Memory/Public-Publish-Allowlist.md`
 
+## Analytics
+
+- `js/analytics.js` — set `window.CS_ANALYTICS.domain` (or `CONFIG.analytics.domain` on Verdict) to enable Plausible.
+- Leave domain empty for local/dataLayer-only (use `?debug=1`).
+- Full checklist: `Hermes/Memory/Public-Domain-Analytics.md`
+
 ## Run it
 
 ```bash
@@ -59,6 +65,7 @@ python3 -m http.server 8000 -d site
 # http://127.0.0.1:8000/              The Verdict
 # http://127.0.0.1:8000/menorah.html
 # http://127.0.0.1:8000/branch.html#/3
+# http://127.0.0.1:8000/entry.html
 ```
 
 No build step. CSS must be served over HTTP (not always reliable via `file://`).
