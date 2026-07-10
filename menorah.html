@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en" data-register="library">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0B0D12">
+<meta name="description" content="The interactive Menorah — the architectural coordinate system of the Creation Semiotics Library.">
+<title>The Menorah — Creation Semiotics Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/chrome.css">
+<style>
+  /* Page-specific: The Menorah (library register). Shared tokens/chrome from css/. */
+  html,body{height:100%}
+  body{
+    font-weight:300;
+    overflow-x:hidden;
+  }
+  .stage{
+    min-height:calc(100vh - 4rem);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:clamp(12px,3vw,36px) 20px 40px;
+    position:relative;
+  }
+
+  /* ---- page title block ---- */
+  .stage > .eyebrow{
+    font-family:var(--font-display);
+    text-transform:uppercase;
+    letter-spacing:.42em;
+    font-size:clamp(10px,1.4vw,13px);
+    color:var(--gold);
+    opacity:.85;
+    text-align:center;
+  }
+  .stage > h1{
+    font-family:var(--font-display);
+    font-weight:500;
+    font-size:clamp(30px,6vw,62px);
+    line-height:1.02;
+    letter-spacing:.01em;
+    text-align:center;
+    margin:.28em 0 .15em;
+    color:var(--parchment);
+  }
+  .anchor{
+    font-style:italic;
+    font-size:clamp(13px,1.7vw,17px);
+    color:var(--muted);
+    max-width:48ch;
+    text-align:center;
+    line-height:1.5;
+  }
+  .anchor cite{font-style:normal;color:var(--gold-deep);letter-spacing:.04em}
+  .hint{
+    margin-top:.9em;
+    font-family:var(--font-display);
+    text-transform:uppercase;
+    letter-spacing:.3em;
+    font-size:11px;
+    color:var(--muted);
+    opacity:0;
+    animation:fadeHint 1s ease forwards;
+    animation-delay:3.4s;
+  }
+  @keyframes fadeHint{to{opacity:.7}}
+
+  /* ---- menorah ---- */
+  .lamp-wrap{
+    width:min(960px,96vw);
+    margin-top:clamp(8px,2vw,28px);
+  }
+  svg{display:block;width:100%;height:auto}
+
+  .branch{
+    fill:none;
+    stroke:url(#goldStroke);
+    stroke-width:11;
+    stroke-linecap:round;
+    filter:url(#softGlow);
+  }
+  .shaft{stroke-width:13}
+  .cup{fill:var(--gold-deep)}
+  .knob{fill:var(--gold)}
+  .ornaments{filter:url(#softGlow)}
+
+  /* individual triad parts (cup, knob, flower) — each is its own hit target */
+  .triad-part{cursor:pointer;transition:filter .2s ease}
+  .triad-part .hit{pointer-events:all}
+  .triad-part:hover,
+  .triad-part:focus-visible{outline:none;filter:brightness(1.35) drop-shadow(0 0 4px rgba(245,197,66,.55))}
+
+  /* triad labels (cup/knob/flower book names) follow the same logic as flame labels */
+  .triad-label{
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .22s ease;
+  }
+  .triad-label.show{opacity:1}
+  .tl-triad{
+    font-family:var(--font-display);
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:.34em;
+    fill:var(--gold);
+    paint-order:stroke;
+    stroke:var(--night);
+    stroke-width:4px;
+    stroke-linejoin:round;
+  }
+  .tl-book{
+    font-family:var(--font-display);
+    font-style:italic;
+    font-size:18px;
+    font-weight:500;
+    fill:var(--parchment);
+    paint-order:stroke;
+    stroke:var(--night);
+    stroke-width:4.5px;
+    stroke-linejoin:round;
+  }
+
+  /* flame states: dark until kindled */
+  .flame-grp .flame-outer,
+  .flame-grp .flame-inner{
+    opacity:0;
+    transform-box:fill-box;
+    transform-origin:center bottom;
+    transform:scaleY(.2);
+  }
+  .flame-grp.lit .flame-outer,
+  .flame-grp.lit .flame-inner{
+    opacity:1;
+    transform:scaleY(1);
+    transition:opacity .5s ease, transform .55s cubic-bezier(.2,.9,.3,1.2);
+  }
+  .flame-grp.lit .flame-outer{animation:flicker 2.6s ease-in-out infinite}
+  .flame-grp.lit .flame-inner{animation:flicker 1.9s ease-in-out infinite .2s}
+  @keyframes flicker{
+    0%,100%{transform:scaleY(1) translateY(0)}
+    40%{transform:scaleY(1.08) translateX(.6px)}
+    70%{transform:scaleY(.95) translateX(-.5px)}
+  }
+
+  /* hit target + interactivity */
+  .node{cursor:pointer}
+  .node .halo{
+    fill:var(--flame);
+    opacity:0;
+    transition:opacity .35s ease;
+    filter:url(#bigGlow);
+  }
+  .node:hover .halo,
+  .node:focus-visible .halo{opacity:.18}
+  .node:focus-visible{outline:none}
+  .node:focus-visible .ring{opacity:1}
+  .ring{
+    fill:none;stroke:var(--flame);stroke-width:2;opacity:0;
+    transition:opacity .25s ease;
+  }
+  .node:hover .ring{opacity:.5}
+  .node.active .ring{opacity:.9}
+  .node.dim{opacity:.4;transition:opacity .4s ease}
+
+  .pos-label{
+    font-family:var(--font-display);
+    fill:var(--gold);
+    font-size:17px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    text-anchor:middle;
+    opacity:0;
+    pointer-events:none;
+    paint-order:stroke;
+    stroke:var(--night);
+    stroke-width:5px;
+    stroke-linejoin:round;
+    transition:opacity .3s ease;
+  }
+  .node:hover .pos-label,
+  .node:focus-visible .pos-label,
+  .node.active .pos-label{opacity:1}
+
+  /* ---- reading panel (drawer) ---- */
+  .scrim{
+    position:fixed;inset:0;background:rgba(5,6,10,.72);
+    backdrop-filter:blur(2px);
+    opacity:0;pointer-events:none;transition:opacity .4s ease;z-index:40;
+  }
+  .scrim.open{opacity:1;pointer-events:auto}
+  .lamp-panel{
+    position:fixed;z-index:50;
+    top:0;right:0;height:100%;
+    width:min(520px,92vw);
+    background:linear-gradient(180deg,var(--bg-1),var(--bg-0));
+    border-left:1px solid color-mix(in srgb, var(--gold) 28%, transparent);
+    box-shadow:-30px 0 80px rgba(0,0,0,.6);
+    transform:translateX(102%);
+    transition:transform .5s cubic-bezier(.22,.8,.25,1);
+    overflow-y:auto;
+    padding:clamp(28px,4vw,46px);
+  }
+  .lamp-panel.open{transform:translateX(0)}
+  .lamp-panel::-webkit-scrollbar{width:8px}
+  .lamp-panel::-webkit-scrollbar-thumb{background:color-mix(in srgb, var(--gold) 30%, transparent);border-radius:4px}
+
+  .lamp-panel .close{
+    position:absolute;top:18px;right:20px;
+    background:none;border:1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+    color:var(--gold);width:38px;height:38px;border-radius:50%;
+    font-size:18px;cursor:pointer;font-family:var(--font-body);
+    transition:background .25s ease,transform .25s ease;
+  }
+  .lamp-panel .close:hover{background:color-mix(in srgb, var(--gold) 15%, transparent);transform:rotate(90deg)}
+
+  .p-num{
+    font-family:var(--font-display);
+    font-size:13px;letter-spacing:.4em;text-transform:uppercase;
+    color:var(--gold);opacity:.8;
+  }
+  .p-side{
+    display:inline-block;margin-left:10px;padding:2px 10px;
+    border:1px solid currentColor;border-radius:20px;
+    font-size:10px;letter-spacing:.22em;vertical-align:middle;
+  }
+  .p-side.arche{color:var(--arche)}
+  .p-side.telos{color:var(--flame)}
+  .p-side.center{color:var(--flame-core)}
+  .p-spirit{
+    font-family:var(--font-display);
+    font-weight:500;font-size:clamp(30px,5vw,44px);
+    line-height:1.05;margin:.32em 0 .05em;color:var(--parchment);
+  }
+  .p-heb{font-style:italic;color:var(--gold-deep);font-size:20px}
+  .p-lens{
+    margin-top:1.1em;font-size:13px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);
+    font-family:var(--font-display);
+  }
+  .p-lens strong{color:var(--gold);font-weight:600}
+  .p-body{margin-top:.5em;font-size:16px;line-height:1.62;color:var(--parchment);opacity:.92}
+
+  .p-section{margin-top:2em}
+  .p-section h3{
+    font-family:var(--font-display);font-weight:600;
+    font-size:12px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:.85em;
+    padding-bottom:.6em;border-bottom:1px solid color-mix(in srgb, var(--gold) 18%, transparent);
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{
+    font-size:13px;padding:5px 12px;border-radius:var(--radius);
+    background:color-mix(in srgb, var(--gold) 8%, transparent);
+    border:1px solid color-mix(in srgb, var(--gold) 20%, transparent);
+    color:var(--parchment);line-height:1.3;
+  }
+  .books{font-size:15px;line-height:1.9;color:var(--muted)}
+  .books b{color:var(--parchment);font-weight:400}
+  .pair{
+    margin-top:2em;font-size:14px;line-height:1.6;color:var(--muted);
+    border-left:2px solid color-mix(in srgb, var(--gold) 30%, transparent);padding-left:14px;
+  }
+  .pair a{color:var(--gold);cursor:pointer;text-decoration:none;border-bottom:1px dotted}
+  .entries-note{
+    margin-top:2.4em;padding:14px 16px;border-radius:var(--radius);
+    background:color-mix(in srgb, var(--ember) 10%, transparent);
+    border:1px solid color-mix(in srgb, var(--ember) 25%, transparent);
+    font-size:13px;line-height:1.55;color:var(--muted);font-style:italic;
+  }
+
+  .lamp-caption{
+    margin-top:auto;padding-top:32px;text-align:center;
+    font-style:italic;color:var(--muted);font-size:13px;max-width:50ch;
+  }
+  .bridge{
+    margin-top:1.25rem;text-align:center;max-width:40ch;
+    font-size:0.95rem;color:var(--text-dim);line-height:1.55;
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .flame-grp .flame-outer,.flame-grp .flame-inner{
+      opacity:1!important;transform:none!important;animation:none!important}
+  }
+  @media (max-width:560px){
+    .pos-label{font-size:19px}
+  }
+</style>
+</head>
+<body data-register="library">
+
+<header class="site-bar">
+  <a class="brand" href="menorah.html">
+    <span class="brand-family">Creation Semiotics</span>
+    <span class="brand-page">The Menorah<span class="dot"> ·</span></span>
+  </a>
+  <nav class="site-nav" aria-label="Primary">
+    <a href="index.html">The Verdict</a>
+    <a href="index.html#/sign">The Signs</a>
+    <a href="menorah.html" aria-current="page">The Lamp</a>
+    <a href="branch.html#/3">Branches</a>
+  </nav>
+</header>
+
+<div class="stage">
+  <p class="eyebrow">The Library · interactive index</p>
+  <h1>The Menorah</h1>
+  <p class="anchor">In whom are hidden all the treasures of wisdom and knowledge. <cite>— Colossians 2:3</cite></p>
+  <p class="hint">Touch a flame to enter its branch</p>
+
+  <div class="lamp-wrap" id="lampWrap">
+    <!-- SVG injected by script -->
+  </div>
+
+  <p class="lamp-caption">
+    Seven branches. One source of fire. Every discipline of human knowing finds its address on the lamp — and every treasure was hidden in Christ before any branch discovered it.
+  </p>
+  <p class="bridge">
+    New here? The court is still open.
+    <a href="index.html#/verdict/0" style="border-bottom:1px solid var(--accent-deep)">Take the stand</a>
+    — then return to the lamp.
+  </p>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="lamp-panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="pSpirit"></aside>
+
+<footer class="site">
+  <div class="col foot-grid">
+    <nav class="foot-links" aria-label="Site">
+      <a href="index.html">The Verdict</a>
+      <a href="index.html#/sign">The Signs</a>
+      <a href="menorah.html">The Lamp</a>
+      <a href="branch.html#/3">Branches</a>
+    </nav>
+    <p class="fine">A Creation Semiotics project · The front door is free forever;
+      the lamp is the Library’s coordinate system. · Every branch burns from one fire.</p>
+  </div>
+</footer>
+
+<script>
+/* ---------------- DATA: the seven positions (from the Menorah Disciplines Map) ------------- */
+const POSITIONS = {
+  1:{ side:"arche", sideLabel:"Archē · Left", spirit:"Fear of the LORD", heb:"yir'at YHWH",
+      lens:"Threshold", pair:7,
+      body:"The initiating confrontation with what is ultimate — standing at the limit of what the creature can know from below and feeling the weight of what it cannot answer.",
+      disc:["Political Science","Political Philosophy","Ethics","Social Ethics","Sociology","Philosophy of History","Existential Philosophy","Anthropology","History (threshold)"],
+      books:["Ezekiel","Zephaniah","Amos","Nahum","Joel","Micah","Obadiah","1 Kings","1 Samuel"] },
+  2:{ side:"arche", sideLabel:"Archē · Left", spirit:"Knowledge", heb:"da'at",
+      lens:"First Principle", pair:6,
+      body:"The systematic, foundational reception of what is actually there — letting reality speak before constructing anything from it.",
+      disc:["Natural Science","Philology / Linguistics","Geography","History (archival)","Taxonomy","Empirical Social Science","Psychology","Ethnography","Humanities","Semiotics (observational)"],
+      books:["Hosea","Jonah","Zechariah","2 Kings","1–2 Chronicles","Haggai","Ezra","Nehemiah"] },
+  3:{ side:"arche", sideLabel:"Archē · Left", spirit:"Wisdom", heb:"chokmah",
+      lens:"Applied Knowledge", pair:5,
+      body:"Knowledge received and now governing construction and making — the discipline of building from received structure.",
+      disc:["Formal Science","Epistemology","Engineering / Applied Tech","Architecture","Structural Science","Logic (as method)","Music Theory / Poetics","Metaphysics / Ontology","Systems Thinking","Philosophical Anthropology"],
+      books:["Job","Daniel","Song of Songs","Lamentations","Habakkuk","Psalms","Proverbs","Ecclesiastes","Esther"] },
+  4:{ side:"center", sideLabel:"Shamash · Center", spirit:"The Spirit of the LORD", heb:"Ruach YHWH",
+      lens:"The Fire Itself", pair:null,
+      body:"The central shaft — the epistemological threshold where the regime turns from seeing-is-believing to believing-precedes-seeing. The one source of fire for all six branches. Here Scripture stands, and theology tends the lamp.",
+      disc:["Scripture","Theology tends the lamp"],
+      books:["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","2 Samuel","Isaiah","Jeremiah","Malachi"] },
+  5:{ side:"telos", sideLabel:"Telos · Right", spirit:"Understanding", heb:"binah",
+      lens:"Divine Timing", pair:3,
+      body:"The same building capacity as Wisdom, now after the center-crossing — where timing belongs to God and construction proceeds before the outcome is visible.",
+      disc:["Narrative Theology","Salvation History","Typology","Eschatological Ethics","Systematic Theology","Church History","Soteriology","Christology","Trinitarian Theology","Missiology (binah)"],
+      books:["Romans","Colossians","John","Galatians","Ephesians","Acts","Mark","Luke","Matthew"] },
+  6:{ side:"telos", sideLabel:"Telos · Right", spirit:"Counsel", heb:"'etsah",
+      lens:"Friend, not Servant", pair:2,
+      body:"The same receptive posture as Knowledge, now in the sod register — receiving not by method or observation but as the Friend told by the Master what He is doing.",
+      disc:["Pastoral Theology","Church Polity","Apologetics (corrective)","Ecclesiology","Pastoral Care","Spiritual Direction","Applied Ethics","Kenotic Theology","Reconciliation","Traditioned Theology"],
+      books:["2 Corinthians","Philemon","2 Timothy","1 Thessalonians","Philippians","1 Corinthians","Titus","2 Thessalonians","1 Timothy"] },
+  7:{ side:"telos", sideLabel:"Telos · Right", spirit:"Might", heb:"gevurah",
+      lens:"Co-regency", pair:1,
+      body:"The same threshold encounter as the Fear of the LORD, now with authority received and enacted — not standing at the boundary asking who governs, but governing as the King's under-regent.",
+      disc:["Pastoral Discernment","Confessional Theology","Practical Theology","Theological Polemics","Combat Apologetics","Theology of Suffering","Covenant Theology","Mystical Theology","Eschatology (gevurah)","Missiology (gevurah)"],
+      books:["Hebrews","1 John","Revelation","2 Peter","Jude","1 Peter","3 John","2 John","James"] },
+};
+
+/* ---------------- TRIADS: cup/knob/flower books per triad (Entry 3.2 Menorah Canon) -------- */
+/* Branch triads are ordered innermost -> outermost (matches t=0.32, 0.57, 0.82).
+   Shaft triads are ordered top -> base (matches frac=0.16, 0.40, 0.64, 0.88).
+   Within each triad: cup is farthest from the lamp tip, flower is closest. */
+const TRIADS = {
+  1: [
+    { id:"F1", label:"INNER",  cup:"Ezekiel",  knob:"Zephaniah", flower:"Amos" },
+    { id:"F2", label:"MIDDLE", cup:"Nahum",    knob:"Joel",      flower:"Micah" },
+    { id:"F3", label:"OUTER",  cup:"Obadiah",  knob:"1 Kings",   flower:"1 Samuel" },
+  ],
+  2: [
+    { id:"K1", label:"INNER",  cup:"Hosea",   knob:"Jonah",        flower:"Zechariah" },
+    { id:"K2", label:"MIDDLE", cup:"2 Kings", knob:"1 Chronicles", flower:"2 Chronicles" },
+    { id:"K3", label:"OUTER",  cup:"Haggai",  knob:"Ezra",         flower:"Nehemiah" },
+  ],
+  3: [
+    { id:"W1", label:"INNER",  cup:"Job",          knob:"Daniel",       flower:"Song of Solomon" },
+    { id:"W2", label:"MIDDLE", cup:"Lamentations", knob:"Habakkuk",     flower:"Psalms" },
+    { id:"W3", label:"OUTER",  cup:"Proverbs",     knob:"Ecclesiastes", flower:"Esther" },
+  ],
+  4: [
+    { id:"SHAFT 4", label:"TOP",   cup:"Isaiah",  knob:"Jeremiah",    flower:"Malachi" },
+    { id:"SHAFT 3", label:"UPPER", cup:"Judges",  knob:"Ruth",        flower:"2 Samuel" },
+    { id:"SHAFT 2", label:"LOWER", cup:"Numbers", knob:"Deuteronomy", flower:"Joshua" },
+    { id:"SHAFT 1", label:"BASE",  cup:"Genesis", knob:"Exodus",      flower:"Leviticus" },
+  ],
+  5: [
+    { id:"U1", label:"INNER",  cup:"Romans",    knob:"Colossians", flower:"John" },
+    { id:"U2", label:"MIDDLE", cup:"Galatians", knob:"Ephesians",  flower:"Acts" },
+    { id:"U3", label:"OUTER",  cup:"Mark",      knob:"Luke",       flower:"Matthew" },
+  ],
+  6: [
+    { id:"C1", label:"INNER",  cup:"2 Corinthians",   knob:"Philemon",        flower:"2 Timothy" },
+    { id:"C2", label:"MIDDLE", cup:"1 Thessalonians", knob:"Philippians",     flower:"1 Corinthians" },
+    { id:"C3", label:"OUTER",  cup:"Titus",           knob:"2 Thessalonians", flower:"1 Timothy" },
+  ],
+  7: [
+    { id:"M1", label:"INNER",  cup:"Hebrews", knob:"1 John", flower:"Revelation" },
+    { id:"M2", label:"MIDDLE", cup:"2 Peter", knob:"Jude",   flower:"1 Peter" },
+    { id:"M3", label:"OUTER",  cup:"3 John",  knob:"2 John", flower:"James" },
+  ],
+};
+
+/* ---------------- GEOMETRY: build the menorah SVG ---------------- */
+const W=1000,H=720, CX=500, LAMP_Y=150, SHAFT_BOTTOM=600;
+const lampX={1:CX-372,2:CX-248,3:CX-124,4:CX,5:CX+124,6:CX+248,7:CX+372};
+const joinY={3:255,5:255,2:330,6:330,1:405,7:405};
+const labelText={1:"Fear",2:"Knowledge",3:"Wisdom",4:"Shamash",5:"Understanding",6:"Counsel",7:"Might"};
+
+// cubic control points for a branch
+function ctrl(p){
+  const xL=lampX[p], yJ=joinY[p], dx=xL-CX, dy=LAMP_Y-yJ;
+  return [[CX,yJ],[CX+dx*0.62,yJ],[xL,yJ+dy*0.42],[xL,LAMP_Y]];
+}
+function branchPath(p){
+  const [P0,P1,P2,P3]=ctrl(p);
+  return `M ${P0[0]} ${P0[1]} C ${P1[0].toFixed(1)} ${P1[1]} ${P2[0].toFixed(1)} ${P2[1].toFixed(1)} ${P3[0]} ${P3[1]}`;
+}
+// point + tangent angle along a cubic Bezier
+function bez(P0,P1,P2,P3,t){
+  const mt=1-t;
+  const x=mt*mt*mt*P0[0]+3*mt*mt*t*P1[0]+3*mt*t*t*P2[0]+t*t*t*P3[0];
+  const y=mt*mt*mt*P0[1]+3*mt*mt*t*P1[1]+3*mt*t*t*P2[1]+t*t*t*P3[1];
+  const dx=3*mt*mt*(P1[0]-P0[0])+6*mt*t*(P2[0]-P1[0])+3*t*t*(P3[0]-P2[0]);
+  const dy=3*mt*mt*(P1[1]-P0[1])+6*mt*t*(P2[1]-P1[1])+3*t*t*(P3[1]-P2[1]);
+  return [x,y,Math.atan2(dy,dx)*180/Math.PI];
+}
+// almond-blossom ornament with three independently interactive parts (cup, knob, flower)
+// Side effect: pushes label-anchor data into TRIAD_LABEL_DATA so labels can be rendered
+// in a sibling group that paints on top of everything.
+let TRIAD_LABEL_DATA = [];
+function ornament(x,y,angDeg,s,position,triadIdx){
+  const rot=angDeg+90;
+  const triad=TRIADS[position][triadIdx];
+  const ornId=`${position}-${triadIdx}`;
+  // Compute outward label anchor and text-anchor.
+  let lx,ly,ta;
+  if(position===4){
+    lx=x+78; ly=y; ta="start";
+  }else{
+    const Rrad=rot*Math.PI/180;
+    const cosR=Math.cos(Rrad), sinR=Math.sin(Rrad);
+    // Local +x in global = (cosR, sinR). With rot = ang + 90, this points
+    // outward (away from CX) on right branches and inward on left branches.
+    const sign=lampX[position]>CX?1:-1;
+    const off=42;
+    lx=x+sign*off*cosR;
+    ly=y+sign*off*sinR;
+    ta=lampX[position]<CX?"end":"start";
+  }
+  TRIAD_LABEL_DATA.push({ornId,x:lx,y:ly,anchor:ta});
+
+  // Build the SVG: three triad-part groups, each with its visual + a generous transparent hit target
+  let g=`<g class="ornament" transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(1)}) scale(${s})">`;
+  // CUP (gaviya) — local y +2 to +12
+  g+=`<g class="triad-part" data-orn-id="${ornId}" data-triad="${triad.id}" data-part="CUP" data-book="${triad.cup}">`
+   + '<path d="M -11 6 C -11 -2 -6 -2 0 -2 C 6 -2 11 -2 11 6 C 7 12 -7 12 -11 6 Z" fill="#a87d14"/>'
+   + '<path d="M -8 5 C -8 0 8 0 8 5 C 5 9 -5 9 -8 5 Z" fill="#c9991f"/>'
+   + '<circle cx="0" cy="5" r="13" fill="transparent" class="hit"/>'
+   + '</g>';
+  // KNOB (kaftor) — local y -6
+  g+=`<g class="triad-part" data-orn-id="${ornId}" data-triad="${triad.id}" data-part="KNOB" data-book="${triad.knob}">`
+   + '<circle cx="0" cy="-6" r="9" fill="#d9a82c"/>'
+   + '<circle cx="-2.6" cy="-8.4" r="3.2" fill="#f3d27a" opacity="0.85"/>'
+   + '<circle cx="0" cy="-6" r="11" fill="transparent" class="hit"/>'
+   + '</g>';
+  // FLOWER (perach) — local y -15 to -22
+  let flower=`<g class="triad-part" data-orn-id="${ornId}" data-triad="${triad.id}" data-part="FLOWER" data-book="${triad.flower}">`;
+  for(const a of [-32,0,32]) flower+=`<ellipse cx="0" cy="-22" rx="3.4" ry="7.5" fill="#e8b93a" transform="rotate(${a} 0 -16)"/>`;
+  flower+='<circle cx="0" cy="-17" r="3" fill="#fff4d6"/>'
+       +  '<circle cx="0" cy="-18" r="13" fill="transparent" class="hit"/>'
+       +  '</g>';
+  g+=flower+'</g>';
+  return g;
+}
+// all ornaments: 3 per branch (tangent-oriented) + 4 on the shaft (vertical)
+function allOrnaments(){
+  TRIAD_LABEL_DATA=[];
+  let out="";
+  for(const p of [1,2,3,5,6,7]){
+    const [P0,P1,P2,P3]=ctrl(p);
+    const ts=[0.32,0.57,0.82];
+    for(let i=0;i<3;i++){
+      const [x,y,a]=bez(P0,P1,P2,P3,ts[i]);
+      out+=ornament(x,y,a,0.82,p,i);
+    }
+  }
+  // Shaft ornament positions are placed between the fixed branch-join heights
+  // (LAMP_Y=150, joinY=255/330/405) and one in the extended base portion below.
+  // This keeps each ornament cleanly between branches regardless of shaft length.
+  const shaftY=[202,292,367,502];
+  for(let i=0;i<4;i++) out+=ornament(CX,shaftY[i],-90,0.9,4,i);
+  return out;
+}
+function allTriadLabels(){
+  let out='<g class="triad-labels">';
+  for(const lbl of TRIAD_LABEL_DATA){
+    out+=`<g class="triad-label" id="lbl-${lbl.ornId}" transform="translate(${lbl.x.toFixed(1)},${lbl.y.toFixed(1)})">`
+       + `<text class="tl-triad" text-anchor="${lbl.anchor}" y="-8"></text>`
+       + `<text class="tl-book" text-anchor="${lbl.anchor}" y="11"></text>`
+       + '</g>';
+  }
+  return out+'</g>';
+}
+function flameGroup(p){
+  const x=lampX[p];
+  const isShamash=p===4;
+  const fScale=isShamash?1.25:1;
+  const fy=LAMP_Y-14;
+  return `
+  <g class="node" data-pos="${p}" tabindex="0" role="button" aria-label="Position ${p}: ${POSITIONS[p].spirit}">
+    <circle class="halo" cx="${x}" cy="${LAMP_Y-24}" r="46"/>
+    <ellipse class="cup" cx="${x}" cy="${LAMP_Y}" rx="20" ry="11"/>
+    <rect class="knob" x="${x-5}" y="${LAMP_Y-4}" width="10" height="9" rx="2"/>
+    <g class="flame-grp" data-pos="${p}">
+      <ellipse class="flame-outer" cx="${x}" cy="${fy-12*fScale}" rx="${9*fScale}" ry="${22*fScale}" fill="url(#flameGrad)"/>
+      <ellipse class="flame-inner" cx="${x}" cy="${fy-9*fScale}" rx="${4*fScale}" ry="${12*fScale}" fill="var(--flame-core)"/>
+    </g>
+    <circle class="ring" cx="${x}" cy="${LAMP_Y-24}" r="40"/>
+    <text class="pos-label" x="${x}" y="${p===4?LAMP_Y-82:LAMP_Y-70}">${labelText[p]}</text>
+  </g>`;
+}
+
+const svg=`
+<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" aria-label="Interactive seven-branched Menorah">
+  <defs>
+    <linearGradient id="goldStroke" x1="0" y1="120" x2="0" y2="660" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f0c75a"/>
+      <stop offset="1" stop-color="#9a6f14"/>
+    </linearGradient>
+    <linearGradient id="flameGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff4d6"/>
+      <stop offset="55%" stop-color="#f5c542"/>
+      <stop offset="100%" stop-color="#c97a1e"/>
+    </linearGradient>
+    <filter id="softGlow" filterUnits="userSpaceOnUse" x="0" y="0" width="1000" height="720">
+      <feGaussianBlur stdDeviation="1.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="bigGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+
+  <!-- branches + shaft -->
+  <path class="branch shaft" d="M ${CX} ${LAMP_Y} L ${CX} ${SHAFT_BOTTOM}"/>
+  ${[1,2,3,5,6,7].map(p=>`<path class="branch" d="${branchPath(p)}"/>`).join("")}
+
+  <!-- base: flat bottom rests on the ground, curve rises to meet the shaft -->
+  <!-- Control y is SHAFT_BOTTOM-58 so the actual Bezier apex lands at SHAFT_BOTTOM -->
+  <path d="M ${CX-95} ${SHAFT_BOTTOM+58} Q ${CX} ${SHAFT_BOTTOM-58} ${CX+95} ${SHAFT_BOTTOM+58} Z" fill="url(#goldStroke)"/>
+  <rect x="${CX-16}" y="${SHAFT_BOTTOM-6}" width="32" height="16" rx="3" fill="url(#goldStroke)"/>
+
+  <!-- almond-blossom ornaments: cup, knob, flower (Exodus 25:31-36) -->
+  <g class="ornaments">${allOrnaments()}</g>
+
+  <!-- nodes -->
+  ${[1,2,3,4,5,6,7].map(flameGroup).join("")}
+
+  <!-- triad labels (cup/knob/flower book names; rendered last so they paint on top) -->
+  ${allTriadLabels()}
+</svg>`;
+
+document.getElementById("lampWrap").innerHTML=svg;
+
+/* ---------------- KINDLING SEQUENCE (shamash lights the six) ---------------- */
+const reduce=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+const wrap=document.getElementById("lampWrap");
+function light(p){document.querySelector(`.flame-grp[data-pos="${p}"]`)?.classList.add("lit");}
+if(reduce){
+  [1,2,3,4,5,6,7].forEach(light); wrap.classList.add("revealed");
+}else{
+  // shamash first, then outward in pairs: 3&5, 2&6, 1&7
+  const order=[[4,300],[3,750],[5,750],[2,1050],[6,1050],[1,1350],[7,1350]];
+  order.forEach(([p,t])=>setTimeout(()=>light(p),t));
+  setTimeout(()=>wrap.classList.add("revealed"),1700);
+}
+
+/* ---------------- PANEL ---------------- */
+const panel=document.getElementById("panel");
+const scrim=document.getElementById("scrim");
+let activeNode=null;
+
+function renderPanel(p){
+  const d=POSITIONS[p];
+  const pairHtml = d.pair ? `<div class="pair">Bilateral pair · <a data-goto="${d.pair}">${POSITIONS[d.pair].spirit}</a> burns opposite at the same height. ${d.side==="arche"?"This branch grounds; its partner governs.":"This branch governs; its partner grounds."}</div>` : "";
+  panel.innerHTML=`
+    <button class="close" aria-label="Close">✕</button>
+    <div class="p-num">Position ${p} <span class="p-side ${d.side}">${d.sideLabel}</span></div>
+    <div class="p-spirit" id="pSpirit">${d.spirit}</div>
+    <div class="p-heb">${d.heb}</div>
+    <div class="p-lens">Lens · <strong>${d.lens}</strong></div>
+    <p class="p-body">${d.body}</p>
+
+    <div class="p-section">
+      <h3>Disciplines on this branch</h3>
+      <div class="chips">${d.disc.map(x=>`<span class="chip">${x}</span>`).join("")}</div>
+    </div>
+
+    <div class="p-section">
+      <h3>Canonical books · the fire deposited here</h3>
+      <div class="books">${d.books.map(b=>`<b>${b}</b>`).join(" · ")}</div>
+    </div>
+
+    ${pairHtml}
+
+    <div class="entries-note">This panel is a teaser. The full branch view lists triads, public entry cards, dropped candidates, and disciplines for ${d.spirit}.</div>
+    <div class="cta-row" style="margin-top:1.4em">
+      <a class="btn btn-primary" href="branch.html#/${p}">Enter this branch →</a>
+    </div>
+    <p class="p-body" style="margin-top:1.1em;font-size:14px">
+      <a href="index.html#/sign" style="border-bottom:1px solid var(--accent-deep)">Browse free signs</a>
+      ·
+      <a href="index.html#/verdict/0" style="border-bottom:1px solid var(--accent-deep)">Take the stand</a>
+    </p>
+  `;
+  panel.querySelector(".close").addEventListener("click",closePanel);
+  panel.querySelector("[data-goto]")?.addEventListener("click",e=>{
+    e.preventDefault();
+    openPanel(+e.currentTarget.dataset.goto);
+  });
+}
+
+function openPanel(p){
+  renderPanel(p);
+  panel.classList.add("open");
+  scrim.classList.add("open");
+  document.querySelectorAll(".node").forEach(n=>{
+    const np=+n.dataset.pos;
+    n.classList.toggle("active",np===p);
+    n.classList.toggle("dim",np!==p);
+  });
+  panel.scrollTop=0;
+}
+function closePanel(){
+  panel.classList.remove("open");
+  scrim.classList.remove("open");
+  document.querySelectorAll(".node").forEach(n=>n.classList.remove("active","dim"));
+}
+
+document.querySelectorAll(".node").forEach(n=>{
+  n.addEventListener("click",()=>openPanel(+n.dataset.pos));
+  n.addEventListener("keydown",e=>{
+    if(e.key==="Enter"||e.key===" "){e.preventDefault();openPanel(+n.dataset.pos);}
+  });
+});
+scrim.addEventListener("click",closePanel);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closePanel();});
+
+/* ---------------- TRIAD PART HOVER → LABEL ---------------- */
+/* Each cup/knob/flower lights its corresponding label when touched.
+   Same logic as the flame labels: only the one being touched is visible. */
+function showTriadLabel(part){
+  const lbl=document.getElementById(`lbl-${part.dataset.ornId}`);
+  if(!lbl) return;
+  lbl.querySelector(".tl-triad").textContent=`${part.dataset.triad} · ${part.dataset.part}`;
+  lbl.querySelector(".tl-book").textContent=part.dataset.book;
+  lbl.classList.add("show");
+}
+function hideTriadLabel(part){
+  const lbl=document.getElementById(`lbl-${part.dataset.ornId}`);
+  if(lbl) lbl.classList.remove("show");
+}
+document.querySelectorAll(".triad-part").forEach(part=>{
+  part.setAttribute("tabindex","0");
+  part.setAttribute("role","button");
+  part.setAttribute("aria-label",`${part.dataset.triad} ${part.dataset.part}: ${part.dataset.book}`);
+  part.addEventListener("mouseenter",()=>showTriadLabel(part));
+  part.addEventListener("mouseleave",()=>hideTriadLabel(part));
+  part.addEventListener("focus",()=>showTriadLabel(part));
+  part.addEventListener("blur",()=>hideTriadLabel(part));
+});
+</script>
+</body>
+</html>

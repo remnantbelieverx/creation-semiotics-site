@@ -1,0 +1,1897 @@
+<!doctype html>
+<html lang="en" data-register="court">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="There is a courtroom inside you. It has been in session your whole life. A four-minute examination.">
+<meta name="theme-color" content="#0B0D12">
+<meta property="og:title" content="The Verdict — You already know">
+<meta property="og:description" content="There is a courtroom inside you. Take the stand — about four minutes.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<title>The Verdict — You already know</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/chrome.css">
+</head>
+<body data-register="court">
+<!--ARTIFACT-START-->
+<style>
+  /* Page-specific: The Verdict (court register). Tokens/chrome from css/. */
+
+  /* ---------- views ---------- */
+  .view{display:none}
+  .view.active{display:block}
+  main{min-height:70vh}
+
+  /* ---------- landing ---------- */
+  .hero{
+    position:relative;min-height:88vh;
+    display:flex;flex-direction:column;justify-content:center;
+    overflow:hidden;
+  }
+  #skyCanvas,#flakeCanvas{
+    position:absolute;inset:0;width:100%;height:100%;pointer-events:none;
+  }
+  #flakeCanvas{opacity:.5}
+  .hero-inner{position:relative;z-index:2;display:flex;flex-direction:column;gap:1.4rem;
+    padding:4rem 0 5rem}
+  .hero-inner .sub{
+    font-size:clamp(1.05rem,2.6vw,1.25rem);color:var(--frost-dim);
+    max-width:26em;
+  }
+
+  .triptych{
+    display:grid;gap:1px;background:var(--line);
+    border-block:1px solid var(--line);
+    grid-template-columns:1fr;
+    width:min(60rem,100%);margin-inline:auto;
+  }
+  @media(min-width:44rem){.triptych{grid-template-columns:1fr 1fr 1fr}}
+  .panel{background:var(--night);padding:2.2rem 1.6rem 2.6rem;display:flex;flex-direction:column;gap:.8rem}
+  .panel .eyebrow{color:var(--frost-faint)}
+  .panel h3{color:var(--frost)}
+  .panel p{font-size:.95rem;color:var(--frost-dim)}
+  .panel.gilded .eyebrow{color:var(--gold)}
+
+  .teaser{padding:4.5rem 0}
+  .teaser .stack{gap:.9rem}
+  .teaser blockquote{margin:0;padding-left:1rem;border-left:2px solid var(--accent-deep);
+    color:var(--frost-dim);font-style:italic}
+  .teaser cite{font-style:normal;font-family:var(--mono);font-size:.7rem;
+    letter-spacing:.14em;color:var(--frost-faint)}
+
+  /* ---------- verdict flow ---------- */
+  .flow{padding:3.5rem 0 9rem}
+  .screen{display:flex;flex-direction:column;gap:1.3rem}
+  .screen .lead{font-size:1.15rem}
+  .screen .dim{color:var(--frost-dim)}
+  .screen blockquote{
+    margin:0.4rem 0;padding:1.1rem 1.3rem;border-left:2px solid var(--accent-deep);
+    background:var(--night-2);color:var(--frost);font-style:italic;
+  }
+  .screen blockquote footer{font-style:normal;font-family:var(--mono);font-size:.68rem;
+    letter-spacing:.16em;color:var(--frost-faint);margin-top:.6rem;text-transform:uppercase}
+  .choices{display:flex;flex-direction:column;gap:.7rem;margin-top:.5rem}
+  .choice{
+    text-align:left;padding:1rem 1.2rem;border:1px solid var(--line);border-radius:2px;
+    background:var(--night-2);color:var(--frost);font-family:var(--body);font-size:1rem;
+    transition:border-color .2s,background-color .2s;
+  }
+  .choice:hover{border-color:var(--accent);background:var(--night-3)}
+  .choice small{display:block;color:var(--frost-faint);font-size:.85rem;margin-top:.2rem}
+  .continue-row{margin-top:1.2rem;display:flex;gap:.9rem;align-items:center}
+  .step-count{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;
+    color:var(--frost-faint);text-transform:uppercase}
+  .revealed{border-top:1px solid var(--line);padding-top:1.2rem;display:flex;
+    flex-direction:column;gap:1rem}
+  .term{color:var(--accent);font-style:italic}
+
+  /* the greek terms in the claim screen */
+  .forensic{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin:.4rem 0}
+  .forensic div{background:var(--night-2);padding:.9rem 1.1rem}
+  .forensic .g{font-family:var(--serif);font-size:1.05rem;color:var(--accent)}
+  .forensic .e{font-size:.9rem;color:var(--frost-dim)}
+
+  /* ---------- court record drawer ---------- */
+  #recordDrawer{
+    position:fixed;left:0;right:0;bottom:0;z-index:30;
+    background:var(--night-2);border-top:1px solid var(--line);
+    transform:translateY(100%);transition:transform .4s ease;
+  }
+  #recordDrawer.open{transform:translateY(0)}
+  .record-inner{width:min(34rem,100% - 2.5rem);margin-inline:auto;padding:.6rem 0 .8rem}
+  .record-head{display:flex;justify-content:space-between;align-items:center}
+  .record-head span{font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--frost-faint)}
+  #recordLines{
+    list-style:none;margin:.3rem 0 0;padding:0;max-height:5.2rem;overflow-y:auto;
+    font-family:var(--mono);font-size:.68rem;line-height:1.9;color:var(--frost-dim);
+    letter-spacing:.05em;
+  }
+  #recordLines .entered{color:var(--accent)}
+
+  /* ---------- gallery ---------- */
+  .ex-cards{display:flex;flex-direction:column;gap:.8rem;margin-top:2rem}
+  .ex-card{
+    display:block;text-align:left;width:100%;
+    padding:1.3rem 1.4rem;border:1px solid var(--line);border-radius:2px;
+    background:var(--night-2);color:var(--frost);border-bottom:1px solid var(--line);
+    transition:border-color .2s,background-color .2s;
+  }
+  .ex-card:hover{border-color:var(--accent);background:var(--night-3);color:var(--frost)}
+  .ex-card .eyebrow{font-size:.62rem}
+  .ex-card h3{margin:.35rem 0 .3rem;font-size:1.15rem}
+  .ex-card p{font-size:.9rem;color:var(--frost-dim)}
+
+  /* ---------- sign page ---------- */
+  .sign{padding:3.5rem 0 6rem}
+  .sign-fig{
+    position:relative;margin:2rem auto;width:min(22rem,90vw);aspect-ratio:1;
+  }
+  #signCanvas{width:100%;height:100%;display:block}
+  .sign-toggle{display:flex;justify-content:center;margin-bottom:2rem}
+  .mechanism{counter-reset:step;display:flex;flex-direction:column;gap:1px;
+    background:var(--line);border:1px solid var(--line);margin:1.4rem 0}
+  .mechanism div{background:var(--night-2);padding:1.1rem 1.2rem;display:flex;gap:1rem}
+  .mechanism div::before{
+    counter-increment:step;content:counter(step);
+    font-family:var(--mono);font-size:.8rem;color:var(--accent);
+    border:1px solid var(--line);border-radius:50%;
+    width:1.7rem;height:1.7rem;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .mechanism p{font-size:.95rem;color:var(--frost-dim)}
+  .ex-quote{
+    margin:0;padding:1.1rem 1.3rem;border-left:2px solid var(--accent-deep);
+    background:var(--night-2);font-style:italic;
+  }
+  .ex-quote footer{font-style:normal;font-family:var(--mono);font-size:.68rem;
+    letter-spacing:.16em;color:var(--frost-faint);margin-top:.6rem;text-transform:uppercase}
+  .mechanism strong{color:var(--frost);font-weight:600}
+  details{border:1px solid var(--line);background:var(--night-2);margin:1rem 0}
+  summary{padding:.9rem 1.2rem;cursor:pointer;font-family:var(--mono);font-size:.72rem;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--frost-dim)}
+  details[open] summary{border-bottom:1px solid var(--line);color:var(--accent)}
+  details .d-body{padding:1rem 1.2rem;font-size:.95rem;color:var(--frost-dim);
+    display:flex;flex-direction:column;gap:.8rem}
+  .doxology{
+    margin:2.5rem 0 0;padding:1.6rem;border:1px solid var(--accent-deep);
+    font-family:var(--serif);font-size:1.15rem;font-style:italic;text-align:center;
+    color:var(--frost);
+  }
+
+  /* ---------- doors / faq ---------- */
+  .faq-a{color:var(--frost-dim);font-size:.97rem}
+  .next-steps{
+    margin:1.2rem 0 0;padding:1.1rem 1.2rem;border:1px solid var(--line);
+    background:var(--night-2);display:flex;flex-direction:column;gap:.75rem;
+  }
+  .next-steps li{margin-left:1.1rem;color:var(--frost-dim);font-size:.97rem}
+  .next-steps strong{color:var(--frost)}
+
+  /* ---------- flow progress ---------- */
+  .flow-progress{
+    position:sticky;top:2.8rem;z-index:15;
+    width:min(34rem,100% - 2.5rem);margin:0 auto .6rem;
+    padding-top:.4rem;
+    background:linear-gradient(var(--night) 70%,transparent);
+  }
+  .flow-progress .track{
+    height:2px;background:var(--line);border-radius:1px;overflow:hidden;
+  }
+  .flow-progress .fill{
+    height:100%;width:0;background:var(--accent);
+    transition:width .35s ease;
+  }
+  .flow-progress .labels{
+    display:flex;justify-content:space-between;margin-top:.45rem;
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--frost-faint);
+  }
+  .flow-progress .labels span.is-on{color:var(--accent)}
+  .flow-progress{
+    top: var(--bar-h);
+  }
+</style>
+
+<header class="site-bar">
+  <a class="brand" href="#/" data-go="#/">
+    <span class="brand-family">Creation Semiotics</span>
+    <span class="brand-page">The Verdict<span class="dot"> ·</span></span>
+  </a>
+  <nav class="site-nav" aria-label="Primary">
+    <a href="#/sign">The Signs</a>
+    <a href="menorah.html">The Lamp</a>
+    <a href="branch.html#/3">Branches</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ============================================================ LANDING -->
+<section class="view" id="view-landing">
+  <div class="hero">
+    <canvas id="skyCanvas" aria-hidden="true"></canvas>
+    <canvas id="flakeCanvas" aria-hidden="true"></canvas>
+    <div class="hero-inner col">
+      <p class="eyebrow">A four-minute examination</p>
+      <h1 id="landing-h">You already know<br>the verdict.</h1>
+      <p class="sub">There is a courtroom inside you. It has been in session your
+        whole life — accusation, defense, verdict. Tonight, take the stand.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#/verdict/0">Take the stand</a>
+        <a class="btn btn-ghost" href="#/sign">See the signs first</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="triptych">
+    <div class="panel">
+      <p class="eyebrow">The witness</p>
+      <h3>Creation testifies</h3>
+      <p>“The heavens declare the glory of God.” Every snowflake that has ever
+        fallen carries a six-armed signature written into the physics of water
+        itself. The testimony is everywhere. It has never once been silent.</p>
+    </div>
+    <div class="panel">
+      <p class="eyebrow">The court</p>
+      <h3>Conscience convicts</h3>
+      <p>Long before anyone handed you a rulebook, something in you was already
+        prosecuting, defending, and passing judgment. Paul named the mechanism in
+        courtroom Greek. Psychology confirmed it two thousand years later.</p>
+    </div>
+    <div class="panel gilded">
+      <p class="eyebrow">The exchange</p>
+      <h3>The Judge stepped down</h3>
+      <p>The strangest fact in the record: the Judge left the bench, took the
+        sentence, and offers His own robe to the guilty. That exchange is where
+        the examination leads.</p>
+    </div>
+  </div>
+
+  <div class="teaser col">
+    <div class="stack">
+      <p class="eyebrow">The first exhibit</p>
+      <h2>Why every snowflake has six arms</h2>
+      <p class="dim" style="color:var(--frost-dim)">Not five. Not seven. Not sometimes —
+        ever. The answer is fixed in a single bond angle, and it matches, member for
+        member, a structure God ordered built for His own sanctuary.</p>
+      <blockquote>“His invisible attributes, namely, his eternal power and divine
+        nature, have been clearly perceived, ever since the creation of the world,
+        in the things that have been made.”
+        <br><cite>— Romans 1:20</cite></blockquote>
+      <div class="cta-row">
+        <a class="btn btn-ghost" href="#/sign/snowflake">Read exhibit one</a>
+        <a class="btn btn-ghost" href="#/sign">All seven exhibits</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ VERDICT -->
+<section class="view" id="view-verdict">
+  <div class="flow-progress" id="flowProgress" aria-hidden="true">
+    <div class="track"><div class="fill" id="flowFill"></div></div>
+    <div class="labels" id="flowLabels">
+      <span data-ph="1">Wonder</span>
+      <span data-ph="2">Claim</span>
+      <span data-ph="3">Stand</span>
+      <span data-ph="4">Record</span>
+      <span data-ph="5">Defense</span>
+      <span data-ph="6">Verdict</span>
+      <span data-ph="7">Exchange</span>
+    </div>
+  </div>
+  <div class="flow col">
+    <div id="screenMount" class="screen" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============================================================ GALLERY -->
+<section class="view" id="view-gallery">
+  <div class="sign col">
+    <p class="eyebrow">The gallery of exhibits</p>
+    <h1 style="font-size:clamp(1.8rem,5vw,2.6rem)">The witness of creation</h1>
+    <p class="dim" style="margin-top:1rem;color:var(--frost-dim)">Each exhibit presents
+      one pattern. The physics first, stated at the strength the evidence carries —
+      then the correspondence, then a note on exactly what we claim and what we
+      don’t. A witness under oath doesn’t round up.</p>
+    <div class="ex-cards" id="galleryCards"></div>
+    <div class="cta-row" style="justify-content:center;margin-top:2.8rem">
+      <a class="btn btn-primary" href="#/verdict/0">The witnesses have testified. Take the stand</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ EXHIBIT -->
+<section class="view" id="view-exhibit">
+  <article class="sign col" id="exhibitMount"></article>
+</section>
+
+</main>
+
+<!-- ============================================================ RECORD -->
+<aside id="recordDrawer" aria-label="Court record">
+  <div class="record-inner">
+    <div class="record-head">
+      <span>Court record — in session</span>
+      <span id="recordCount"></span>
+    </div>
+    <ul id="recordLines"></ul>
+  </div>
+</aside>
+
+<!-- ============================================================ FOOTER -->
+<footer class="site">
+  <div class="col foot-grid">
+    <div class="email-stub">
+      <p class="eyebrow" style="color:var(--frost-faint)">The Signature — a weekly letter</p>
+      <p style="color:var(--frost-dim);font-size:.95rem">One sign from
+        creation, four hundred words, every Saturday. Free.</p>
+      <form class="email-row" id="emailForm">
+        <input type="email" id="emailInput" placeholder="you@example.com" aria-label="Email address" required autocomplete="email">
+        <button class="btn btn-primary" type="submit">Join the waitlist</button>
+      </form>
+      <p id="emailNote" hidden role="status"></p>
+    </div>
+    <nav class="foot-links" aria-label="Site">
+      <a href="#/">The Verdict</a>
+      <a href="#/sign">The Signs</a>
+      <a href="menorah.html">The Lamp</a>
+      <a href="branch.html#/3">Branches</a>
+    </nav>
+    <p class="fine">A Creation Semiotics project · The front door is free forever;
+      members and donors hold it open. · The court leads to a lamp.</p>
+  </div>
+</footer>
+
+<script>
+"use strict";
+/* ================================================================
+   THE VERDICT — Phase 1 MVP
+   Hash routes:  #/            landing
+                 #/verdict/N   examination screen N
+                 #/sign        gallery
+                 #/sign/<slug> single exhibit
+   ================================================================ */
+
+const CONFIG = {
+  /* Owner contact for interim follow-up (mailto). Replace when email service is live. */
+  contactEmail: "alvinebreo@gmail.com",
+  siteName: "The Verdict",
+  waitlistKey: "verdict_signature_waitlist",
+  careKey: "verdict_care_leads",
+  /* Next-steps landing (Care package). Relative to this page. */
+  careWelcome: "care/welcome.html",
+  /*
+   * When ESP is live, set these to form action URLs (Buttondown / Kit / Formspree).
+   * Leave empty to use mailto + localStorage interim.
+   * Sequences: Hermes/Drafts/Verdict-Care-Sequences.md
+   */
+  esp: {
+    signatureFormAction: "",  // e.g. https://buttondown.com/api/emails/embed-subscribe/…
+    wantFormAction: "",       // tags: verdict-want
+    questionsFormAction: "",  // tags: verdict-questions
+  },
+};
+
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------------- lightweight funnel events ---------------- */
+function track(event, props){
+  try{
+    const payload = Object.assign({t: Date.now(), path: location.hash || "#/"}, props || {});
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({event}, payload));
+    if(location.search.includes("debug=1")) console.info("[verdict]", event, payload);
+  }catch(_){ /* never block the examination */ }
+}
+
+/* Conceptual 7-step map (plan §2.2) → screen index ranges */
+function phaseOf(idx){
+  if(idx <= 0) return 1;          // wonder
+  if(idx === 1) return 2;         // claim
+  if(idx >= 2 && idx <= 6) return 3;  // stand (5 counts)
+  if(idx === 7) return 4;         // record
+  if(idx >= 8 && idx <= 10) return 5; // defense
+  if(idx === 11) return 6;        // verdict question
+  return 7;                       // exchange + response
+}
+function updateProgress(idx){
+  const ph = phaseOf(idx);
+  const fill = document.getElementById("flowFill");
+  if(fill) fill.style.width = ((ph / 7) * 100) + "%";
+  document.querySelectorAll("#flowLabels [data-ph]").forEach(el => {
+    el.classList.toggle("is-on", Number(el.dataset.ph) === ph);
+  });
+}
+
+/* ---------------- state ---------------- */
+const record = [];           // {label, answer}
+let yesCount = 0;
+let lastVerdict = null;
+let lastDoor = null;
+
+function enterRecord(label, answer){
+  record.push({label, answer});
+  if(answer === "YES") yesCount++;
+  renderRecord();
+}
+function renderRecord(){
+  const ul = document.getElementById("recordLines");
+  ul.innerHTML = record.map((r,i) =>
+    `<li>COUNT ${i+1} · ${r.label} — TESTIMONY: <span class="entered">${r.answer}</span></li>`
+  ).join("");
+  document.getElementById("recordCount").textContent =
+    record.length ? `${record.length} ENTERED` : "";
+  ul.scrollTop = ul.scrollHeight;
+}
+
+/* ---------------- screens ---------------- */
+/* Each screen: {kind, render()} — render returns HTML; wire() hooks buttons. */
+
+const Q = [
+  {label:"ON TRUTHFULNESS", q:"Have you ever told a lie?",
+   note:"Any lie. To protect yourself, to look better, to avoid a cost. One is enough for the record.",
+   cite:null},
+  {label:"ON PROPERTY", q:"Have you ever taken something that wasn’t yours?",
+   note:"The value is irrelevant to the court. Taking it is what makes it theft.",
+   cite:null},
+  {label:"ON MURDER", q:"Have you ever hated someone — or held anger you fed on purpose?",
+   note:"The court reads this charge at the level of the heart: “everyone who is angry with his brother will be liable to judgment.”",
+   cite:"Matthew 5:21–22"},
+  {label:"ON ADULTERY", q:"Have you ever looked at another person with lust?",
+   note:"Same standard, same register: “everyone who looks at a woman with lustful intent has already committed adultery with her in his heart.”",
+   cite:"Matthew 5:27–28"},
+  {label:"ON THE NAME", q:"Have you ever used God’s name as a curse — or as a throwaway word?",
+   note:"His name, spent as an expletive. The court notes that no one does this with names that mean nothing to them.",
+   cite:null},
+];
+
+const DEFENSES = [
+  {plea:"“I’m better than most people.”",
+   exam:`Very likely true — and no court on earth accepts it. The defendant in the
+     next courtroom being worse than you has never once acquitted anyone. You are
+     not measured against other defendants. You are measured against the standard.
+     The standard is perfection.`},
+  {plea:"“My good deeds outweigh the bad.”",
+   exam:`Consider what this asks the Judge to do: overlook crimes that are on the
+     record because of unrelated good behavior. There is a word for a judge who
+     does that for money or favors — corrupt. “The LORD your God… takes no bribe.”
+     A good judge cannot be paid off, least of all with good deeds that were owed
+     anyway.`,
+   cite:"Deuteronomy 10:17"},
+  {plea:"“God is loving. He’ll understand.”",
+   exam:`He is loving — that is precisely the problem with this defense. A judge who
+     waves away evil is not loving; he is negligent. Ask the victim of any crime
+     whether a judge who “understands” the offender into freedom is a good judge.
+     Because God is good, the sentence is real. If He were indifferent, you would
+     have nothing to fear — and nothing worth calling love.`},
+];
+
+const screens = [];
+
+/* --- 0 · Wonder --- */
+screens.push({render: () => `
+  <p class="step-count">Before the court is called</p>
+  <h2>Start with something you’ve seen fall from the sky.</h2>
+  <p class="lead">Every snowflake that has ever formed has had six arms around one
+    center. Not five. Not seven. Not most of the time — every time, since the first
+    winter. The reason is a single bond angle — 104.45° — fixed into water itself.</p>
+  <p class="dim">Whoever fixed that angle signed every snowfall in history. Scripture
+    says you have already read the signature:</p>
+  <blockquote>“His invisible attributes, namely, his eternal power and divine nature,
+    have been clearly perceived, ever since the creation of the world, in the things
+    that have been made. So they are without excuse.”
+    <footer>Romans 1:19–20</footer></blockquote>
+  <div class="continue-row">
+    <button class="btn btn-primary" data-next>Continue</button>
+    <span class="step-count">1 of 7 · about 4 minutes</span>
+  </div>`});
+
+/* --- 1 · The claim --- */
+screens.push({render: () => `
+  <p class="step-count">The claim</p>
+  <h2>The same Maker installed something in you: a courtroom.</h2>
+  <p class="lead">Not a vague moral feeling — a working tribunal. Twenty centuries
+    before moral psychology described it, Paul named its moving parts in the legal
+    vocabulary of the Greek courtroom:</p>
+  <div class="forensic">
+    <div><span class="g">κατηγορούντων</span><br>
+      <span class="e">accusation — the prosecuting witness stands and charges</span></div>
+    <div><span class="g">ἀπολογουμένων</span><br>
+      <span class="e">defense — the accused answers for himself</span></div>
+    <div><span class="g">the verdict</span><br>
+      <span class="e">the judgment that settles between them</span></div>
+  </div>
+  <blockquote>“They show that the work of the law is written on their hearts, while
+    their conscience also bears witness, and their conflicting thoughts accuse or
+    even excuse them.”<footer>Romans 2:15</footer></blockquote>
+  <p class="dim">You have felt this court convene. Everyone has: the charge, the
+    scramble for a defense, the quiet verdict that arrives on its own. That court is
+    now in session. You are the witness — and the testimony is about you.</p>
+  <div class="continue-row">
+    <button class="btn btn-primary" data-next>Take the stand</button>
+    <span class="step-count">2 of 7</span>
+  </div>`});
+
+/* --- 2..6 · The stand --- */
+Q.forEach((item, qi) => {
+  screens.push({render: () => `
+    <p class="step-count">The stand · count ${qi+1} of ${Q.length} · ${item.label}</p>
+    <h2>${item.q}</h2>
+    <p class="dim">${item.note}</p>
+    ${item.cite ? `<p class="step-count" style="letter-spacing:.14em">${item.cite}</p>` : ""}
+    <div class="choices">
+      <button class="choice" data-answer="YES">Yes<small>Enter it into the record</small></button>
+      <button class="choice" data-answer="NO">No, never<small>The record will note the testimony</small></button>
+    </div>`,
+    wire: (mount) => {
+      mount.querySelectorAll("[data-answer]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          enterRecord(item.label, btn.dataset.answer);
+          go(screenIndex()+1);
+        });
+      });
+    }});
+});
+
+/* --- 7 · The record read back --- */
+screens.push({render: () => {
+  const honest = yesCount > 0;
+  return `
+  <p class="step-count">The record is read back</p>
+  <h2>${honest
+      ? `The record shows testimony against you on ${yesCount} of ${Q.length} counts.`
+      : `The record shows a clean sheet — on your own testimony.`}</h2>
+  ${honest ? `
+  <p class="lead">Entered by the only witness whose testimony you cannot impeach:
+    you. No investigator was needed. The court that sits inside you had the
+    evidence all along.</p>
+  <p class="dim">And these were five counts of thousands. “For God will bring every
+    deed into judgment, with every secret thing, whether good or evil.”</p>`
+  : `
+  <p class="lead">The court has heard many witnesses. It has never met one who could
+    truthfully testify to nothing — and Scripture files that testimony under its own
+    heading:</p>
+  <blockquote>“If we say we have no sin, we deceive ourselves, and the truth is not
+    in us.”<footer>1 John 1:8</footer></blockquote>
+  <p class="dim">You may review your testimony at the end. For now the examination
+    continues — because even a witness who claims perfection must face the standard
+    the court actually uses.</p>`}
+  <div class="continue-row">
+    <button class="btn btn-primary" data-next>The court will hear your defense</button>
+    <span class="step-count">4 of 7</span>
+  </div>`}});
+
+/* --- 8..10 · The defense --- */
+DEFENSES.forEach((d, di) => {
+  screens.push({render: () => `
+    <p class="step-count">The defense · plea ${di+1} of ${DEFENSES.length}</p>
+    <h2>${d.plea}</h2>
+    <p class="dim">Nearly every witness reaches for this defense. You may have felt
+      your hand on it already.</p>
+    <div class="choices">
+      <button class="choice" data-reveal>Examine it<small>Cross-examination</small></button>
+    </div>
+    <div class="revealed" hidden>
+      <p class="lead">${d.exam}</p>
+      ${d.cite ? `<p class="step-count" style="letter-spacing:.14em">${d.cite}</p>` : ""}
+      <div class="continue-row">
+        <button class="btn btn-primary" data-next>${di < DEFENSES.length-1 ? "Next plea" : "To the verdict"}</button>
+      </div>
+    </div>`,
+    wire: (mount) => {
+      const btn = mount.querySelector("[data-reveal]");
+      btn.addEventListener("click", () => {
+        btn.parentElement.hidden = true;
+        mount.querySelector(".revealed").hidden = false;
+        mount.querySelector(".revealed .btn").focus();
+      });
+    }});
+});
+
+/* --- 11 · The verdict question --- */
+screens.push({render: () => `
+  <p class="step-count">The question the court has been circling</p>
+  <h2>On the evidence of your own testimony — if the court adjourned tonight:
+    heaven, or hell?</h2>
+  <p class="dim">Not the answer you were raised with. Not the answer you hope for.
+    The answer the record supports.</p>
+  <div class="choices">
+    <button class="choice" data-verdict="heaven">Heaven</button>
+    <button class="choice" data-verdict="hell">Hell</button>
+    <button class="choice" data-verdict="unsure">I honestly don’t know</button>
+  </div>
+  <div class="revealed" hidden>
+    <div id="verdictResponse"></div>
+    <div class="continue-row">
+      <button class="btn btn-primary" data-next>There is one more thing in the record</button>
+    </div>
+    <p class="fine">A word apart from the examination: if what you feel right now is
+      despair rather than conviction, stop and reach a person — someone you trust, or
+      a crisis line where you live (in the US, call or text 988).</p>
+  </div>`,
+  wire: (mount) => {
+    const responses = {
+      heaven: `<p class="lead">On what ground? The record stands, and courts do not
+        acquit on hope. The standard is not “mostly good” — “whoever keeps the whole
+        law but fails in one point has become guilty of all of it” (James 2:10).
+        “All have sinned and fall short of the glory of God” (Romans 3:23). If the
+        verdict rests on your record, the record has already spoken.</p>`,
+      hell: `<p class="lead">You may be the first witness tonight to agree with the
+        record. Scripture does not soften what you just admitted: the sentence is
+        real, and “it is appointed for man to die once, and after that comes
+        judgment” (Hebrews 9:27). But do not leave the stand yet — the strangest
+        document in this court’s history has your name on it.</p>`,
+      unsure: `<p class="lead">That is an honest answer — and an unstable one. This
+        is the one question that does not stay open forever: “it is appointed for
+        man to die once, and after that comes judgment” (Hebrews 9:27). The record
+        will not improve with time. But the court has one more document to
+        disclose.</p>`
+    };
+    mount.querySelectorAll("[data-verdict]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        lastVerdict = btn.dataset.verdict;
+        track("verdict_selected", {choice: lastVerdict, yes_counts: yesCount});
+        mount.querySelector(".choices").hidden = true;
+        document.getElementById("verdictResponse").innerHTML = responses[btn.dataset.verdict];
+        const rev = mount.querySelector(".revealed");
+        rev.hidden = false;
+        rev.querySelector(".btn").focus();
+      });
+    });
+  }});
+
+/* --- 12 · The exchange (the palette turns gold here) --- */
+screens.push({golden: true, render: () => `
+  <p class="step-count" style="color:var(--gold)">The exchange</p>
+  <h2>The Judge stepped down from the bench.</h2>
+  <p class="lead">Five centuries before Christ, the prophet Zechariah was shown a
+    courtroom exactly like the one you have been standing in. A man named Joshua —
+    the high priest, the best man in the nation — stands before the Angel of the
+    LORD in garments the text calls filthy. At his right hand stands the Accuser,
+    ready with the record. Every element is in place for the sentence.</p>
+  <p class="lead">Then the case takes a turn no court has ever taken on its own:</p>
+  <blockquote>“The LORD rebuke you, O Satan!… Behold, I have taken your iniquity
+    away from you, and I will clothe you with pure vestments.”
+    <footer>Zechariah 3:2, 4</footer></blockquote>
+  <p class="lead">The Accuser is not answered with an argument. He is answered with
+    an <em>act</em>. The filthy garments are removed and the court itself clothes
+    the guilty man — not because the record was wrong, but because Someone assumed
+    it.</p>
+  <p class="lead">That is what happened at the cross. The Judge did not dismiss your
+    case; He took your sentence. God “made him to be sin who knew no sin, so that in
+    him we might become the righteousness of God” (2 Corinthians 5:21). Through His
+    death He “destroyed the one who has the power of death” (Hebrews 2:14) — the
+    Accuser’s claim was not argued down; it was nullified. And He rose, which is why
+    the offer on the table is signed by a living Judge.</p>
+  <blockquote>“He has clothed me with the garments of salvation; he has covered me
+    with the robe of righteousness.”<footer>Isaiah 61:10</footer></blockquote>
+  <p class="lead">The exchange is offered, not imposed. Scripture names the terms
+    with the same plainness the record demanded: <strong>repent</strong> — turn from
+    the crimes you just testified to, not merely regret them — and
+    <strong>believe</strong> — entrust the whole verdict to the One who took the
+    sentence. “Repent and believe in the gospel” (Mark 1:15). Not a fee. Not a
+    bribe. The one Judge in history who can be just and the justifier of the guilty
+    at the same time.</p>
+  <div class="continue-row">
+    <button class="btn btn-primary" data-next>Your response</button>
+    <span class="step-count">7 of 7</span>
+  </div>`});
+
+/* --- 13 · The response --- */
+screens.push({golden: true, render: () => `
+  <p class="step-count" style="color:var(--gold)">The court awaits your answer</p>
+  <h2>Three doors are open.</h2>
+  <div class="choices">
+    <button class="choice" data-door="want">I want this exchange
+      <small>What repentance and faith look like, starting tonight</small></button>
+    <button class="choice" data-door="questions">I have questions
+      <small>Honest questions get honest answers</small></button>
+    <button class="choice" data-door="signs">Show me more of the signs
+      <small>Back to the witness of creation</small></button>
+  </div>
+  <div class="revealed" hidden><div id="doorContent"></div></div>
+  <div class="continue-row" style="margin-top:2rem">
+    <button class="btn btn-ghost" id="shareBtn">Share — “I took the stand”</button>
+  </div>
+  <p class="fine">If tonight finds you in despair rather than conviction, stop here
+    and reach a person now — someone you trust, or a crisis line where you live
+    (in the US, call or text <a href="tel:988">988</a>). This page can wait. You matter more than it does.</p>`,
+  wire: (mount) => {
+    const mail = CONFIG.contactEmail;
+    const welcome = CONFIG.careWelcome;
+    const doors = {
+      want: `
+        <h3 style="font-family:var(--serif)">Then tell Him so — in your own words.</h3>
+        <p class="dim">There are no magic words; the court has heard every formula
+          and is moved by none of them. What it honors is what it has always
+          honored: “a broken and contrite heart, O God, you will not despise”
+          (Psalm 51:17). Something like this, meant:</p>
+        <blockquote style="font-style:italic">God, the record is true. I have sinned
+          against You and I cannot pay the sentence. I believe Jesus Christ died in
+          my place and rose. I turn from my sin — take it, and clothe me in His
+          righteousness. From tonight, I am Yours.</blockquote>
+        <ol class="next-steps">
+          <li><strong>Read.</strong> Open the Gospel of John — one chapter a night.
+            It was written “so that you may believe that Jesus is the Christ…
+            and that by believing you may have life in his name” (John 20:31).</li>
+          <li><strong>Belong.</strong> Find a church that teaches the Bible and tell
+            someone there what happened tonight. This was never meant to be walked alone.</li>
+          <li><strong>Speak.</strong> Tell one person you trust. Faith that stays only
+            in the head rarely roots; spoken faith takes hold.</li>
+        </ol>
+        <div class="cta-row" style="margin-top:1.2rem">
+          <a class="btn btn-primary" href="${welcome}">Open next steps</a>
+          <button class="btn btn-ghost" type="button" id="shareBtn2">Share the card</button>
+        </div>
+        <form class="email-row" id="careWantForm" style="margin-top:1.2rem" ${CONFIG.esp.wantFormAction ? `action="${CONFIG.esp.wantFormAction}" method="post"` : ""}>
+          <input type="email" name="email" id="careWantEmail" placeholder="Email for the 7-day follow-up" aria-label="Email for follow-up" required autocomplete="email">
+          <input type="text" name="city" id="careWantCity" placeholder="City (optional)" aria-label="City optional" style="flex:1 1 8rem;padding:.8rem 1rem;background:var(--night-2);border:1px solid var(--line);color:var(--frost);font:inherit;font-size:.95rem;border-radius:2px">
+          <button class="btn btn-primary" type="submit">Send me the sequence</button>
+        </form>
+        <p id="careWantNote" class="fine" style="margin-top:.6rem" hidden role="status"></p>
+        <p class="fine" style="margin-top:.5rem">A person receives this — unhurried. Full sequence copy lives ready for the mail service
+          (John, church, speak). Crisis: <a href="tel:988">988</a> (US).</p>`,
+      questions: `
+        <h3 style="font-family:var(--serif)">Honest questions are welcome here.</h3>
+        <p class="faq-a"><strong style="color:var(--frost)">“Isn’t this just fear-mongering?”</strong><br>
+          Fear-mongering invents a danger to control you. A courtroom that reads
+          back your own testimony has invented nothing. If the record is true, the
+          warning is a kindness; if it is false, nothing here can touch you. The
+          question is only ever whether the record is true.</p>
+        <p class="faq-a"><strong style="color:var(--frost)">“Why would a loving God send anyone to hell?”</strong><br>
+          Turn it around: what would a loving judge do with unrepented evil —
+          shrug? Love that cannot condemn evil is not love; it is indifference
+          wearing love’s coat. The cross is where love and justice met: the
+          sentence carried out, and carried by the Judge Himself.</p>
+        <p class="faq-a"><strong style="color:var(--frost)">“Can’t I just live a good life?”</strong><br>
+          You already answered this on the stand. The defense of accumulated
+          goodness asks the Judge to accept a bribe. The court does not need your
+          goodness balanced against your record — it needs your record answered.
+          Only one Person has offered to answer it.</p>
+        <form id="careAskForm" style="margin-top:1.2rem;display:flex;flex-direction:column;gap:.7rem" ${CONFIG.esp.questionsFormAction ? `action="${CONFIG.esp.questionsFormAction}" method="post"` : ""}>
+          <input type="email" name="email" id="careAskEmail" placeholder="Your email" aria-label="Your email" required autocomplete="email"
+            style="padding:.8rem 1rem;background:var(--night-2);border:1px solid var(--line);color:var(--frost);font:inherit;border-radius:2px">
+          <textarea name="question" id="careAskBody" rows="4" required placeholder="Your question…" aria-label="Your question"
+            style="padding:.8rem 1rem;background:var(--night-2);border:1px solid var(--line);color:var(--frost);font:inherit;border-radius:2px;resize:vertical"></textarea>
+          <button class="btn btn-primary" type="submit" style="align-self:flex-start">Send to a person</button>
+        </form>
+        <p id="careAskNote" class="fine" style="margin-top:.6rem" hidden role="status"></p>
+        <p class="fine" style="margin-top:.5rem">Replies are human and unhurried.
+          If you are in crisis, call or text <a href="tel:988">988</a> (US) first — then write when you can.</p>`,
+      signs: ""
+    };
+    mount.querySelectorAll("[data-door]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const door = btn.dataset.door;
+        lastDoor = door;
+        track("door_chosen", {door});
+        if(door === "signs"){ location.hash = "#/sign"; return; }
+        mount.querySelector(".choices").hidden = true;
+        document.getElementById("doorContent").innerHTML = doors[door];
+        mount.querySelector(".revealed").hidden = false;
+        const share2 = mount.querySelector("#shareBtn2");
+        if(share2) share2.addEventListener("click", shareCard);
+        wireCareForms(mount);
+      });
+    });
+    mount.querySelector("#shareBtn").addEventListener("click", () => {
+      track("share_card");
+      shareCard();
+    });
+  }});
+
+function storeCareLead(kind, payload){
+  let list = [];
+  try{ list = JSON.parse(localStorage.getItem(CONFIG.careKey) || "[]"); }
+  catch(_){ list = []; }
+  list.push(Object.assign({kind, ts: new Date().toISOString()}, payload));
+  try{ localStorage.setItem(CONFIG.careKey, JSON.stringify(list)); }
+  catch(_){}
+}
+
+function wireCareForms(mount){
+  const want = mount.querySelector("#careWantForm");
+  if(want){
+    want.addEventListener("submit", e => {
+      if(CONFIG.esp.wantFormAction) return; // let ESP handle
+      e.preventDefault();
+      const email = (mount.querySelector("#careWantEmail").value || "").trim().toLowerCase();
+      const city = (mount.querySelector("#careWantCity").value || "").trim();
+      if(!email){ mount.querySelector("#careWantEmail").reportValidity(); return; }
+      storeCareLead("want", {email, city});
+      track("care_want_submit", {has_city: !!city});
+      const subject = encodeURIComponent("The Verdict — I want this exchange [verdict-want]");
+      const body = encodeURIComponent(
+        `I went through The Verdict and chose the exchange.\nPlease enroll me in the 7-day follow-up (John / church / speak).\n\nEmail: ${email}\nCity: ${city || "(not given)"}\n`
+      );
+      const note = mount.querySelector("#careWantNote");
+      note.hidden = false;
+      note.innerHTML = `Saved on this device.
+        <a href="mailto:${CONFIG.contactEmail}?subject=${subject}&body=${body}">Click to send your request</a>
+        so we receive it — then open
+        <a href="${CONFIG.careWelcome}">next steps</a>.`;
+    });
+  }
+  const ask = mount.querySelector("#careAskForm");
+  if(ask){
+    ask.addEventListener("submit", e => {
+      if(CONFIG.esp.questionsFormAction) return;
+      e.preventDefault();
+      const email = (mount.querySelector("#careAskEmail").value || "").trim().toLowerCase();
+      const q = (mount.querySelector("#careAskBody").value || "").trim();
+      if(!email || !q){ ask.reportValidity(); return; }
+      storeCareLead("questions", {email, question: q.slice(0, 2000)});
+      track("care_questions_submit");
+      const subject = encodeURIComponent("The Verdict — a question [verdict-questions]");
+      const body = encodeURIComponent(`From: ${email}\n\nQuestion:\n${q}\n`);
+      const note = mount.querySelector("#careAskNote");
+      note.hidden = false;
+      note.innerHTML = `Ready to send.
+        <a href="mailto:${CONFIG.contactEmail}?subject=${subject}&body=${body}">Open your mail app</a>
+        — a person will reply unhurriedly. Auto-ack copy is ready in the Care sequences draft when ESP goes live.`;
+    });
+  }
+}
+
+/* ================================================================
+   THE EXHIBITS — data-driven gallery
+   Sources: Entry 2.1 (Snowflake), Entry 2.4 (Triple Point),
+   Entry 2.6 (Visible Light / Seven Feasts)
+   ================================================================ */
+const EXHIBITS = {
+  snowflake: {
+    order:"Exhibit one · Crystallography",
+    title:"The snowflake bears a signature",
+    hook:"Why every snowflake that has ever fallen has had six arms — never five, never seven.",
+    alt:"A six-armed snowflake. In correspondence mode, the six arms are highlighted as three opposite pairs around a golden center.",
+    toggleOff:"Show the correspondence", toggleOn:"Show the crystal alone",
+    intro:`Every snowflake is hexagonal — six arms radiating from one center. This is
+      not convention or chance. It is physical necessity, and the chain of necessity
+      is short enough to hold in your hand.`,
+    mechTitle:"The mechanism — three steps",
+    mechanism:[
+      `<strong>The bond angle.</strong> A water molecule bonds its two hydrogen atoms
+       to one oxygen atom at approximately 104.45° — a fixed physical constant, forced
+       by the repulsion of the oxygen atom’s electron pairs.`,
+      `<strong>The tetrahedral lattice.</strong> When water freezes, each molecule
+       hydrogen-bonds with up to four neighbors arranged at the corners of a
+       tetrahedron — a direct consequence of that bond angle.`,
+      `<strong>The hexagonal crystal.</strong> Tiled through the solid, the tetrahedral
+       arrangement produces a hexagonal lattice. Ice can grow no other way. Every
+       snowflake that has ever fallen has been six-armed.`],
+    afterMech:`<p class="dim" style="color:var(--frost-dim)">No snowflake has ever had
+      five arms or seven. The architecture was fixed into the chemistry of water
+      before the first winter.</p>`,
+    correspondence:`
+      <p>Now set the crystal beside a structure God dictated in detail: the lampstand
+        of the sanctuary — <em>six branches out of its sides</em>, three to a side,
+        rising from <em>one central shaft</em> that is not a seventh branch but the
+        source and axis of the six.</p>
+      <blockquote class="ex-quote">“You shall make a lampstand of pure gold… six
+        branches shall come out of its sides, three branches of the lampstand out of
+        one side and three branches out of the other.”
+        <footer>Exodus 25:31–32</footer></blockquote>
+      <p>Isaiah saw the same architecture in the Spirit who would rest on the Messiah —
+        one Spirit named at the center, six named designations proceeding: wisdom and
+        understanding, counsel and might, knowledge and the fear of the LORD.</p>
+      <p>The snowflake does not merely <em>resemble</em> that lampstand. It replicates
+        the numeric and structural architecture exactly: six identical members, one
+        center, the center as source and axis of all six — reproduced trillions of
+        times each winter, in every cloud, over the whole earth.</p>`,
+    precision:`
+      <p>Honesty about the limits of a claim is part of the claim. The snowflake’s six
+        arms are radially symmetric; its opposite arms also form three natural pairs,
+        echoing the lampstand’s outer, middle, and inner branch pairs. But in the
+        crystal, that pairing is a mathematical consequence of the radial geometry —
+        not an independently encoded feature. In the lampstand and in Isaiah’s text,
+        the pairing <em>is</em> independently specified.</p>
+      <p>So the claim is measured: the snowflake carries the six-from-one architecture
+        at the level of physical necessity, with the pairing present but derived. One
+        Maker’s signature, read at two different altitudes. We state it that way
+        because the pattern doesn’t need exaggerating — and because a witness under
+        oath doesn’t round up.</p>`,
+    doxology:`The most common substance on earth cannot freeze without confessing its
+      Maker’s architecture.`,
+    next:"triplepoint",
+    draw:(ctx,w,h,overlay)=>{
+      drawFlake(ctx, w/2, h/2, Math.min(w,h)*.44, -Math.PI/2, {overlay});
+      if(overlay) canvasCaption(ctx,w,h,"THE CENTER — SOURCE AND AXIS OF THE SIX");
+    }
+  },
+
+  triplepoint: {
+    order:"Exhibit two · Thermodynamics",
+    title:"One coordinate where water is three at once",
+    hook:"The Sunday-school water analogy is broken. The physics itself repairs it.",
+    alt:"The phase diagram of water: three boundary lines between solid, liquid, and vapor meeting at a single glowing point. In correspondence mode the triple point is highlighted in gold.",
+    toggleOff:"Show the coordinate", toggleOn:"Show the diagram alone",
+    intro:`You may have heard the old analogy: water is like the Trinity because it
+      can be ice, or liquid, or steam. That analogy is broken — one substance taking
+      <em>turns</em> in three forms is precisely what the ancient church rejected as
+      heresy. But the phase diagram of water holds a correction the analogy never
+      reaches, at exactly one coordinate.`,
+    mechTitle:"The mechanism — three steps",
+    mechanism:[
+      `<strong>The map.</strong> Every pure substance can be drawn as a phase diagram —
+       temperature across, pressure up, divided by boundary lines into three regions:
+       solid, liquid, vapor. On a boundary line, two states coexist in equilibrium.`,
+      `<strong>The meeting.</strong> Water’s three boundary lines — melting,
+       vaporization, sublimation — converge at a single coordinate: 273.16&nbsp;K and
+       611.657 pascals. Not a region. A dimensionless point.`,
+      `<strong>The coexistence.</strong> At that point — and only there — ice, liquid
+       water, and vapor exist <em>simultaneously</em>, in stable equilibrium. Not one
+       converting into the next. All three at once, each fully water, none more water
+       than the others.`],
+    afterMech:`<p class="dim" style="color:var(--frost-dim)">Move a fraction of a degree
+      and the point dissolves. And this exact coordinate is no curiosity: until 2019
+      the kelvin — the unit beneath every temperature measurement in science — was
+      defined as 1/273.16 of this point’s temperature. The universe’s thermal
+      arithmetic has one fixed address.</p>`,
+    correspondence:`
+      <p>The familiar analogy — ice, <em>then</em> liquid, <em>then</em> steam — maps
+        onto a third-century error called modalism: one God appearing in three
+        successive masks, first Father, then Son, then Spirit, never all three at
+        once. The early church councils rejected it, insisting on what Scripture
+        shows: three Persons <em>simultaneously</em> present and genuinely distinct,
+        one God, one divine substance.</p>
+      <p>Now look at the triple point. Simultaneous, not sequential. Distinguishable —
+        ice is not liquid, liquid is not vapor — but not separable: remove one phase
+        and the triple-point equilibrium ceases for the others. And through all three,
+        one invariant substance. There is no ice-substance and steam-substance; there
+        is only water.</p>
+      <blockquote class="ex-quote">“Hear, O Israel: the LORD our God, the LORD is
+        one.”<footer>Deuteronomy 6:4</footer></blockquote>
+      <p>The Hebrew word there is <em>echad</em> — a unified oneness, the kind used
+        when two become “one flesh” — not the word for a bare, solitary unit. And at
+        the Jordan, the oneness showed its life: the Son standing in the water, the
+        Spirit descending as a dove, the Father speaking from heaven — all three
+        present at once, distinctly, in one event. The medium of that disclosure was
+        water.</p>
+      <p>The old analogy fails exactly where it is physically imprecise, and is
+        corrected exactly where the physics is most precise. The correction was
+        written into the phase diagram before the error was ever invented.</p>`,
+    precision:`
+      <p>We are not claiming that water <em>is</em> the Trinity, or that a phase
+        diagram proves a doctrine. No analogy carries that weight, and the triune God
+        is not deduced from thermodynamics. The claim is structural and narrower: the
+        specific architecture the councils articulated — simultaneity, genuine
+        distinction, one invariant substance, mutual interdependence — is physically
+        instantiated in water at exactly one coordinate, with laboratory precision.</p>
+      <p>Everything physical stated here is textbook thermodynamics: the phase
+        boundaries, the coordinate values, the equilibrium, the kelvin’s former
+        definition. The correspondence is what we invite you to weigh — and it should
+        be weighed against the physics as stated, not more.</p>`,
+    doxology:`Every body of water on earth carries, at one exact coordinate, the
+      confession the councils took three centuries to write.`,
+    next:"spectrum",
+    draw:drawPhaseDiagram
+  },
+
+  spectrum: {
+    order:"Exhibit three · Optics",
+    title:"White light was seven colors all along",
+    hook:"The prism adds nothing. It reveals what sunlight carried the whole time — and Israel kept seven feasts.",
+    alt:"A beam of white light entering a prism and opening into seven colored bands. In correspondence mode each band is labeled with one of the seven feasts of Israel.",
+    toggleOff:"Show the correspondence", toggleOn:"Show the light alone",
+    intro:`Pass sunlight through a prism and it opens into bands of color. The prism
+      adds nothing and takes nothing away. The colors were already there — held
+      together, undifferentiated, as white. Separation does not create them; it
+      reveals them.`,
+    mechTitle:"The mechanism — three steps",
+    mechanism:[
+      `<strong>The fullness.</strong> White light contains every visible wavelength
+       simultaneously. To the naked eye it is one undivided brightness — the whole
+       spectrum present, none of it yet displayed.`,
+      `<strong>The dispersion.</strong> A refracting medium bends each wavelength at a
+       slightly different angle, fanning the one beam into its constituent bands, red
+       through violet.`,
+      `<strong>The character of each band.</strong> Each band carries its own physical
+       signature: red reaches farthest through atmosphere; the eye’s sensitivity peaks
+       near yellow; green is the wavelength photosynthesis lives on; the sky is blue
+       because the atmosphere scatters that band toward you; violet borders the
+       invisible, where photon energy climbs past what the eye can receive.`],
+    afterMech:``,
+    correspondence:`
+      <p>Fifteen centuries before Christ, Israel was commanded to keep seven appointed
+        feasts in a fixed annual sequence — and the New Testament states outright what
+        each one anticipated: Passover, the Lamb sacrificed; Unleavened Bread, the
+        body sealed without corruption; Firstfruits, the resurrection; Pentecost, the
+        Spirit poured into the heart; Trumpets, the announcing blast; Atonement, the
+        innermost covering; Tabernacles, God dwelling with man.</p>
+      <blockquote class="ex-quote">“These are a shadow of the things to come, but the
+        substance belongs to Christ.”<footer>Colossians 2:17</footer></blockquote>
+      <p>Set the two sequences side by side and the logic aligns position by
+        position, not merely in count. Red — the band that carries farthest, the color
+        of blood as a signal — stands where Passover stands. Yellow — where the eye’s
+        sensitivity peaks, sight at its fullest — stands where the resurrection
+        stands. Green — the band life itself feeds on — stands at Pentecost, the
+        Spirit indwelling. Blue — the band the sky declares upward — at Trumpets.
+        Indigo — the deepest, most interior visible hue — at Atonement. And violet, at
+        the edge of what the eye can receive, stands at Tabernacles — beyond which is
+        what eye has not seen.</p>
+      <p>One light, differentiated but never divided. One redemption, unfolded in
+        seven appointed acts. The spectrum was authored at creation; the body formed
+        in Eden; the feasts commanded at Sinai — none derived from the others, all
+        carrying one sequence.</p>`,
+    precision:`
+      <p><strong>“Isn’t ‘seven colors’ just Newton’s convention?”</strong> A fair
+        challenge, and it deserves a straight answer. Physically the spectrum is
+        continuous, and the count of named bands has often been treated as cultural.
+        Two things, however, are not in dispute: white light genuinely contains all
+        its wavelengths at once, revealed rather than created by the prism; and the
+        seven feasts, their sequence, and their stated fulfillments are textual
+        fact, fixed millennia ago.</p>
+      <p>On the seven-ness of perception itself: recent work on the mathematical
+        geometry of human color vision indicates the banding is grounded in the
+        physics of how eyes process light, not in convention alone. We hold that
+        finding at the strength the evidence carries — no more. And note what the
+        correspondence actually rests on: the <em>logic at each position</em> — reach,
+        peak, life, sky, depth, edge — which you can weigh for yourself however you
+        count the bands.</p>`,
+    doxology:`Every rainbow is the whole plan of redemption, hung where no one can
+      reach it and everyone can see it.`,
+    next:"harmonics",
+    draw:drawSpectrum
+  },
+
+  harmonics: {
+    order:"Exhibit four · Acoustics",
+    title:"Every sound is a seven-voice chord",
+    hook:"Pluck one string and you have sounded seven notes at once. The vibrating body has no choice.",
+    alt:"Seven standing waves stacked above one another, from the fundamental to the seventh harmonic. In correspondence mode the fundamental is gold and each harmonic is labeled with its interval.",
+    toggleOff:"Show the seven voices", toggleOn:"Show the string alone",
+    intro:`Pluck a string, strike a bell, sing a note — and you have not produced one
+      frequency. You have produced a chord. Every vibrating body sounds its
+      fundamental <em>and</em> every whole-number multiple of it, simultaneously,
+      by physical necessity. The body has no choice in the matter.`,
+    mechTitle:"The mechanism — three steps",
+    mechanism:[
+      `<strong>The simultaneous emission.</strong> A body vibrating at frequency
+       <em>f</em> also vibrates at 2f, 3f, 4f, 5f, 6f, 7f and beyond — all at once,
+       all from one act of vibration. This is the natural harmonic series, and it is
+       a property of all vibrating matter, not of musical instruments.`,
+      `<strong>The voices.</strong> The multiples are not noise. They are the most
+       consonant intervals in music: the octave (2f), the perfect fifth (3f), the
+       octave again (4f), the major third (5f), the fifth again (6f), and the
+       harmonic seventh (7f). Music did not invent these. It found them.`,
+      `<strong>The boundary.</strong> Why stop counting at seven? Not by choice.
+       Tuning theory independently classifies harmonics by the primes in their
+       ratios, and the first seven exhaust the primes 2, 3, 5, and 7 — the
+       “7-limit,” the recognized primary consonant region. The eighth harmonic
+       introduces nothing new: it is a pure octave restatement, the first note of
+       the next cycle.`],
+    afterMech:``,
+    correspondence:`
+      <p>Isaiah names the Spirit who would rest on the Messiah as one Spirit at the
+        center with six named expressions — the same six-from-one architecture the
+        snowflake freezes into water. The harmonic series sounds it: one fundamental,
+        and six voices above it that are not added to the sound but were always
+        inside it, each a whole-number multiple of the one source.</p>
+      <blockquote class="ex-quote">“Day to day pours out speech, and night to night
+        reveals knowledge. There is no speech, nor are there words, whose voice is
+        not heard.”<footer>Psalm 19:2–3</footer></blockquote>
+      <p>Notice what the series requires: every harmonic exists only as a multiple
+        of the fundamental. Silence the fundamental and the series has no source;
+        the voices are not seven independent tones that happen to agree — they are
+        one vibration, differentiated. Scripture speaks of the Son this way: all
+        things were made through Him, and in Him all things hold together. The
+        fundamental does not compete with its harmonics. It carries them.</p>
+      <p>And this chord is not occasional. Every voice, every birdsong, every door
+        that creaks, every wave that breaks has sounded it. Creation has never once
+        made a sound that was not built on this structure.</p>`,
+    precision:`
+      <p>The series does not stop at seven — it continues to theoretical infinity,
+        and we say so plainly. The claim is not “there are only seven harmonics.”
+        The claim is that the first seven form a natural unit, and that boundary is
+        drawn by mathematics, not by us: the 7-limit is a standard classification in
+        tuning theory, defined with no theological motive. The eighth harmonic is a
+        pure power of two — a restatement, not a new voice — and the eleventh is the
+        first to exit the prime family entirely.</p>
+      <p>We also distinguish the strength of the two halves: the physics — the
+        simultaneous emission and the 7-limit boundary — is established acoustics.
+        The correspondence to the sevenfold Spirit is an invitation to weigh, and
+        should be weighed against the structure as stated, not more.</p>`,
+    doxology:`Creation has never made a sound that was not already a chord — one
+      source, seven voices, sounding since the first thing vibrated.`,
+    next:"fire",
+    draw:drawHarmonics
+  },
+
+  fire: {
+    order:"Exhibit five · Combustion",
+    title:"Fire behaves like its Maker",
+    hook:"Seven mechanistically distinct properties — and the one property fire cannot lose is that it rises.",
+    alt:"A stylized flame in warm gold. In correspondence mode, the seven physical properties of fire are listed beside it, each paired with one of the seven designations of the Spirit.",
+    toggleOff:"Show the seven properties", toggleOn:"Show the flame alone",
+    intro:`God introduced Himself in fire more than in any other physical medium —
+      a bush that burned, a pillar by night, a mountain in flames, tongues of fire
+      at Pentecost. Scripture then says something stronger than a metaphor:
+      <em>“our God is a consuming fire.”</em> Look closely at what fire physically
+      is, and the choice of medium stops looking incidental.`,
+    mechTitle:"The mechanism — seven properties",
+    mechanism:[
+      `<strong>It consumes and it gives light.</strong> Combustion releases heat that
+       destroys what cannot survive it, and emits photons as excited electrons fall —
+       where fire burns, darkness cannot remain. Two discrete mechanisms: judgment
+       and revelation.`,
+      `<strong>It refines, spreads, warms, and transforms.</strong> Fire separates
+       gold from dross rather than destroying indiscriminately; it propagates to
+       adjacent material without diminishing its source; the same flame that
+       destroys also shelters and warms; and what it touches is permanently,
+       irreversibly changed.`,
+      `<strong>And it rises — always.</strong> Hot gases are less dense than the air
+       around them, so every flame moves upward. This is the one property fire
+       cannot lose: a flame that no longer rises is a flame that has gone out.`],
+    afterMech:``,
+    correspondence:`
+      <p>Isaiah 11:2 names the Spirit sevenfold: the Spirit of the LORD at the
+        center, with wisdom and understanding, counsel and might, knowledge and the
+        fear of the LORD around Him. And John saw the throne room:</p>
+      <blockquote class="ex-quote">“Seven lamps of fire were burning before the
+        throne, which are the seven Spirits of God.”<footer>Revelation 4:5</footer></blockquote>
+      <p>Set the seven properties beside the seven designations and the pairing runs
+        by mechanism, not just by count. Consuming heat — the property that judges
+        everything that approaches — stands with the fear of the LORD, the
+        threshold. Light stands with knowledge, which reveals what darkness
+        concealed. Refining — fire’s power to separate rather than merely destroy —
+        stands with wisdom. Spreading without diminishing stands with
+        understanding; sheltering warmth with counsel; irreversible transformation
+        with might.</p>
+      <p>And at the center: fire rises. It cannot do otherwise and remain fire.
+        The Spirit of the LORD is the center shaft of the lampstand — the axis the
+        other six stand around — and everything He animates moves toward the
+        throne. The one unlosable property of fire is the one unlosable direction
+        of the Spirit.</p>`,
+    precision:`
+      <p>A list of exactly seven properties invites a fair suspicion: was the count
+        discovered, or manufactured to hit a target? So we state the basis. The
+        seven are mechanistically discrete — thermal release, photon emission,
+        selective separation, convective rise, propagation, radiant warmth, and
+        irreversible chemical change are different physical phenomena, not one
+        phenomenon described seven ways.</p>
+      <p>But we also concede what this is not: a taxonomy of properties is a way of
+        carving nature, not a law of nature like a bond angle or a thermodynamic
+        coordinate. This exhibit therefore rests its weight on the
+        mechanism-by-mechanism pairing — judgment with fear, revelation with
+        knowledge, separation with wisdom, ascent with the central Spirit — and you
+        should weigh it position by position, exactly there.</p>`,
+    doxology:`Every fire ever kindled has preached with its shape: it judges, it
+      reveals, it refines — and it cannot stop rising.`,
+    next:"cymatics",
+    draw:drawFlame
+  },
+
+  cymatics: {
+    order:"Exhibit six · Wave mechanics",
+    title:"Sound builds its shape out of stillness",
+    hook:"Vibrate a plate and scattered sand assembles into geometry — gathering at the points where the sound stands still.",
+    alt:"A Chladni figure: sand-like dots forming a symmetric geometric pattern on a square plate. In correspondence mode a higher frequency produces a more intricate pattern.",
+    toggleOff:"Raise the frequency", toggleOn:"Lower the frequency",
+    intro:`In 1787 Ernst Chladni bowed the edge of a sand-strewn metal plate and
+      watched the sand organize itself into precise geometric figures. The
+      experiment is repeatable in any classroom: a given frequency, a given plate,
+      the same pattern — every time, without exception.`,
+    mechTitle:"The mechanism — three steps",
+    mechanism:[
+      `<strong>The standing wave.</strong> A vibrating surface forms standing waves:
+       regions of maximum motion, and lines of zero motion called nodes. The sand is
+       thrown off the moving regions and settles along the still ones. The visible
+       figure is a map of the silence inside the sound.`,
+      `<strong>The direction.</strong> Raise the frequency and the pattern does not
+       merely change — it grows more intricate, more symmetric, more ordered. The
+       relationship is lawful and runs one way: more of the voice, more ordered
+       beauty.`,
+      `<strong>The transition.</strong> Between frequencies the old pattern is not
+       gently reshaped. It dissolves into apparent chaos — and then the new figure
+       assembles suddenly, complete, the moment the new frequency establishes
+       itself. Order, formlessness, new order. The sequence is invariant.`],
+    afterMech:``,
+    correspondence:`
+      <p>Genesis opens with matter without form, and a voice. Then form — ordered,
+        differentiated, increasingly complex — assembling under speech. Cymatics is
+        not an illustration someone invented for that account; it is the physics of
+        what a voice does to a formless medium, demonstrable on a steel plate.</p>
+      <blockquote class="ex-quote">“Therefore, if anyone is in Christ, he is a new
+        creation. The old has passed away; behold, the new has come. All this is
+        from God.”<footer>2 Corinthians 5:17–18</footer></blockquote>
+      <p>Read Paul’s sequence against the plate’s. The old pattern — decisively
+        gone, not renovated. A moment of formlessness in between. A new pattern
+        that assembles, not gradually out of the old, but suddenly and whole, from
+        the source frequency — <em>all this is from God</em>, not from the sand.
+        The sand contributes nothing to the design; it only shows where the voice
+        is still.</p>
+      <p>And that last detail may be the deepest thing on the plate: the figure
+        forms at the nodes — the points of stillness inside the vibration. The
+        beauty is a map of where the sound rests.</p>`,
+    precision:`
+      <p>Cymatics attracts extravagant claims — healing frequencies, sound as
+        therapy, vibration as cosmic secret. We make none of them. Everything
+        physical stated here is classroom-demonstrable: standing waves, nodes,
+        pattern reproducibility, and the frequency–complexity direction.</p>
+      <p>We are also candid about the correspondence’s nature: cymatics does not
+        encode one specific doctrine the way a coordinate or a count might. What it
+        shows is a <em>mechanism</em> — how a voice imposes form on a medium — and
+        the claim is that this mechanism matches, term by term, the sequence
+        Scripture uses for creation and new creation. Weigh it as a mechanism
+        match, and weigh Paul’s own words in the process.</p>`,
+    doxology:`The voice does not decorate the sand. It gives the sand a shape it
+      could never give itself — built entirely at the points where the voice is
+      still.`,
+    next:"conscience",
+    draw:drawChladni
+  },
+
+  conscience: {
+    order:"Exhibit seven · The inner court",
+    title:"The witness you cannot dismiss",
+    hook:"Every culture in history has carried it. It convenes without permission, and it presupposes a Judge.",
+    alt:"Three glowing points labeled accusation, defense, and verdict, joined in a cycle. In correspondence mode a golden point appears at the center: the standard both sides presuppose.",
+    toggleOff:"Show what the court presupposes", toggleOn:"Show the court alone",
+    intro:`Every other exhibit in this gallery is outside you. This one is not.
+      Every known human society, at every period on record, exhibits the same
+      interior structure: moral obligation, guilt, accountability — present with
+      or without any scripture, any temple, any teaching. And it is not a vague
+      feeling. It has moving parts.`,
+    mechTitle:"The mechanism — three observations",
+    mechanism:[
+      `<strong>The structure is forensic.</strong> The conscience does not merely
+       generate moral discomfort. It stages a proceeding: a charge is brought, a
+       defense is mounted, and a verdict settles between them. Moral psychology
+       describes exactly this three-part event.`,
+      `<strong>Guilt needs no audience.</strong> Shame requires an observer; guilt
+       does not. The weight persists when no one saw, no one will find out, and no
+       punishment is possible. Whatever the inner court answers to, it is not
+       social exposure.`,
+      `<strong>No one rests at guilt.</strong> Across cultures and centuries, the
+       arc runs one direction: obligation, transgression, guilt — and then the
+       search for cleansing, payment, atonement. No society in the record treats
+       guilt as a place to stay. The court demands resolution.`],
+    afterMech:``,
+    correspondence:`
+      <p>Two thousand years before moral psychology described the tribunal, Paul
+        named it — in the technical vocabulary of the Greek courtroom:</p>
+      <blockquote class="ex-quote">“They show that the work of the law is written on
+        their hearts, while their conscience also bears witness, and their
+        conflicting thoughts accuse or even excuse them.”
+        <footer>Romans 2:15</footer></blockquote>
+      <p><em>Katēgoreō</em> — to prosecute, to bring formal charges.
+        <em>Apologeomai</em> — to speak in one’s own defense before a court. These
+        are legal terms of art, not emotional metaphors. Paul is not saying people
+        feel bad; he is naming the structure of a proceeding — the same structure
+        psychology later confirmed by independent investigation.</p>
+      <p>And notice what any court presupposes. Prosecution and defense only make
+        sense measured against a standard, before a judge. The inner court runs on
+        both — an invisible standard neither side invented, an unseen Judge both
+        sides address. You have been arguing before Him your whole life.</p>`,
+    precision:`
+      <p>The data here are not in dispute: the cross-cultural universality of
+        conscience, the three-part forensic structure, and guilt’s independence
+        from observation are established findings of moral psychology and
+        comparative anthropology. What is disputed is the interpretation —
+        installed witness, or evolutionary by-product?</p>
+      <p>We put the question rather than beg it: a by-product account must explain
+        why the mechanism is <em>forensic</em> — why it stages a trial rather than
+        merely producing discomfort — and why its verdict binds you when no
+        community is watching and no consequence is possible. Scripture’s account
+        predicts exactly the structure we find, and named it first. Weigh the two
+        explanations against the mechanism itself.</p>`,
+    doxology:`The lamp was lit before you knew you carried it — searching, as it was
+      made to, all the innermost parts.`,
+    next:"snowflake",
+    draw:drawTribunal
+  }
+};
+const EXHIBIT_ORDER = ["snowflake","triplepoint","spectrum","harmonics","fire","cymatics","conscience"];
+
+function canvasCaption(ctx,w,h,text){
+  ctx.save();
+  ctx.font = "10px ui-monospace,monospace";
+  ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--gold").trim();
+  ctx.textAlign = "center";
+  ctx.fillText(text, w/2, h-6);
+  ctx.restore();
+}
+
+/* --- Exhibit two: the phase diagram of water --- */
+function drawPhaseDiagram(ctx,w,h,overlay){
+  const css = getComputedStyle(document.documentElement);
+  const ice  = css.getPropertyValue("--ice").trim();
+  const gold = css.getPropertyValue("--gold").trim();
+  const dim  = css.getPropertyValue("--frost-faint").trim();
+  const pad = 34;
+  const TP = {x:w*.40, y:h*.58};            /* the triple point */
+  const CP = {x:w*.80, y:h*.20};            /* the critical point */
+
+  /* axes */
+  ctx.strokeStyle = dim; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad,pad); ctx.lineTo(pad,h-pad); ctx.lineTo(w-pad,h-pad); ctx.stroke();
+  ctx.fillStyle = dim; ctx.font = "9px ui-monospace,monospace";
+  ctx.textAlign = "left";
+  ctx.fillText("TEMPERATURE →", pad+4, h-pad+16);
+  ctx.save(); ctx.translate(pad-10,h-pad-4); ctx.rotate(-Math.PI/2);
+  ctx.fillText("PRESSURE →", 0, 0); ctx.restore();
+
+  /* phase boundaries */
+  ctx.strokeStyle = ice; ctx.lineWidth = 1.6; ctx.lineCap = "round";
+  ctx.shadowColor = ice; ctx.shadowBlur = overlay ? 4 : 10;
+  /* sublimation: lower-left up to TP */
+  ctx.beginPath(); ctx.moveTo(pad+8, h-pad-8);
+  ctx.quadraticCurveTo(w*.30, h*.82, TP.x, TP.y); ctx.stroke();
+  /* melting: TP steeply upward (water's near-vertical, slightly leaning line) */
+  ctx.beginPath(); ctx.moveTo(TP.x, TP.y);
+  ctx.quadraticCurveTo(w*.375, h*.34, w*.36, pad+6); ctx.stroke();
+  /* vaporization: TP out to the critical point */
+  ctx.beginPath(); ctx.moveTo(TP.x, TP.y);
+  ctx.quadraticCurveTo(w*.60, h*.52, CP.x, CP.y); ctx.stroke();
+  ctx.shadowBlur = 0;
+
+  /* region labels */
+  ctx.fillStyle = overlay ? dim : ice; ctx.font = "10px ui-monospace,monospace";
+  ctx.textAlign = "center";
+  ctx.fillText("SOLID",  w*.22, h*.34);
+  ctx.fillText("LIQUID", w*.55, h*.26);
+  ctx.fillText("VAPOR",  w*.62, h*.78);
+
+  /* critical point, named only in overlay */
+  if(overlay){
+    ctx.beginPath(); ctx.arc(CP.x, CP.y, 3, 0, Math.PI*2);
+    ctx.strokeStyle = dim; ctx.stroke();
+    ctx.fillStyle = dim; ctx.textAlign = "right";
+    ctx.fillText("CRITICAL POINT — DISTINCTION DISSOLVES", CP.x-8, CP.y-6);
+  }
+
+  /* the triple point itself */
+  const c = overlay ? gold : ice;
+  ctx.beginPath(); ctx.arc(TP.x, TP.y, overlay ? 6 : 4.5, 0, Math.PI*2);
+  ctx.fillStyle = c; ctx.shadowColor = c; ctx.shadowBlur = overlay ? 26 : 14; ctx.fill();
+  ctx.shadowBlur = 0;
+  if(overlay){
+    ctx.strokeStyle = gold; ctx.globalAlpha = .45;
+    ctx.beginPath(); ctx.arc(TP.x, TP.y, 13, 0, Math.PI*2); ctx.stroke();
+    ctx.globalAlpha = 1;
+    canvasCaption(ctx,w,h,"273.16 K · 611.657 Pa — ALL THREE AT ONCE");
+  }
+}
+
+/* --- Exhibit three: white light through the prism --- */
+const BANDS = [
+  {c:"#D96C5A", name:"RED",    feast:"PASSOVER"},
+  {c:"#DB9052", name:"ORANGE", feast:"UNLEAVENED BREAD"},
+  {c:"#D9C36A", name:"YELLOW", feast:"FIRSTFRUITS"},
+  {c:"#7FBF8A", name:"GREEN",  feast:"PENTECOST"},
+  {c:"#6FA6D9", name:"BLUE",   feast:"TRUMPETS"},
+  {c:"#5F6BB0", name:"INDIGO", feast:"ATONEMENT"},
+  {c:"#9B6FC9", name:"VIOLET", feast:"TABERNACLES"},
+];
+function drawSpectrum(ctx,w,h,overlay){
+  const css = getComputedStyle(document.documentElement);
+  const frost = css.getPropertyValue("--frost").trim();
+  const dim = css.getPropertyValue("--frost-faint").trim();
+  const apex = {x:w*.30, y:h*.24};
+  const bl = {x:w*.18, y:h*.62}, br = {x:w*.42, y:h*.62};
+  const exit = {x:w*.36, y:h*.47};          /* where the fan leaves the prism */
+
+  /* incoming white beam */
+  ctx.strokeStyle = frost; ctx.lineWidth = 2.4; ctx.lineCap = "round";
+  ctx.shadowColor = frost; ctx.shadowBlur = 12;
+  ctx.beginPath(); ctx.moveTo(w*.02, h*.36); ctx.lineTo(w*.255, h*.435); ctx.stroke();
+  ctx.shadowBlur = 0;
+
+  /* the prism */
+  ctx.strokeStyle = overlay ? dim : frost; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.moveTo(apex.x,apex.y); ctx.lineTo(br.x,br.y);
+  ctx.lineTo(bl.x,bl.y); ctx.closePath(); ctx.stroke();
+
+  /* the seven bands */
+  const top = h*.16, bot = h*.86;
+  BANDS.forEach((b,i) => {
+    const y = top + (bot-top)*(i/(BANDS.length-1));
+    ctx.strokeStyle = b.c; ctx.lineWidth = 4.5; ctx.lineCap = "round";
+    ctx.shadowColor = b.c; ctx.shadowBlur = overlay ? 6 : 10;
+    ctx.beginPath(); ctx.moveTo(exit.x, exit.y);
+    ctx.lineTo(w - (overlay ? w*.30 : w*.05), y); ctx.stroke();
+    ctx.shadowBlur = 0;
+    if(overlay){
+      ctx.font = "8.5px ui-monospace,monospace"; ctx.textAlign = "left";
+      ctx.fillStyle = b.c;
+      ctx.fillText(b.name, w - w*.27, y - 2);
+      ctx.fillStyle = getComputedStyle(document.documentElement)
+        .getPropertyValue("--frost-dim").trim();
+      ctx.fillText(b.feast, w - w*.27, y + 9);
+    }
+  });
+  if(overlay) canvasCaption(ctx,w,h,"SEVEN BANDS · SEVEN FEASTS · ONE LIGHT");
+}
+
+/* --- Exhibit four: the harmonic series --- */
+const HARMONICS = [
+  {label:"1f — THE FUNDAMENTAL"},
+  {label:"2f — OCTAVE"},
+  {label:"3f — PERFECT FIFTH"},
+  {label:"4f — OCTAVE AGAIN"},
+  {label:"5f — MAJOR THIRD"},
+  {label:"6f — FIFTH AGAIN"},
+  {label:"7f — THE SEVENTH"},
+];
+function drawHarmonics(ctx,w,h,overlay){
+  const css = getComputedStyle(document.documentElement);
+  const ice = css.getPropertyValue("--ice").trim();
+  const gold = css.getPropertyValue("--gold").trim();
+  const dim = css.getPropertyValue("--frost-dim").trim();
+  const x0 = w*.08, x1 = overlay ? w*.56 : w*.92;
+  const top = h*.10, bot = h*.88;
+  HARMONICS.forEach((hm,i) => {
+    const n = i+1;
+    const yc = top + (bot-top)*(i+.5)/7;
+    const A = (bot-top)/7*.34;
+    const col = (n===1) ? (overlay ? gold : ice) : ice;
+    ctx.strokeStyle = col; ctx.lineWidth = n===1 ? 2 : 1.3;
+    ctx.shadowColor = col; ctx.shadowBlur = n===1 ? 12 : 7;
+    ctx.beginPath();
+    for(let t=0;t<=1;t+=.01){
+      const x = x0 + (x1-x0)*t;
+      const y = yc + A*Math.sin(n*Math.PI*t);
+      t ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
+    }
+    ctx.stroke(); ctx.shadowBlur = 0;
+    /* fixed endpoints — the nodes at the string's ends */
+    ctx.fillStyle = col;
+    ctx.beginPath(); ctx.arc(x0,yc,1.8,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x1,yc,1.8,0,Math.PI*2); ctx.fill();
+    if(overlay){
+      ctx.fillStyle = n===1 ? gold : dim;
+      ctx.font = "8.5px ui-monospace,monospace"; ctx.textAlign = "left";
+      ctx.fillText(hm.label, x1 + 12, yc + 3);
+    }
+  });
+  if(overlay) canvasCaption(ctx,w,h,"ONE VIBRATION — SEVEN VOICES AT ONCE");
+}
+
+/* --- Exhibit five: fire --- */
+const FIRE_PROPS = [
+  {p:"CONSUMES",   s:"FEAR OF THE LORD"},
+  {p:"GIVES LIGHT",s:"KNOWLEDGE"},
+  {p:"REFINES",    s:"WISDOM"},
+  {p:"RISES",      s:"SPIRIT OF THE LORD", axis:true},
+  {p:"SPREADS",    s:"UNDERSTANDING"},
+  {p:"WARMS",      s:"COUNSEL"},
+  {p:"TRANSFORMS", s:"MIGHT"},
+];
+function drawFlame(ctx,w,h,overlay){
+  const css = getComputedStyle(document.documentElement);
+  const gold = css.getPropertyValue("--gold").trim();
+  const dim = css.getPropertyValue("--frost-dim").trim();
+  const cx = overlay ? w*.24 : w*.5;
+  const baseY = h*.80, H = h*.52;
+  const layers = [
+    {wd:w*.15, ht:H,     c:"#B0564A", a:.85},
+    {wd:w*.10, ht:H*.74, c:gold,      a:.95},
+    {wd:w*.05, ht:H*.44, c:"#F2E3C0", a:1},
+  ];
+  for(const L of layers){
+    ctx.save();
+    ctx.globalAlpha = L.a;
+    ctx.fillStyle = L.c; ctx.shadowColor = L.c; ctx.shadowBlur = 22;
+    ctx.beginPath();
+    ctx.moveTo(cx, baseY);
+    ctx.quadraticCurveTo(cx - L.wd, baseY - L.ht*.30, cx, baseY - L.ht);
+    ctx.quadraticCurveTo(cx + L.wd, baseY - L.ht*.30, cx, baseY);
+    ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+  /* the rise — small ascending motes above the tip */
+  ctx.fillStyle = gold;
+  [[0,.10],[.02,.16],[-.025,.21]].forEach(([dx,dy],i) => {
+    ctx.globalAlpha = .55 - i*.15;
+    ctx.beginPath(); ctx.arc(cx + w*dx, baseY - H - h*dy, 1.6, 0, Math.PI*2); ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+  if(overlay){
+    const top = h*.16, bot = h*.80;
+    ctx.font = "8.5px ui-monospace,monospace"; ctx.textAlign = "left";
+    FIRE_PROPS.forEach((f,i) => {
+      const y = top + (bot-top)*(i+.5)/7;
+      ctx.fillStyle = f.axis ? gold : "#D9C36A";
+      ctx.fillText(f.p, w*.44, y);
+      ctx.fillStyle = f.axis ? gold : dim;
+      ctx.fillText("· " + f.s, w*.44, y + 11);
+    });
+    canvasCaption(ctx,w,h,"SEVEN LAMPS OF FIRE — REVELATION 4:5");
+  }
+}
+
+/* --- Exhibit six: the Chladni figure --- */
+function drawChladni(ctx,w,h,overlay){
+  const css = getComputedStyle(document.documentElement);
+  const ice = css.getPropertyValue("--ice").trim();
+  const dim = css.getPropertyValue("--frost-faint").trim();
+  const pad = w*.10, side = Math.min(w,h) - pad*2;
+  const ox = (w-side)/2, oy = (h-side)/2;
+  /* the plate */
+  ctx.strokeStyle = dim; ctx.lineWidth = 1;
+  ctx.strokeRect(ox,oy,side,side);
+  /* the figure: nodal lines of a square plate mode (m,n) */
+  const [m,n] = overlay ? [7,4] : [3,2];
+  const step = 2;
+  ctx.fillStyle = ice;
+  for(let px=step/2; px<side; px+=step){
+    for(let py=step/2; py<side; py+=step){
+      const x = px/side, y = py/side;
+      const v = Math.cos(n*Math.PI*x)*Math.cos(m*Math.PI*y)
+              + Math.cos(m*Math.PI*x)*Math.cos(n*Math.PI*y);
+      if(Math.abs(v) < .07){
+        ctx.globalAlpha = .35 + Math.random()*.55;   /* grains of sand */
+        ctx.fillRect(ox+px + (Math.random()-.5)*1.6,
+                     oy+py + (Math.random()-.5)*1.6, 1.1, 1.1);
+      }
+    }
+  }
+  ctx.globalAlpha = 1;
+  canvasCaption(ctx,w,h, overlay
+    ? "HIGHER FREQUENCY — GREATER ORDER"
+    : "SAND GATHERS WHERE THE SOUND IS STILL");
+}
+
+/* --- Exhibit seven: the tribunal --- */
+function drawTribunal(ctx,w,h,overlay){
+  const css = getComputedStyle(document.documentElement);
+  const ice = css.getPropertyValue("--ice").trim();
+  const gold = css.getPropertyValue("--gold").trim();
+  const dim = css.getPropertyValue("--frost-dim").trim();
+  const P = [
+    {x:w*.50, y:h*.20, name:"ACCUSATION", g:"κατηγορούντων", tx:0,  ty:-1},
+    {x:w*.80, y:h*.66, name:"DEFENSE",    g:"ἀπολογουμένων", tx:0,  ty:1},
+    {x:w*.20, y:h*.66, name:"VERDICT",    g:"the judgment",  tx:0,  ty:1},
+  ];
+  const C = {x:w*.50, y:h*.52};
+  /* the cycle — curved arrows accusation → defense → verdict → accusation */
+  ctx.strokeStyle = ice; ctx.lineWidth = 1.2; ctx.shadowColor = ice; ctx.shadowBlur = 6;
+  for(let i=0;i<3;i++){
+    const a = P[i], b = P[(i+1)%3];
+    const mx = (a.x+b.x)/2 + (C.x-(a.x+b.x)/2)*-.35;
+    const my = (a.y+b.y)/2 + (C.y-(a.y+b.y)/2)*-.35;
+    ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.quadraticCurveTo(mx,my,b.x,b.y); ctx.stroke();
+    /* arrowhead at the destination end */
+    const ang = Math.atan2(b.y-my, b.x-mx);
+    ctx.beginPath();
+    ctx.moveTo(b.x,b.y);
+    ctx.lineTo(b.x - 7*Math.cos(ang-.4), b.y - 7*Math.sin(ang-.4));
+    ctx.moveTo(b.x,b.y);
+    ctx.lineTo(b.x - 7*Math.cos(ang+.4), b.y - 7*Math.sin(ang+.4));
+    ctx.stroke();
+  }
+  ctx.shadowBlur = 0;
+  /* the three seats of the court */
+  ctx.font = "9px ui-monospace,monospace"; ctx.textAlign = "center";
+  P.forEach(p => {
+    ctx.beginPath(); ctx.arc(p.x,p.y,4.5,0,Math.PI*2);
+    ctx.fillStyle = ice; ctx.shadowColor = ice; ctx.shadowBlur = 14; ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = ice;
+    ctx.fillText(p.name, p.x, p.y + (p.ty>0 ? 22 : -26));
+    ctx.fillStyle = dim;
+    ctx.fillText(p.g, p.x, p.y + (p.ty>0 ? 34 : -14));
+  });
+  if(overlay){
+    /* what the whole proceeding presupposes */
+    ctx.setLineDash([2,4]); ctx.strokeStyle = gold; ctx.globalAlpha = .5;
+    P.forEach(p => { ctx.beginPath(); ctx.moveTo(C.x,C.y); ctx.lineTo(p.x,p.y); ctx.stroke(); });
+    ctx.setLineDash([]); ctx.globalAlpha = 1;
+    ctx.beginPath(); ctx.arc(C.x,C.y,5.5,0,Math.PI*2);
+    ctx.fillStyle = gold; ctx.shadowColor = gold; ctx.shadowBlur = 24; ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = gold; ctx.font = "9px ui-monospace,monospace";
+    ctx.fillText("THE STANDARD", C.x, C.y + 22);
+    canvasCaption(ctx,w,h,"BOTH SIDES ARGUE BEFORE AN UNSEEN JUDGE");
+  }
+}
+
+/* ---------------- routing ---------------- */
+const views = {
+  landing: document.getElementById("view-landing"),
+  verdict: document.getElementById("view-verdict"),
+  gallery: document.getElementById("view-gallery"),
+  exhibit: document.getElementById("view-exhibit"),
+};
+function screenIndex(){
+  const m = location.hash.match(/^#\/verdict\/(\d+)$/);
+  return m ? Math.min(parseInt(m[1],10), screens.length-1) : 0;
+}
+function go(n){
+  track("screen", {n, phase: phaseOf(n)});
+  location.hash = `#/verdict/${n}`;
+}
+
+let currentExhibit = null;
+let overlayOn = false;
+
+function renderGallery(){
+  document.getElementById("galleryCards").innerHTML = EXHIBIT_ORDER.map(slug => {
+    const ex = EXHIBITS[slug];
+    return `<a class="ex-card" href="#/sign/${slug}">
+      <span class="eyebrow">${ex.order}</span>
+      <h3>${ex.title}</h3>
+      <p>${ex.hook}</p></a>`;
+  }).join("");
+}
+
+function renderExhibit(slug){
+  const ex = EXHIBITS[slug];
+  currentExhibit = slug;
+  overlayOn = false;
+  const nxt = EXHIBITS[ex.next];
+  document.getElementById("exhibitMount").innerHTML = `
+    <p class="eyebrow">${ex.order}</p>
+    <h1 style="font-size:clamp(1.8rem,5vw,2.6rem)">${ex.title}</h1>
+    <p class="dim" style="margin-top:1rem;color:var(--frost-dim)">${ex.intro}</p>
+    <div class="sign-fig">
+      <canvas id="signCanvas" role="img" aria-label="${ex.alt}"></canvas>
+    </div>
+    <div class="sign-toggle">
+      <button class="btn btn-ghost" id="overlayBtn">${ex.toggleOff}</button>
+    </div>
+    <h2>${ex.mechTitle}</h2>
+    <div class="mechanism">${ex.mechanism.map(m => `<div><p>${m}</p></div>`).join("")}</div>
+    ${ex.afterMech}
+    <h2 style="margin-top:3rem">The correspondence</h2>
+    <div class="stack" style="margin-top:1rem">${ex.correspondence}</div>
+    <details>
+      <summary>A precision note — what we claim and what we don’t</summary>
+      <div class="d-body">${ex.precision}</div>
+    </details>
+    <p class="doxology">${ex.doxology}</p>
+    <div class="cta-row" style="justify-content:center;margin-top:2.5rem">
+      <a class="btn btn-ghost" href="#/sign/${ex.next}">Next: ${nxt.order.split("·")[0].trim()}</a>
+      <a class="btn btn-primary" href="#/verdict/0">Take the stand</a>
+    </div>`;
+  document.getElementById("overlayBtn").addEventListener("click", function(){
+    overlayOn = !overlayOn;
+    this.textContent = overlayOn ? EXHIBITS[currentExhibit].toggleOn
+                                 : EXHIBITS[currentExhibit].toggleOff;
+    drawExhibitCanvas();
+  });
+  drawExhibitCanvas();
+}
+
+function drawExhibitCanvas(){
+  const cv = document.getElementById("signCanvas");
+  if(!cv || !currentExhibit || !views.exhibit.classList.contains("active")) return;
+  const {ctx,w,h} = sizeCanvas(cv);
+  ctx.clearRect(0,0,w,h);
+  EXHIBITS[currentExhibit].draw(ctx,w,h,overlayOn);
+}
+addEventListener("resize", drawExhibitCanvas);
+
+function route(){
+  const h = location.hash || "#/";
+  let name = "landing", exhibitSlug = null;
+  const em = h.match(/^#\/sign\/(\w+)/);
+  if(h.startsWith("#/verdict")) name = "verdict";
+  else if(em && EXHIBITS[em[1]]){ name = "exhibit"; exhibitSlug = em[1]; }
+  else if(h.startsWith("#/sign")) name = "gallery";
+
+  Object.entries(views).forEach(([k,el]) => el.classList.toggle("active", k===name));
+
+  const inFlow = name === "verdict";
+  const idx = inFlow ? screenIndex() : 0;
+  const screen = screens[idx];
+
+  const graced = inFlow && !!screen.golden;
+  document.body.classList.toggle("graced", graced);
+  document.body.dataset.register = graced ? "grace" : "court";
+  document.documentElement.dataset.register = graced ? "grace" : "court";
+  document.getElementById("recordDrawer").classList.toggle("open",
+    inFlow && record.length > 0 && !screen.golden);
+
+  if(inFlow){
+    updateProgress(idx);
+    if(idx === 0) track("diagnostic_start");
+    if(idx === 12) track("gospel_reached", {verdict: lastVerdict, yes_counts: yesCount});
+    const mount = document.getElementById("screenMount");
+    mount.innerHTML = screen.render();
+    mount.querySelectorAll("[data-next]").forEach(b =>
+      b.addEventListener("click", () => go(idx+1)));
+    if(screen.wire) screen.wire(mount);
+    const head = mount.querySelector("h2");
+    if(head){ head.setAttribute("tabindex","-1"); head.focus({preventScroll:true}); }
+  }
+  if(name === "gallery") renderGallery();
+  if(name === "exhibit") renderExhibit(exhibitSlug);
+  scrollTo({top:0, behavior: reduceMotion ? "auto" : "smooth"});
+}
+addEventListener("hashchange", route);
+document.querySelectorAll("[data-go]").forEach(el =>
+  el.addEventListener("click", () => location.hash = el.dataset.go));
+
+/* ---------------- the share card ---------------- */
+function makeShareCard(){
+  const cv = document.createElement("canvas");
+  cv.width = 1080; cv.height = 1080;
+  const ctx = cv.getContext("2d");
+  ctx.fillStyle = "#0B1018"; ctx.fillRect(0,0,1080,1080);
+  drawFlake(ctx, 540, 430, 270, -Math.PI/2);
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#DDE7F3";
+  ctx.font = '62px "Palatino Linotype",Palatino,Georgia,serif';
+  ctx.fillText("I took the stand.", 540, 820);
+  ctx.font = "26px ui-monospace,Menlo,monospace";
+  ctx.fillStyle = "#8CC3E8";
+  ctx.fillText("T H E   V E R D I C T", 540, 900);
+  ctx.fillStyle = "#5C6B84";
+  ctx.font = "22px ui-monospace,Menlo,monospace";
+  ctx.fillText("You already know.", 540, 950);
+  return cv;
+}
+function shareCard(){
+  makeShareCard().toBlob(async blob => {
+    const file = new File([blob], "the-verdict.png", {type:"image/png"});
+    const url = location.href.split("#")[0];
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      try{
+        await navigator.share({files:[file], title:"The Verdict",
+          text:"I took the stand. You already know the verdict.", url});
+        return;
+      }catch(e){ if(e.name === "AbortError") return; }
+    }
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = "the-verdict.png";
+    document.body.appendChild(a); a.click(); a.remove();
+  }, "image/png");
+}
+
+/* ---------------- snowflake drawing ---------------- */
+function sizeCanvas(cv){
+  const dpr = devicePixelRatio || 1;
+  const r = cv.getBoundingClientRect();
+  cv.width = r.width*dpr; cv.height = r.height*dpr;
+  const ctx = cv.getContext("2d");
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  return {ctx, w:r.width, h:r.height};
+}
+
+/* one arm of a stellar dendrite: trunk + mirrored branchlets */
+function drawArm(ctx, R){
+  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(R,0); ctx.stroke();
+  const branches = [[.30,.34],[.48,.26],[.64,.19],[.80,.12]];
+  for(const [t,len] of branches){
+    for(const s of [1,-1]){
+      ctx.beginPath();
+      ctx.moveTo(R*t,0);
+      ctx.lineTo(R*t + R*len*Math.cos(1.05), s*R*len*Math.sin(1.05));
+      ctx.stroke();
+    }
+  }
+  /* hexagonal tip plate */
+  ctx.beginPath();
+  for(let i=0;i<6;i++){
+    const a = i*Math.PI/3;
+    const x = R*.94 + R*.055*Math.cos(a), y = R*.055*Math.sin(a);
+    i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
+  }
+  ctx.closePath(); ctx.stroke();
+}
+
+function drawFlake(ctx, cx, cy, R, rot, opts={}){
+  const {overlay=false} = opts;
+  const css = getComputedStyle(document.documentElement);
+  const ice = css.getPropertyValue("--ice").trim();
+  const gold = css.getPropertyValue("--gold").trim();
+  const pairColors = [ice, "#A8D2EA", "#6FA6CF"]; /* outer, middle, inner pair */
+  ctx.save();
+  ctx.translate(cx,cy); ctx.rotate(rot);
+  ctx.lineWidth = 1.4; ctx.lineCap = "round";
+  for(let k=0;k<6;k++){
+    ctx.save(); ctx.rotate(k*Math.PI/3);
+    if(overlay){
+      /* opposite arms share a pair color: pairs are (0,3),(1,4),(2,5) */
+      ctx.strokeStyle = pairColors[k%3];
+      ctx.shadowColor = pairColors[k%3];
+    } else {
+      ctx.strokeStyle = ice; ctx.shadowColor = ice;
+    }
+    ctx.shadowBlur = 14;
+    drawArm(ctx,R);
+    ctx.restore();
+  }
+  /* the center — the seventh that is not an eighth */
+  ctx.beginPath(); ctx.arc(0,0,R*.06,0,Math.PI*2);
+  ctx.fillStyle = overlay ? gold : ice;
+  ctx.shadowColor = overlay ? gold : ice;
+  ctx.shadowBlur = overlay ? 22 : 14;
+  ctx.fill();
+  ctx.restore();
+}
+
+/* hero: one large slow flake + drifting motes */
+(function hero(){
+  const flakeCv = document.getElementById("flakeCanvas");
+  const skyCv = document.getElementById("skyCanvas");
+  if(!flakeCv) return;
+  let motes = [];
+  function paintFlake(rot){
+    const {ctx,w,h} = sizeCanvas(flakeCv);
+    ctx.clearRect(0,0,w,h);
+    drawFlake(ctx, w*.78, h*.42, Math.min(w,h)*.30, rot);
+  }
+  function initSky(){
+    const {w,h} = sizeCanvas(skyCv);
+    motes = Array.from({length:36},() => ({
+      x:Math.random()*w, y:Math.random()*h,
+      r:Math.random()*1.4+.4, v:Math.random()*.25+.08, drift:Math.random()*.3-.15
+    }));
+  }
+  function paintSky(){
+    const ctx = skyCv.getContext("2d");
+    const r = skyCv.getBoundingClientRect();
+    ctx.clearRect(0,0,r.width,r.height);
+    ctx.fillStyle = "rgba(200,220,240,.5)";
+    for(const m of motes){
+      ctx.beginPath(); ctx.arc(m.x,m.y,m.r,0,Math.PI*2); ctx.fill();
+      m.y += m.v; m.x += m.drift;
+      if(m.y > r.height+2){ m.y = -2; m.x = Math.random()*r.width; }
+    }
+  }
+  initSky(); paintFlake(-Math.PI/12); paintSky();
+  if(!reduceMotion){
+    let rot = -Math.PI/12;
+    (function tick(){
+      if(views.landing.classList.contains("active")){
+        rot += .0006; paintFlake(rot); paintSky();
+      }
+      requestAnimationFrame(tick);
+    })();
+  }
+  addEventListener("resize", () => { initSky(); paintFlake(-Math.PI/12); paintSky(); });
+})();
+
+/* ---------------- Signature waitlist (local until ESP is wired) ---------------- */
+document.getElementById("emailForm").addEventListener("submit", e => {
+  const action = CONFIG.esp.signatureFormAction;
+  if(action){
+    e.target.action = action;
+    e.target.method = "post";
+    track("waitlist_join", {via: "esp"});
+    return; // allow native submit to ESP
+  }
+  e.preventDefault();
+  const input = document.getElementById("emailInput");
+  const note = document.getElementById("emailNote");
+  const email = (input.value || "").trim().toLowerCase();
+  if(!email || !input.checkValidity()){
+    input.reportValidity();
+    return;
+  }
+  let list = [];
+  try{ list = JSON.parse(localStorage.getItem(CONFIG.waitlistKey) || "[]"); }
+  catch(_){ list = []; }
+  if(!list.some(x => x.email === email)){
+    list.push({email, ts: new Date().toISOString(), source: location.hash || "#/"});
+    try{ localStorage.setItem(CONFIG.waitlistKey, JSON.stringify(list)); }
+    catch(_){ /* private mode — still offer mailto */ }
+  }
+  track("waitlist_join", {count: list.length, via: "mailto"});
+  const subject = encodeURIComponent("The Signature — waitlist [signature]");
+  const body = encodeURIComponent(
+    `Please add me to The Signature weekly letter.\n\nEmail: ${email}\n`
+  );
+  note.hidden = false;
+  note.innerHTML = `Saved on this device. The list isn’t on a mail server yet —
+    <a href="mailto:${CONFIG.contactEmail}?subject=${subject}&body=${body}">click here to send your signup</a>
+    so we actually receive it. Sequence + Signature copy:
+    ready in Hermes (Care package).`;
+  input.value = "";
+});
+
+/* ---------------- boot ---------------- */
+track("page_view");
+route();
+</script>
+<!--ARTIFACT-END-->
+</body>
+</html>

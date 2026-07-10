@@ -1,0 +1,166 @@
+/* ============================================================
+   Creation Semiotics — shared design tokens
+   One brand, two registers (court / library / grace).
+   ============================================================ */
+
+:root {
+  /* Structure — shared void (cool-neutral, not pure ice or oil) */
+  --bg-0: #0B0D12;
+  --bg-1: #12161E;
+  --bg-2: #1A2030;
+  --line: #2A3344;
+
+  /* Text — warm-neutral frost (works on ice and gold accents) */
+  --text: #E8E4DC;
+  --text-dim: #9AA3B2;
+  --text-faint: #6B7385;
+
+  /* Brand gold — single alloy across products */
+  --gold: #D4A84A;
+  --gold-deep: #A87F2E;
+  --gold-soft: #E8CB8E;
+  --gold-core: #FFF4D6;
+
+  /* Court ice (Verdict register) */
+  --ice: #8CC3E8;
+  --ice-deep: #4A7FA8;
+  --ice-glow: #A8D2EA;
+
+  /* Library flame accents (Menorah) */
+  --flame: #F5C542;
+  --flame-core: #FFF4D6;
+  --ember: #A8521F;
+  --arche: #C98B3A;
+
+  /* Type */
+  --font-display: "Cormorant Garamond", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-body: "Spectral", Charter, Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Layout / chrome */
+  --radius: 2px;
+  --ease: 0.22s ease;
+  --max-col: 34rem;
+  --max-wide: 60rem;
+  --bar-h: 2.85rem;
+
+  /* Default register = library (gold). Pages set data-register. */
+  --accent: var(--gold);
+  --accent-deep: var(--gold-deep);
+  --accent-glow: var(--flame);
+  --surface-tint: radial-gradient(120% 90% at 50% 0%, #1A140C 0%, var(--bg-0) 58%);
+
+  /* Backward-compatible aliases (existing Verdict / Menorah CSS) */
+  --night: var(--bg-0);
+  --night-2: var(--bg-1);
+  --night-3: var(--bg-2);
+  --frost: var(--text);
+  --frost-dim: var(--text-dim);
+  --frost-faint: var(--text-faint);
+  --parchment: var(--text);
+  --muted: var(--text-dim);
+  --serif: var(--font-display);
+  --body: var(--font-body);
+  --mono: var(--font-mono);
+  --oxblood: #B0564A;
+}
+
+/* Court — The Verdict (examination, ice until exchange) */
+[data-register="court"] {
+  --accent: var(--ice);
+  --accent-deep: var(--ice-deep);
+  --accent-glow: var(--ice-glow);
+  --surface-tint: radial-gradient(120% 90% at 50% 0%, #121A28 0%, var(--bg-0) 58%);
+}
+
+/* Grace — Verdict after the Robe Exchange (gold joins the lamp) */
+[data-register="grace"],
+body.graced {
+  --accent: var(--gold);
+  --accent-deep: var(--gold-deep);
+  --accent-glow: var(--gold-soft);
+  --surface-tint: radial-gradient(120% 90% at 50% 0%, #1A160E 0%, var(--bg-0) 58%);
+}
+
+/* Library — Menorah map (oil-lamp warmth on the stage only) */
+[data-register="library"] {
+  --accent: var(--gold);
+  --accent-deep: var(--gold-deep);
+  --accent-glow: var(--flame);
+  --surface-tint: radial-gradient(120% 90% at 50% 8%, #1c140b 0%, var(--bg-0) 55%, #070504 100%);
+}
+
+/* Base document */
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg-0);
+  background-image: var(--surface-tint);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+::selection {
+  background: var(--accent-deep);
+  color: var(--bg-0);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-deep);
+}
+a:hover { color: var(--text); }
+
+button { font: inherit; cursor: pointer; }
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.15;
+  text-wrap: balance;
+  margin: 0;
+}
+h1 { font-size: clamp(2.1rem, 6.5vw, 3.4rem); letter-spacing: -0.01em; }
+h2 { font-size: clamp(1.5rem, 4.5vw, 2.1rem); }
+h3 { font-size: 1.2rem; }
+p { margin: 0; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.col { width: min(var(--max-col), 100% - 2.5rem); margin-inline: auto; }
+.stack { display: flex; flex-direction: column; gap: 1.15rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

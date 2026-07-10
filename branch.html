@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en" data-register="library">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0B0D12">
+<meta name="description" content="A branch of the Menorah — Spirit, canon triads, and catalogued entries in the Creation Semiotics Library.">
+<title>Branch · Creation Semiotics Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Spectral:ital,wght@0,300;0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/chrome.css">
+<style>
+  /* Branch view — library register; page strata only */
+  body{font-weight:300;overflow-x:hidden}
+
+  .lamp-nav{
+    position:sticky;top:var(--bar-h);z-index:35;
+    display:flex;align-items:center;justify-content:center;gap:1.25rem;
+    flex-wrap:wrap;
+    padding:.55rem 1.25rem .75rem;
+    background:linear-gradient(180deg,var(--bg-0) 70%,transparent);
+    border-bottom:1px solid color-mix(in srgb,var(--gold) 10%,transparent);
+  }
+  .mini-menorah{width:min(240px,52vw)}
+  .mini-menorah svg{display:block;width:100%;height:auto}
+  .lamp-nav-hint{
+    font-family:var(--font-mono);font-size:.62rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--text-faint);max-width:16rem;
+  }
+  .mini-menorah .branch-line{stroke:var(--ember);transition:stroke .4s ease}
+  .mini-menorah .branch-line.active{stroke:var(--gold-soft)}
+  .mini-menorah .mini-flame-outer,
+  .mini-menorah .mini-flame-inner{opacity:.18;transition:opacity .4s ease}
+  .mini-menorah .mini-node.active .mini-flame-outer,
+  .mini-menorah .mini-node.active .mini-flame-inner{opacity:1}
+  .mini-menorah .mini-node.active .mini-flame-outer{animation:miniFlicker 2.4s ease-in-out infinite}
+  .mini-menorah .mini-node{cursor:pointer}
+  .mini-menorah .mini-node:hover .mini-flame-outer,
+  .mini-menorah .mini-node:hover .mini-flame-inner{opacity:.7}
+  .mini-menorah .mini-ornament{fill:var(--ember);transition:fill .4s ease}
+  .mini-menorah .mini-ornament.active{fill:var(--gold)}
+  .mini-menorah .mini-cup{fill:var(--ember);transition:fill .4s ease}
+  .mini-menorah .mini-cup.active{fill:var(--gold-deep)}
+  @keyframes miniFlicker{
+    0%,100%{transform:scaleY(1)}
+    50%{transform:scaleY(1.06)}
+  }
+
+  main.branch-main{
+    max-width:780px;margin:0 auto;
+    padding:0 clamp(20px,4vw,40px) 2rem;
+  }
+  .stratum{
+    padding:clamp(56px,9vw,100px) 0;
+    border-bottom:1px solid color-mix(in srgb,var(--gold) 10%,transparent);
+  }
+  .stratum:last-of-type{border-bottom:none}
+  .s1{padding-top:clamp(40px,6vw,72px)}
+
+  .position-mark{
+    font-family:var(--font-display);text-transform:uppercase;
+    letter-spacing:.4em;font-size:11px;color:var(--gold);opacity:.85;
+  }
+  .position-side{
+    display:inline-block;margin-left:14px;padding:3px 12px;
+    border:1px solid currentColor;border-radius:24px;
+    font-size:9px;letter-spacing:.3em;vertical-align:middle;
+  }
+  .position-side.arche{color:var(--arche)}
+  .position-side.telos{color:var(--flame)}
+  .position-side.center{color:var(--flame-core)}
+
+  .spirit-name{
+    font-family:var(--font-display);font-weight:500;
+    font-size:clamp(48px,9vw,96px);line-height:.95;
+    margin:.18em 0 .04em;color:var(--parchment);
+  }
+  .spirit-hebrew{
+    font-family:var(--font-display);font-style:italic;
+    font-size:clamp(20px,3vw,30px);color:var(--gold-deep);
+  }
+  .spirit-lens{
+    margin-top:1.4em;font-family:var(--font-display);
+    text-transform:uppercase;letter-spacing:.28em;font-size:11px;color:var(--muted);
+  }
+  .spirit-lens strong{color:var(--gold);font-weight:600}
+  .branch-theology{
+    margin-top:1.5em;font-size:clamp(18px,2.3vw,23px);
+    font-weight:300;line-height:1.45;color:var(--parchment);max-width:34ch;
+  }
+  .branch-theology em{font-style:italic;color:var(--gold-soft);font-weight:400}
+  .bilateral{
+    margin-top:2.4em;display:flex;align-items:flex-start;gap:14px;
+    font-size:14px;color:var(--muted);font-style:italic;
+  }
+  .bilateral-arrow{color:var(--gold-deep);font-size:18px;line-height:1.4}
+  .bilateral a{color:var(--gold);border-bottom:1px dotted color-mix(in srgb,var(--gold) 45%,transparent)}
+
+  .stratum-eyebrow{
+    font-family:var(--font-display);text-transform:uppercase;letter-spacing:.4em;
+    font-size:11px;color:var(--gold);opacity:.75;margin-bottom:.8em;
+  }
+  .stratum-title{
+    font-family:var(--font-display);font-weight:500;
+    font-size:clamp(28px,4.5vw,42px);line-height:1.1;color:var(--parchment);margin-bottom:.4em;
+  }
+  .stratum-subtitle{
+    font-style:italic;color:var(--muted);font-size:15px;line-height:1.6;max-width:48ch;margin-bottom:2.6em;
+  }
+
+  .triad{
+    margin-bottom:2.2em;padding:22px 0;
+    border-top:1px solid color-mix(in srgb,var(--gold) 12%,transparent);
+  }
+  .triad:last-child{border-bottom:1px solid color-mix(in srgb,var(--gold) 12%,transparent)}
+  .triad-header{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-bottom:12px;flex-wrap:wrap;gap:8px;
+  }
+  .triad-id{
+    font-family:var(--font-display);font-weight:600;font-size:17px;
+    letter-spacing:.14em;color:var(--gold);
+  }
+  .triad-position{
+    font-family:var(--font-display);font-style:italic;font-size:12px;color:var(--muted);
+  }
+  .triad-movement{
+    font-size:14px;line-height:1.55;color:var(--text-dim);font-style:italic;margin-bottom:16px;max-width:52ch;
+  }
+  .triad-books{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media (max-width:640px){.triad-books{grid-template-columns:1fr}}
+  .book-cell{padding:10px 8px 10px 0}
+  .book-part-label{
+    font-family:var(--font-display);font-size:9px;font-weight:600;letter-spacing:.34em;
+    color:var(--gold);text-transform:uppercase;margin-bottom:4px;
+  }
+  .book-name{
+    font-family:var(--font-display);font-style:italic;font-weight:500;
+    font-size:18px;color:var(--parchment);margin-bottom:6px;line-height:1.15;
+  }
+  .book-register{font-size:12px;line-height:1.45;color:var(--muted)}
+
+  .entry-card{
+    border:1px solid color-mix(in srgb,var(--gold) 16%,transparent);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--bg-2) 70%,transparent),color-mix(in srgb,var(--bg-0) 80%,transparent));
+    border-radius:var(--radius);padding:22px 24px;margin-bottom:16px;
+    transition:border-color .25s ease,transform .2s ease;
+  }
+  .entry-card:hover{border-color:color-mix(in srgb,var(--gold) 45%,transparent);transform:translateY(-2px)}
+  .entry-card-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+  .entry-card-id{
+    font-family:var(--font-display);text-transform:uppercase;letter-spacing:.28em;
+    font-size:10px;color:var(--gold);font-weight:600;
+  }
+  .entry-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .rating-chip{
+    font-family:var(--font-display);font-size:9px;letter-spacing:.2em;font-weight:700;
+    text-transform:uppercase;padding:3px 9px;border:1px solid;border-radius:3px;
+  }
+  .rating-s1{color:var(--flame-core);border-color:var(--flame-core)}
+  .rating-t1{color:var(--gold);border-color:var(--gold)}
+  .lock-chip{
+    font-style:italic;font-size:11px;color:var(--muted);
+    padding:3px 9px;background:color-mix(in srgb,var(--gold) 6%,transparent);border-radius:3px;
+  }
+  .entry-title{
+    font-family:var(--font-display);font-weight:500;font-size:21px;line-height:1.2;
+    color:var(--parchment);margin-bottom:6px;
+  }
+  .entry-anchor{font-size:12px;color:var(--muted);font-style:italic;margin-bottom:12px}
+  .entry-anchor strong{color:var(--gold-deep);font-style:normal;font-weight:400}
+  .entry-observation{font-size:14.5px;line-height:1.6;color:var(--text-dim);font-style:italic}
+  .entry-card-foot{margin-top:12px;display:flex;justify-content:flex-end}
+  .open-entry{
+    font-family:var(--font-display);text-transform:uppercase;letter-spacing:.28em;
+    font-size:10px;color:var(--gold);border:0;
+  }
+  .entries-pending{
+    margin-top:16px;padding:14px 18px;
+    border:1px dashed color-mix(in srgb,var(--gold) 18%,transparent);
+    border-radius:var(--radius);font-size:13px;line-height:1.55;color:var(--muted);font-style:italic;
+  }
+  .dropped-section,.disciplines-section{margin-top:3em}
+  .dropped-title,.disciplines-title{
+    font-family:var(--font-display);text-transform:uppercase;letter-spacing:.32em;
+    font-size:10px;color:var(--muted);margin-bottom:14px;
+  }
+  .dropped-item{
+    padding:10px 0;border-top:1px solid color-mix(in srgb,var(--muted) 15%,transparent);
+    font-size:13px;color:var(--muted);font-style:italic;line-height:1.5;
+  }
+  .dropped-item strong{color:var(--text-dim);font-style:normal;font-weight:400}
+  .dropped-item .reason{color:var(--text-faint);font-size:12px}
+  .disciplines-prelude{
+    font-size:13px;line-height:1.6;color:var(--muted);font-style:italic;margin-bottom:14px;max-width:54ch;
+  }
+  .discipline-list{display:flex;flex-wrap:wrap;gap:8px}
+  .discipline{
+    font-size:12px;padding:5px 11px;
+    background:color-mix(in srgb,var(--gold) 5%,transparent);
+    border:1px solid color-mix(in srgb,var(--gold) 12%,transparent);
+    border-radius:3px;color:var(--text-dim);
+  }
+
+  .christological{
+    padding:clamp(72px,11vw,120px) 0 clamp(48px,7vw,80px);text-align:center;
+  }
+  .return-mark{color:var(--gold);font-size:22px;margin-bottom:22px;letter-spacing:.6em}
+  .return-text{
+    font-family:var(--font-display);font-style:italic;font-weight:500;
+    font-size:clamp(18px,2.5vw,25px);line-height:1.5;color:var(--gold-soft);
+    max-width:42ch;margin:0 auto 1.2em;
+  }
+  .return-citation{
+    font-size:12px;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;
+  }
+  .bridge-row{
+    display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;margin-top:2rem;
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .mini-menorah .mini-flame-outer{animation:none!important}
+  }
+</style>
+</head>
+<body data-register="library">
+
+<header class="site-bar">
+  <a class="brand" href="menorah.html">
+    <span class="brand-family">Creation Semiotics</span>
+    <span class="brand-page" id="brandPage">Branch<span class="dot"> ·</span></span>
+  </a>
+  <nav class="site-nav" aria-label="Primary">
+    <a href="index.html">The Verdict</a>
+    <a href="index.html#/sign">The Signs</a>
+    <a href="menorah.html">The Lamp</a>
+  </nav>
+</header>
+
+<div class="lamp-nav" aria-label="Jump to a branch">
+  <div class="mini-menorah" id="miniMenorah"></div>
+  <p class="lamp-nav-hint">Touch a flame to change branch</p>
+</div>
+
+<main class="branch-main" id="branchMount" aria-live="polite"></main>
+
+<footer class="site">
+  <div class="col foot-grid">
+    <nav class="foot-links" aria-label="Site">
+      <a href="index.html">The Verdict</a>
+      <a href="index.html#/sign">The Signs</a>
+      <a href="menorah.html">The Lamp</a>
+      <a href="branch.html#/3">Branches</a>
+    </nav>
+    <p class="fine">A Creation Semiotics project · Branch view is the Library drill-down from the lamp.
+      Public cards are summaries only; sod-level material is not published here.</p>
+  </div>
+</footer>
+
+<script>
+"use strict";
+
+/* ============== DATA (Menorah Disciplines Map + Entry 3.2 triads) ============== */
+const BRANCHES = {
+  1: {
+    side:"arche", sideLabel:"Archē · Outer Left", spirit:"Fear of the LORD", heb:"יִרְאַת יְהוָה · yir'at YHWH",
+    short:"Fear", lens:"Threshold", pair:7, pairName:"Might (Gevurah)",
+    theology:"The initiating confrontation with what is ultimate — standing at the limit of what the creature can know from below and feeling the weight of what it cannot answer.",
+    pairNote:"This branch grounds at the threshold; its partner governs as co-regent.",
+    triadNote:"Nine books in three almond-blossom sets. Movement runs from cup to flower — from base toward fire.",
+    triads:[
+      { id:"F1", label:"INNERMOST", pos:"closest to the shamash", movement:"Vision of glory · day of the LORD · plumb line of justice.",
+        books:[
+          {part:"CUP", name:"Ezekiel", reg:"Theophany and exile — threshold at the river."},
+          {part:"KNOB", name:"Zephaniah", reg:"The great day pressed into a people."},
+          {part:"FLOWER", name:"Amos", reg:"Justice rolling down — threshold as summons."},
+        ]},
+      { id:"F2", label:"MIDDLE", pos:"structural register", movement:"Burden · assembly · indictment of the proud.",
+        books:[
+          {part:"CUP", name:"Nahum", reg:"The city under judgment."},
+          {part:"KNOB", name:"Joel", reg:"The assembly called to the threshold."},
+          {part:"FLOWER", name:"Micah", reg:"What the LORD requires — walk humbly."},
+        ]},
+      { id:"F3", label:"OUTERMOST", pos:"surface register", movement:"Brother-violence · throne history · kingship's first fire.",
+        books:[
+          {part:"CUP", name:"Obadiah", reg:"Edom at the door."},
+          {part:"KNOB", name:"1 Kings", reg:"Thrones under the fear of YHWH."},
+          {part:"FLOWER", name:"1 Samuel", reg:"The people demand a king — threshold crossed."},
+        ]},
+    ],
+    disc:["Political Science","Political Philosophy","Ethics","Social Ethics","Sociology","Philosophy of History","Existential Philosophy","Anthropology","History (threshold)"],
+    entries:[
+      { id:"Entry 1.1 · S1", ratings:["S1"], locks:"forensic structure", title:"The Conscience — A Court Within",
+        anchor:"Filed at <strong>Position 1 · Fear of the LORD · threshold</strong> · Romans 2:14–15",
+        obs:"Long before a rulebook is handed over, something in you prosecutes, defends, and passes judgment. Paul named the moving parts in courtroom Greek — accusation, defense, verdict. The Fear of the LORD begins where the creature feels the weight of a standard it did not invent.",
+        openHref:"index.html#/sign/conscience" },
+      { id:"The Verdict · public path", ratings:["S1"], locks:"general revelation", title:"Take the Stand",
+        anchor:"Public diagnostic drawn from <strong>Entry 1.1</strong> and the Robe Exchange",
+        obs:"The free examination walks the tribunal you already contain — wonder, claim, testimony, defense, verdict, then the Judge who stepped down. This branch is the threshold; the court is how many first feel it.",
+        openHref:"index.html#/verdict/0" },
+      { id:"Continue · Knowledge", ratings:["S1"], locks:"archē path", title:"Next branch: Knowledge",
+        anchor:"Bilateral path on the left · <strong>Position 2 · da'at</strong>",
+        obs:"After the threshold, the next fire is systematic reception of what is actually there — snowflake, spectrum, water’s triple point. Letting reality speak before we construct.",
+        openHref:"branch.html#/2" },
+    ],
+    pending:"Position 1 stays intentionally spare in public view: threshold, not a dump of political theology. More cards only by allowlist.",
+    dropped:[],
+    christ:"The Fear of the LORD is the beginning of wisdom — and the One who is the Fear's end took flesh and stood under judgment for the judged.",
+    christCite:"Proverbs 9:10 · Isaiah 11:2–3 · Philippians 2:5–11",
+  },
+  2: {
+    side:"arche", sideLabel:"Archē · Middle Left", spirit:"Knowledge", heb:"דַּעַת · da'at",
+    short:"Knowledge", lens:"First Principle", pair:6, pairName:"Counsel ('Etsah)",
+    theology:"The systematic, foundational reception of what is actually there — letting reality speak before constructing anything from it.",
+    pairNote:"This branch grounds by receiving what is; its partner receives in the sod as Friend.",
+    triadNote:"Nine books. Cup grounds observation; flower opens toward disclosed presence.",
+    triads:[
+      { id:"K1", label:"INNERMOST", pos:"closest to the shamash", movement:"Covenant knowing · flight and depth · returned sight.",
+        books:[
+          {part:"CUP", name:"Hosea", reg:"Knowledge of God rather than sacrifice."},
+          {part:"KNOB", name:"Jonah", reg:"The prophet who fled the knowing."},
+          {part:"FLOWER", name:"Zechariah", reg:"Return to me — and I will return to you."},
+        ]},
+      { id:"K2", label:"MIDDLE", pos:"archival register", movement:"Chronicle of failure · priestly memory · house rebuilt.",
+        books:[
+          {part:"CUP", name:"2 Kings", reg:"The record of the kingdoms."},
+          {part:"KNOB", name:"1 Chronicles", reg:"Genealogies that refuse amnesia."},
+          {part:"FLOWER", name:"2 Chronicles", reg:"Temple memory under pressure."},
+        ]},
+      { id:"K3", label:"OUTERMOST", pos:"surface register", movement:"Word stirs · wall rises · city named again.",
+        books:[
+          {part:"CUP", name:"Haggai", reg:"Consider your ways — first principles restored."},
+          {part:"KNOB", name:"Ezra", reg:"The book opened in the assembly."},
+          {part:"FLOWER", name:"Nehemiah", reg:"The wall and the word together."},
+        ]},
+    ],
+    disc:["Natural Science","Philology / Linguistics","Geography","History (archival)","Taxonomy","Empirical Social Science","Psychology","Ethnography","Humanities","Semiotics (observational)"],
+    entries:[
+      { id:"Entry 2.1 · S1", ratings:["S1"], locks:"Architecture A", title:"The Snowflake",
+        anchor:"Filed at <strong>Position 2 · Knowledge · K3 crystallography</strong> · Isaiah 11:2 · Exodus 25",
+        obs:"Every snowflake is hexagonal — six arms from one center — as physical necessity from water’s bond angle, not aesthetic chance. The structure matches the lampstand’s six-from-one architecture. Honesty holds: opposite-arm pairing is derived from radial geometry, not independently encoded as on the Menorah.",
+        openHref:"index.html#/sign/snowflake" },
+      { id:"Entry 2.4 · S1/T1", ratings:["S1","T1"], locks:"multi-lock", title:"The Triple Point of Water",
+        anchor:"Filed at <strong>Position 2 · Knowledge</strong> · same molecule, Nicene-adjacent precision",
+        obs:"There is one coordinate of pressure and temperature where ice, liquid, and vapor coexist. The public exhibit uses this to repair broken analogies: the physics does not prove the Trinity; it refuses casual modalism and invites careful correspondence.",
+        openHref:"index.html#/sign/triplepoint" },
+      { id:"Entry 2.6 · S1", ratings:["S1"], locks:"Architecture A", title:"Visible Light and the Seven Feasts",
+        anchor:"Filed at <strong>Position 2 · Knowledge</strong> · spectrum / festal correspondence",
+        obs:"White light refracts into a continuous spectrum that human convention often counts as seven. The entry presses structural correspondence with care — including the honest limit that seven named bands are partly convention, not a law of nature alone.",
+        openHref:"index.html#/sign/spectrum" },
+      { id:"Entry 2.36 · T1", ratings:["T1"], locks:"meta-sign", title:"Cymatics",
+        anchor:"Filed at <strong>Position 2 · Knowledge</strong> · pattern at the nodes",
+        obs:"Sound organizes matter into nodal figures — form appearing where motion cancels. Public claim stays descriptive: pattern from stillness at the nodes; no sound-healing or occult freight is endorsed.",
+        openHref:"index.html#/sign/cymatics" },
+    ],
+    pending:"More Position 2 entries exist in the vault; only allowlisted public summaries appear here (see Hermes/Memory/Public-Publish-Allowlist.md).",
+    dropped:[],
+    christ:"All the treasures of wisdom and knowledge are hidden in Him — not as data stored, but as the One in whom knowing is personal.",
+    christCite:"Colossians 2:3 · Hosea 6:3 · John 17:3",
+  },
+  3: {
+    side:"arche", sideLabel:"Archē · Inner Left", spirit:"Wisdom", heb:"חָכְמָה · chokmah",
+    short:"Wisdom", lens:"Applied Knowledge", pair:5, pairName:"Understanding (Binah)",
+    theology:"By <em>chokmah</em> the LORD founded the earth. The same Spirit forms every discipline of structured making — when its fire is received from the <em>shamash</em>.",
+    pairNote:"This branch grounds in <em>making</em>; its partner governs in <em>seeing</em>.",
+    triadNote:"Nine books, three almond-blossom sets. The cup grounds each triad in the deepest register of <em>chokmah</em>; the flower opens toward the lamp. Movement runs from cup to flower, from base toward fire.",
+    triads:[
+      { id:"W1", label:"INNERMOST", pos:"closest to the shamash · deepest register", movement:"Wisdom sealed in ash heap · excelling through Babylon · face of the Beloved.",
+        books:[
+          {part:"CUP", name:"Job", reg:"Direct encounter — \"I desire to argue my case with God\""},
+          {part:"KNOB", name:"Daniel", reg:"Excelling in every discipline Babylon has — then the visions begin."},
+          {part:"FLOWER", name:"Song of Solomon", reg:"The face of the Beloved — wisdom arrived at its bloom."},
+        ]},
+      { id:"W2", label:"MIDDLE", pos:"structural register · disciplined inquiry", movement:"Structure under devastation · disciplined inquiry · doxological bloom.",
+        books:[
+          {part:"CUP", name:"Lamentations", reg:"Formal integrity maintained inside total devastation."},
+          {part:"KNOB", name:"Habakkuk", reg:"\"I will take my stand at my watchpost\" — inquiry pressing."},
+          {part:"FLOWER", name:"Psalms", reg:"Formal doxological construction — wisdom in full bloom."},
+        ]},
+      { id:"W3", label:"OUTERMOST", pos:"surface register · meeting the world", movement:"Governing axioms · stress-tested under experience · enacted in hiddenness.",
+        books:[
+          {part:"CUP", name:"Proverbs", reg:"The governing axioms of practical wisdom."},
+          {part:"KNOB", name:"Ecclesiastes", reg:"\"Vanity of vanities\" — chokmah without shamash, diagnosed."},
+          {part:"FLOWER", name:"Esther", reg:"Covert structural intelligence — wisdom enacted in hiddenness."},
+        ]},
+    ],
+    disc:["Formal Science","Mathematics","Logic","Engineering","Applied Technology","Architecture","Structural Science","Music Theory · Poetics","Metaphysics · Ontology","Systems Thinking","Philosophy (formal register)","Philosophical Anthropology"],
+    entries:[
+      { id:"Entry 3.1 · S1", ratings:["S1"], locks:"Architecture A", title:"The Harmonic Series",
+        anchor:"Filed at <strong>Position 3 · Wisdom · formal register</strong>",
+        obs:"Every pitched sound carries a stack of overtones — integer multiples of a fundamental. The public exhibit shows sevenfold stacking with an honest limit: the series continues toward infinity; seven is a pedagogical cut, not a wall in the physics.",
+        openHref:"index.html#/sign/harmonics" },
+      { id:"Entry 3.2 · S1 Anchor", ratings:["S1"], locks:"multi-lock", title:"The Menorah and the Canon",
+        anchor:"Filed at <strong>W2 · structural anchor of the library</strong> · Exodus 25:31–40",
+        obs:"The seven-branched lampstand encodes the seven Spirits of God, and the cup–knob–flower triadic structure encodes the canonical books in their proper architectural order — three triads per branch, four on the central shaft. The lampstand is the codebook.",
+        openHref:"menorah.html" },
+      { id:"Entry 4.3 · Menorah Pairing", ratings:["S1"], locks:"8 locks", title:"The Bilateral Architecture of the Menorah",
+        anchor:"Filed at <strong>W1 · paired with U1 (Understanding)</strong> · Proverbs 8:14, Isaiah 11:2",
+        obs:"The inner pair Wisdom–Understanding is the most grammatically explicit pairing in Isaiah 11:2, conjoined by <em>waw</em>. Bezalel and Solomon both receive them as a unit. The pair is the builder's equipment — and is the architecture of prophetic embodiment.",
+        openHref:"branch.html#/5" },
+      { id:"Entry 4.5 · Aaronic Blessing", ratings:["T1"], locks:"4 locks", title:"The Aaronic Blessing and the Lampstand's Light",
+        anchor:"Filed at <strong>W2 · doxological register</strong> · Numbers 6:24–26",
+        obs:"The threefold blessing — bless · keep · His face shine — runs in the same direction as the lamp's fire descends. The structural correspondence is at the level of liturgical mechanism, not thematic resonance.",
+        openHref:"index.html#/sign/fire" },
+    ],
+    pending:"Additional entries thematically anchored to <em>chokmah</em> are pending Menorah-coordinate migration — including structural and mathematical entries currently filed under prior numbering. Migration is owner-governed; no renumbering without the freeze rules.",
+    dropped:[
+      { title:"Sacred Geometry / Golden Ratio as universal wisdom signature.",
+        reason:"φ appears in many natural structures but cannot be pressed as a Maker's signature without canonical anchor at mechanism level. Resonance is real; structural correspondence is not. Held where Unapproachable Light bound it canonically." },
+      { title:"\"Wisdom of the East\" — chokmah parallels in non-canonical traditions.",
+        reason:"Disqualified: violates the epistemological direction principle. Surface thematic similarity cannot be read upward to claim shared revelation." },
+    ],
+    christ:"The Wisdom by which the LORD founded the earth is the Wisdom that became flesh. <em>Chokmah</em> is not an attribute. He is the master craftsman of Proverbs 8 — the <em>amon</em> beside the Father from the beginning. The fire on this branch is the same fire.",
+    christCite:"Proverbs 3:19 · Proverbs 8:22–31 · Colossians 2:3",
+  },
+  4: {
+    side:"center", sideLabel:"Shamash · Center", spirit:"The Spirit of the LORD", heb:"רוּחַ יְהוָה · Ruach YHWH",
+    short:"Shamash", lens:"The Fire Itself", pair:null, pairName:null,
+    theology:"The central shaft — the epistemological threshold where the regime turns from seeing-is-believing to believing-precedes-seeing. The one source of fire for all six branches. Here Scripture stands, and theology tends the lamp.",
+    pairNote:null,
+    triadNote:"Four triads on the shaft, ordered top to base — the fire's own spine through Torah, Former Prophets, and the great writing Prophets.",
+    triads:[
+      { id:"SHAFT 4", label:"TOP", pos:"nearest the lamps", movement:"Vision · tears · returned messenger.",
+        books:[
+          {part:"CUP", name:"Isaiah", reg:"Holy, holy, holy — the throne that lights all branches."},
+          {part:"KNOB", name:"Jeremiah", reg:"The word as fire in the bones."},
+          {part:"FLOWER", name:"Malachi", reg:"The sun of righteousness rising."},
+        ]},
+      { id:"SHAFT 3", label:"UPPER", pos:"upper shaft", movement:"Cycles of forgetting · loyalty at the edge · the king's heart.",
+        books:[
+          {part:"CUP", name:"Judges", reg:"Everyone did what was right in his own eyes."},
+          {part:"KNOB", name:"Ruth", reg:"Hesed under the wings."},
+          {part:"FLOWER", name:"2 Samuel", reg:"The man after God's heart — and the wound."},
+        ]},
+      { id:"SHAFT 2", label:"LOWER", pos:"lower shaft", movement:"Numbered people · renewed covenant · land entered.",
+        books:[
+          {part:"CUP", name:"Numbers", reg:"The wilderness school of the presence."},
+          {part:"KNOB", name:"Deuteronomy", reg:"Hear, O Israel — the Shema as fire."},
+          {part:"FLOWER", name:"Joshua", reg:"The land under the Word."},
+        ]},
+      { id:"SHAFT 1", label:"BASE", pos:"base of the shaft", movement:"Beginning · exodus · holy nearness.",
+        books:[
+          {part:"CUP", name:"Genesis", reg:"In the beginning — the first light."},
+          {part:"KNOB", name:"Exodus", reg:"I AM sent me — the Name that burns."},
+          {part:"FLOWER", name:"Leviticus", reg:"Be holy, for I am holy."},
+        ]},
+    ],
+    disc:["Scripture","Theology tends the lamp"],
+    entries:[
+      { id:"Entry 2.7 · S1", ratings:["S1"], locks:"seven properties", title:"Fire — Seven Properties",
+        anchor:"Filed on the <strong>shamash / throne-fire thread</strong> · Isaiah 11:2 · Revelation 4:5",
+        obs:"Fire’s physical behavior (source, ascent, light, heat, consumption, testing, residual ash) is set beside the sevenfold Spirit without pretending the taxonomy is a law of chemistry. The public exhibit keeps the precision: correspondence, not proof-by-combustion.",
+        openHref:"index.html#/sign/fire" },
+      { id:"Entry 4.5 · T1", ratings:["T1"], locks:"Aaronic locks", title:"The Aaronic Blessing",
+        anchor:"Filed at <strong>liturgical shamash altitude</strong> · Numbers 6:24–26",
+        obs:"Bless · keep · face shine · grace · countenance · peace — six verbs around the LORD’s name. Public reading: the blessing descends as light from a center, matching the lamp’s logic without claiming secret mechanisms.",
+        openHref:"index.html#/sign/fire" },
+      { id:"Entry 4.3 · S1", ratings:["S1"], locks:"8 locks", title:"Menorah Pairing Architecture",
+        anchor:"Filed at <strong>Architecture A · second dimension</strong> · Exodus 25 · Isaiah 11:2",
+        obs:"Six branches form three height-pairs around the unpaired center. The shamash is not one more branch among equals; it is the source. Public summary only — full locks remain in the vault.",
+        openHref:"menorah.html" },
+      { id:"Entry 4.7 · S1", ratings:["S1"], locks:"Psalm 19", title:"Psalm 19 — Heavens and Word",
+        anchor:"Filed at <strong>shamash coordinate thread</strong> · Psalm 19",
+        obs:"The heavens declare without speech; the law of the LORD is perfect. Two books — creation and Scripture — one Speaker. Public path: wonder at the sky, then take the stand where conscience already convenes.",
+        openHref:"index.html#/verdict/0" },
+    ],
+    pending:"Shamash-position library depth is vast; only allowlisted public summaries appear here.",
+    dropped:[],
+    christ:"The Spirit of the LORD is upon me — the shamash reading Himself in the scroll. All six branches burn from this center.",
+    christCite:"Isaiah 61:1 · Luke 4:18 · John 15:26",
+  },
+  5: {
+    side:"telos", sideLabel:"Telos · Inner Right", spirit:"Understanding", heb:"בִּינָה · binah",
+    short:"Understanding", lens:"Divine Timing", pair:3, pairName:"Wisdom (Chokmah)",
+    theology:"The same building capacity as Wisdom, now after the center-crossing — where timing belongs to God and construction proceeds before the outcome is visible.",
+    pairNote:"This branch governs in <em>seeing</em>; its partner grounds in <em>making</em>.",
+    triadNote:"Nine books of the telos-side builder — gospel and epistle as architecture after the shamash.",
+    triads:[
+      { id:"U1", label:"INNERMOST", pos:"closest to the shamash", movement:"Gospel of God · fullness in Christ · the Word made flesh.",
+        books:[
+          {part:"CUP", name:"Romans", reg:"The righteousness of God revealed."},
+          {part:"KNOB", name:"Colossians", reg:"In Him all things hold together."},
+          {part:"FLOWER", name:"John", reg:"We have seen His glory."},
+        ]},
+      { id:"U2", label:"MIDDLE", pos:"structural register", movement:"Freedom · the body built · the Spirit's acts.",
+        books:[
+          {part:"CUP", name:"Galatians", reg:"Faith working through love."},
+          {part:"KNOB", name:"Ephesians", reg:"One body, one Spirit, one hope."},
+          {part:"FLOWER", name:"Acts", reg:"You will be my witnesses."},
+        ]},
+      { id:"U3", label:"OUTERMOST", pos:"surface register", movement:"Urgency · orderly account · the King arrived.",
+        books:[
+          {part:"CUP", name:"Mark", reg:"Immediately — the tempo of the kingdom."},
+          {part:"KNOB", name:"Luke", reg:"Orderly account for certainty."},
+          {part:"FLOWER", name:"Matthew", reg:"All authority — go therefore."},
+        ]},
+    ],
+    disc:["Narrative Theology","Salvation History","Typology","Eschatological Ethics","Systematic Theology","Church History","Soteriology","Christology","Trinitarian Theology","Missiology (binah)"],
+    entries:[
+      { id:"Entry 4.3 · pair U1", ratings:["S1"], locks:"8 locks", title:"Wisdom ⇌ Understanding",
+        anchor:"Filed at <strong>bilateral inner pair</strong> · Isaiah 11:2 · Proverbs 8:14",
+        obs:"Wisdom and Understanding are the most explicit grammatical couplet in Isaiah 11:2. Bezalel and Solomon receive them as a unit. This branch is not a second Wisdom; it is building capacity after the center-crossing — seeing on the far side of the fire.",
+        openHref:"branch.html#/3" },
+      { id:"John · free path", ratings:["S1"], locks:"gospel altitude", title:"We Have Seen His Glory",
+        anchor:"Canonical flower of triad U1 · <strong>John</strong> on this branch",
+        obs:"Understanding is not speculation after the shamash; it is sight given. The public path: read John, where the Word becomes flesh and glory is beheld — believing that leads to seeing.",
+        openHref:"care/welcome.html" },
+      { id:"Colossians 1–2 · hold", ratings:["S1"], locks:"public summary", title:"In Him All Things Hold Together",
+        anchor:"Triad U1 · <strong>Colossians</strong> on this branch",
+        obs:"After the center, construction proceeds under a Person who is before all things. Public claim stays modest: the epistle names Christ as the one in whom fullness dwells — Understanding’s lamp is not autonomous insight.",
+        openHref:"index.html#/sign/conscience" },
+    ],
+    pending:"Systematic and typological depth for binah remains vault-side. Public cards keep the pair and the gospel sight-path; more only by allowlist.",
+    dropped:[],
+    christ:"In Him are hidden all the treasures of wisdom and knowledge — and understanding is given to those who walk by the Spirit after the cross.",
+    christCite:"Colossians 2:2–3 · Isaiah 11:2 · Ephesians 1:17–18",
+  },
+  6: {
+    side:"telos", sideLabel:"Telos · Middle Right", spirit:"Counsel", heb:"עֵצָה · 'etsah",
+    short:"Counsel", lens:"Friend, not Servant", pair:2, pairName:"Knowledge (Da'at)",
+    theology:"The same receptive posture as Knowledge, now in the sod register — receiving not by method or observation but as the Friend told by the Master what He is doing.",
+    pairNote:"This branch receives as Friend; its partner receives as observer of what is.",
+    triadNote:"Nine books of pastoral fire — churches, friends, and the word that builds without coercion.",
+    triads:[
+      { id:"C1", label:"INNERMOST", pos:"closest to the shamash", movement:"Comfort of the cross · a friend's letter · succession of fire.",
+        books:[
+          {part:"CUP", name:"2 Corinthians", reg:"Comfort in all affliction."},
+          {part:"KNOB", name:"Philemon", reg:"No longer a slave — a beloved brother."},
+          {part:"FLOWER", name:"2 Timothy", reg:"Fan into flame the gift."},
+        ]},
+      { id:"C2", label:"MIDDLE", pos:"structural register", movement:"Hope · joy's epistle · body under pressure.",
+        books:[
+          {part:"CUP", name:"1 Thessalonians", reg:"Encourage one another with these words."},
+          {part:"KNOB", name:"Philippians", reg:"Rejoice — and the peace that guards."},
+          {part:"FLOWER", name:"1 Corinthians", reg:"The body is one — counsel for a fractured house."},
+        ]},
+      { id:"C3", label:"OUTERMOST", pos:"surface register", movement:"Order · steadfastness · charge to the overseer.",
+        books:[
+          {part:"CUP", name:"Titus", reg:"Sound doctrine that fits healthy houses."},
+          {part:"KNOB", name:"2 Thessalonians", reg:"Stand firm — do not be quickly shaken."},
+          {part:"FLOWER", name:"1 Timothy", reg:"Guard the deposit."},
+        ]},
+    ],
+    disc:["Pastoral Theology","Church Polity","Apologetics (corrective)","Ecclesiology","Pastoral Care","Spiritual Direction","Applied Ethics","Kenotic Theology","Reconciliation","Traditioned Theology"],
+    entries:[
+      { id:"Position 6 · definitional", ratings:["S1"], locks:"reception, not construction", title:"What This Branch Is (and Is Not)",
+        anchor:"Counsel · <strong>Friend, not Servant</strong> · Isaiah 11:2 · John 15:15 · vault dual-governance note",
+        obs:"This shelf is intentionally thin in public view. Counsel is the creature’s receptive locus for what is given from beyond method — reception, not construction. The vault holds deeper sod-register work under Deuteronomy 29:29 discipline; it is not dumped here as if it were another pile of Signs.",
+        openHref:"branch.html#/2" },
+    ],
+    pending:"No filler cards. Further Counsel material ships only if the owner allowlists a public-altitude summary; SecretThings and Category-3 development stay vault-only.",
+    dropped:[
+      { title:"Manufacturing Position 6 entries to match Position 2’s count.",
+        reason:"Disqualified: would violate the vault’s own counsel discipline — thinness here is partly the rigor standard working, not a hole to fill with resemblance." },
+    ],
+    christ:"No longer do I call you servants… but I have called you friends. Counsel is the Spirit who makes servants into friends of the Son.",
+    christCite:"John 15:15 · Isaiah 11:2 · Proverbs 8:14",
+  },
+  7: {
+    side:"telos", sideLabel:"Telos · Outer Right", spirit:"Might", heb:"גְּבוּרָה · gevurah",
+    short:"Might", lens:"Co-regency", pair:1, pairName:"Fear of the LORD",
+    theology:"The same threshold encounter as the Fear of the LORD, now with authority received and enacted — not standing at the boundary asking who governs, but governing as the King's under-regent.",
+    pairNote:"This branch governs as co-regent; its partner grounds at the threshold.",
+    triadNote:"Nine books of authority under the throne — from the better covenant to the last amen.",
+    triads:[
+      { id:"M1", label:"INNERMOST", pos:"closest to the shamash", movement:"Better covenant · life made visible · the throne's last word.",
+        books:[
+          {part:"CUP", name:"Hebrews", reg:"We have a great high priest."},
+          {part:"KNOB", name:"1 John", reg:"That which we have seen and heard."},
+          {part:"FLOWER", name:"Revelation", reg:"The Lamb in the midst of the throne."},
+        ]},
+      { id:"M2", label:"MIDDLE", pos:"structural register", movement:"Escape the corruption · contend · living hope.",
+        books:[
+          {part:"CUP", name:"2 Peter", reg:"Partakers of the divine nature."},
+          {part:"KNOB", name:"Jude", reg:"Contend for the faith once delivered."},
+          {part:"FLOWER", name:"1 Peter", reg:"A royal priesthood — sojourners with authority."},
+        ]},
+      { id:"M3", label:"OUTERMOST", pos:"surface register", movement:"Truth · love · wisdom from above.",
+        books:[
+          {part:"CUP", name:"3 John", reg:"Fellow workers for the truth."},
+          {part:"KNOB", name:"2 John", reg:"Walk in truth and love."},
+          {part:"FLOWER", name:"James", reg:"Faith without works is dead — wisdom from above."},
+        ]},
+    ],
+    disc:["Pastoral Discernment","Confessional Theology","Practical Theology","Theological Polemics","Combat Apologetics","Theology of Suffering","Covenant Theology","Mystical Theology","Eschatology (gevurah)","Missiology (gevurah)"],
+    entries:[
+      { id:"Pair · Fear ⇌ Might", ratings:["S1"], locks:"outer bilateral", title:"Threshold Becomes Co-regency",
+        anchor:"Bilateral outer pair · <strong>Position 1 ⇌ Position 7</strong>",
+        obs:"The same height on the lamp: Fear of the LORD and Might. One stands at the limit asking who governs; the other governs under the King. Public reading refuses swagger — authority is received, not seized.",
+        openHref:"branch.html#/1" },
+      { id:"Matthew 28 · public", ratings:["S1"], locks:"commission", title:"All Authority — Go",
+        anchor:"Canonical thread on this branch · <strong>Great Commission altitude</strong>",
+        obs:"Might is not private power. The risen Christ claims all authority and sends a people — teaching, baptizing, obeying. The card is invitation, not a strategy manual.",
+        openHref:"index.html#/verdict/0" },
+      { id:"Revelation · flower M1", ratings:["S1"], locks:"public summary", title:"The Lamb in the Midst of the Throne",
+        anchor:"Triad M1 flower · <strong>Revelation</strong>",
+        obs:"Co-regency ends at a throne occupied by a Lamb. Public claim: the last word of might is worship, not domination. Full apocalyptic locks stay in the vault.",
+        openHref:"menorah.html" },
+    ],
+    pending:"Combat, polemics, and mystical registers for gevurah remain largely vault-side. Public cards hold pair, commission, and throne — no triumphalist filler.",
+    dropped:[],
+    christ:"All authority in heaven and on earth has been given to Me — and He shares that might with a people who were once only afraid.",
+    christCite:"Matthew 28:18 · Isaiah 11:2 · Revelation 5:12",
+  },
+};
+
+const CUP_SVG = `<svg viewBox="-15 -3 30 22" width="22" height="22" aria-hidden="true"><path d="M -11 6 C -11 -2 -6 -2 0 -2 C 6 -2 11 -2 11 6 C 7 12 -7 12 -11 6 Z" fill="#a87d14"/><path d="M -8 5 C -8 0 8 0 8 5 C 5 9 -5 9 -8 5 Z" fill="#c9991f"/></svg>`;
+const KNOB_SVG = `<svg viewBox="-15 -15 30 18" width="22" height="18" aria-hidden="true"><circle cx="0" cy="-6" r="9" fill="#d9a82c"/><circle cx="-2.6" cy="-8.4" r="3.2" fill="#f3d27a" opacity="0.85"/></svg>`;
+const FLOWER_SVG = `<svg viewBox="-12 -30 24 20" width="22" height="20" aria-hidden="true"><ellipse cx="0" cy="-22" rx="3.4" ry="7.5" fill="#e8b93a" transform="rotate(-32 0 -16)"/><ellipse cx="0" cy="-22" rx="3.4" ry="7.5" fill="#e8b93a"/><ellipse cx="0" cy="-22" rx="3.4" ry="7.5" fill="#e8b93a" transform="rotate(32 0 -16)"/><circle cx="0" cy="-17" r="3" fill="#fff4d6"/></svg>`;
+const PART_ICON = { CUP: CUP_SVG, KNOB: KNOB_SVG, FLOWER: FLOWER_SVG };
+
+function parsePos(){
+  const h = location.hash || "";
+  const m = h.match(/#\/?(?:pos\/)?([1-7])\b/);
+  if(m) return +m[1];
+  const q = new URLSearchParams(location.search).get("pos");
+  if(q && /^[1-7]$/.test(q)) return +q;
+  return 3;
+}
+function setPos(p){
+  p = Math.min(7, Math.max(1, p|0));
+  location.hash = `#/${p}`;
+}
+
+function ratingChips(ratings){
+  return (ratings||[]).map(r=>{
+    const cls = r.startsWith("S") ? "rating-s1" : r.startsWith("T") ? "rating-t1" : "";
+    return `<span class="rating-chip ${cls}">${r}</span>`;
+  }).join("");
+}
+
+function renderBranch(p){
+  const b = BRANCHES[p];
+  if(!b) return;
+  document.title = `${b.spirit} · Creation Semiotics Library`;
+  document.getElementById("brandPage").innerHTML =
+    `The Branch · ${b.short}<span class="dot"> ·</span>`;
+  const mini = document.getElementById("miniMenorah");
+  if(mini) mini.setAttribute("aria-label", `The Menorah — currently on ${b.spirit}`);
+
+  const pairHtml = b.pair ? `
+    <div class="bilateral">
+      <span class="bilateral-arrow">⇌</span>
+      <span>Paired with <a href="#/${b.pair}">${b.pairName}</a> — Position ${b.pair}, opposite branch.<br>
+      ${b.pairNote}</span>
+    </div>` : `
+    <div class="bilateral">
+      <span class="bilateral-arrow">✶</span>
+      <span>The shamash has no bilateral pair. It is the fire for every branch.</span>
+    </div>`;
+
+  const triadsHtml = b.triads.map(t => `
+    <div class="triad">
+      <div class="triad-header">
+        <span class="triad-id">${t.id} · ${t.label}</span>
+        <span class="triad-position">${t.pos}</span>
+      </div>
+      <p class="triad-movement">${t.movement}</p>
+      <div class="triad-books">
+        ${t.books.map(bk => `
+          <div class="book-cell">
+            <div class="book-part-icon">${PART_ICON[bk.part]||""}</div>
+            <div class="book-part-label">${bk.part}</div>
+            <div class="book-name">${bk.name}</div>
+            <div class="book-register">${bk.reg}</div>
+          </div>`).join("")}
+      </div>
+    </div>`).join("");
+
+  const entriesHtml = (b.entries && b.entries.length)
+    ? b.entries.map(e => `
+      <article class="entry-card" tabindex="0">
+        <div class="entry-card-head">
+          <span class="entry-card-id">${e.id}</span>
+          <span class="entry-meta">
+            ${ratingChips(e.ratings)}
+            ${e.locks ? `<span class="lock-chip">${e.locks}</span>` : ""}
+          </span>
+        </div>
+        <h3 class="entry-title">${e.title}</h3>
+        <div class="entry-anchor">${e.anchor}</div>
+        <p class="entry-observation">${e.obs}</p>
+        <div class="entry-card-foot">
+          <a class="open-entry" href="${e.openHref || "index.html#/sign"}">${e.openHref && e.openHref.includes("sign/") ? "Open free exhibit →" : e.openHref && e.openHref.includes("verdict") ? "Take the stand →" : e.openHref && e.openHref.includes("menorah") ? "See the lamp →" : e.openHref && e.openHref.includes("branch") ? "Open paired branch →" : "Open →"}</a>
+        </div>
+      </article>`).join("")
+    : "";
+
+  const pending = b.pending || `Public entry cards for Position ${p} will appear here as allowlisted summaries are published. The full corpus remains in the vault; this page never dumps sod-level material.`;
+
+  const droppedHtml = (b.dropped && b.dropped.length) ? `
+    <div class="dropped-section">
+      <div class="dropped-title">Dropped Candidates Tested at this Branch</div>
+      ${b.dropped.map(d => `
+        <div class="dropped-item">
+          <strong>${d.title}</strong>
+          <span class="reason"> — ${d.reason}</span>
+        </div>`).join("")}
+    </div>` : "";
+
+  document.getElementById("branchMount").innerHTML = `
+    <section class="stratum s1">
+      <div class="position-mark">Position ${p}
+        <span class="position-side ${b.side}">${b.sideLabel}</span>
+      </div>
+      <h1 class="spirit-name">${b.spirit}</h1>
+      <div class="spirit-hebrew">${b.heb}</div>
+      <div class="spirit-lens">Lens · <strong>${b.lens}</strong></div>
+      <p class="branch-theology">${b.theology}</p>
+      ${pairHtml}
+      <div class="bridge-row" style="justify-content:flex-start;margin-top:2rem">
+        <a class="btn btn-ghost" href="menorah.html">↶ The Lamp</a>
+        <a class="btn btn-ghost" href="index.html#/verdict/0">Take the stand</a>
+      </div>
+    </section>
+
+    <section class="stratum">
+      <div class="stratum-eyebrow">The Canon Deposited Here</div>
+      <h2 class="stratum-title">${b.side==="center"?"Four Triads of the Shaft":"Triads of the "+b.short+" Branch"}</h2>
+      <p class="stratum-subtitle">${b.triadNote}</p>
+      ${triadsHtml}
+    </section>
+
+    <section class="stratum">
+      <div class="stratum-eyebrow">The Library's Findings</div>
+      <h2 class="stratum-title">Catalogued Entries at this Branch</h2>
+      <p class="stratum-subtitle">Each card is a public summary. Full entries live in the vault; filing and ratings remain owner-governed.</p>
+      ${entriesHtml}
+      <div class="entries-pending">${pending}</div>
+      ${droppedHtml}
+      <div class="disciplines-section">
+        <div class="disciplines-title">Disciplines that Occupy this Branch</div>
+        <p class="disciplines-prelude">
+          The disciplines do not define the branch — they dwell here. The Spirit's fire is received from the <em>shamash</em>; human fields are recognized downward from the canon, not mapped upward onto it.
+        </p>
+        <div class="discipline-list">
+          ${b.disc.map(d => `<span class="discipline">${d}</span>`).join("")}
+        </div>
+      </div>
+    </section>
+
+    <section class="christological">
+      <div class="return-mark">✶</div>
+      <p class="return-text">${b.christ}</p>
+      <div class="return-citation">${b.christCite}</div>
+      <div class="bridge-row">
+        <a class="btn btn-primary" href="menorah.html">Return to the lamp</a>
+        <a class="btn btn-ghost" href="index.html#/sign">The Signs</a>
+      </div>
+    </section>
+  `;
+
+  buildMiniMenorah(p);
+  window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+}
+
+/* ============== Mini-menorah (same geometry as lamp) ============== */
+function buildMiniMenorah(ACTIVE){
+  const W=1000,H=720, CX=500, LAMP_Y=150, SB=600;
+  const lampX={1:CX-372,2:CX-248,3:CX-124,4:CX,5:CX+124,6:CX+248,7:CX+372};
+  const joinY={3:255,5:255,2:330,6:330,1:405,7:405};
+  function ctrl(p){
+    const xL=lampX[p], yJ=joinY[p], dx=xL-CX, dy=LAMP_Y-yJ;
+    return [[CX,yJ],[CX+dx*0.62,yJ],[xL,yJ+dy*0.42],[xL,LAMP_Y]];
+  }
+  function branchPath(p){
+    const [P0,P1,P2,P3]=ctrl(p);
+    return `M ${P0[0]} ${P0[1]} C ${P1[0].toFixed(1)} ${P1[1]} ${P2[0].toFixed(1)} ${P2[1].toFixed(1)} ${P3[0]} ${P3[1]}`;
+  }
+  function bez(P0,P1,P2,P3,t){
+    const mt=1-t;
+    const x=mt*mt*mt*P0[0]+3*mt*mt*t*P1[0]+3*mt*t*t*P2[0]+t*t*t*P3[0];
+    const y=mt*mt*mt*P0[1]+3*mt*mt*t*P1[1]+3*mt*t*t*P2[1]+t*t*t*P3[1];
+    const dx=3*mt*mt*(P1[0]-P0[0])+6*mt*t*(P2[0]-P1[0])+3*t*t*(P3[0]-P2[0]);
+    const dy=3*mt*mt*(P1[1]-P0[1])+6*mt*t*(P2[1]-P1[1])+3*t*t*(P3[1]-P2[1]);
+    return [x,y,Math.atan2(dy,dx)*180/Math.PI];
+  }
+  function ornament(x,y,angDeg,s,branchPos){
+    const rot=angDeg+90;
+    const ac = branchPos===ACTIVE ? " active" : "";
+    let g=`<g class="mini-orn${ac}" transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(1)}) scale(${s})">`;
+    g+=`<path class="mini-cup${ac}" d="M -11 6 C -11 -2 -6 -2 0 -2 C 6 -2 11 -2 11 6 C 7 12 -7 12 -11 6 Z"/>`;
+    g+=`<path class="mini-cup${ac}" d="M -8 5 C -8 0 8 0 8 5 C 5 9 -5 9 -8 5 Z"/>`;
+    g+=`<circle class="mini-ornament${ac}" cx="0" cy="-6" r="9"/>`;
+    for(const a of [-32,0,32]) g+=`<ellipse class="mini-ornament${ac}" cx="0" cy="-22" rx="3.4" ry="7.5" transform="rotate(${a} 0 -16)"/>`;
+    g+=`<circle class="mini-ornament${ac}" cx="0" cy="-17" r="3"/></g>`;
+    return g;
+  }
+  function allOrnaments(){
+    let out="";
+    for(const p of [1,2,3,5,6,7]){
+      const [P0,P1,P2,P3]=ctrl(p);
+      for(const t of [0.32,0.57,0.82]){
+        const [x,y,a]=bez(P0,P1,P2,P3,t);
+        out+=ornament(x,y,a,0.82,p);
+      }
+    }
+    for(const y of [202,292,367,502]) out+=ornament(CX,y,-90,0.9,4);
+    return out;
+  }
+  function flameNode(p){
+    const x=lampX[p], isShamash=p===4, fScale=isShamash?1.25:1, fy=LAMP_Y-14;
+    const ac = p===ACTIVE ? " active" : "";
+    const name = BRANCHES[p].short;
+    return `<g class="mini-node${ac}" data-pos="${p}" role="button" tabindex="0" aria-label="Position ${p}: ${name}" aria-current="${p===ACTIVE?"true":"false"}">
+      <ellipse cx="${x}" cy="${LAMP_Y}" rx="20" ry="11" class="mini-cup${ac}"/>
+      <rect x="${x-5}" y="${LAMP_Y-4}" width="10" height="9" rx="2" class="mini-ornament${ac}"/>
+      <ellipse class="mini-flame-outer" cx="${x}" cy="${fy-12*fScale}" rx="${9*fScale}" ry="${22*fScale}" fill="url(#miniFlame)"/>
+      <ellipse class="mini-flame-inner" cx="${x}" cy="${fy-9*fScale}" rx="${4*fScale}" ry="${12*fScale}" fill="var(--flame-core)"/>
+    </g>`;
+  }
+  const branches = [1,2,3,5,6,7].map(p =>
+    `<path class="branch-line${p===ACTIVE?" active":""}" d="${branchPath(p)}" fill="none" stroke-width="11" stroke-linecap="round"/>`
+  ).join("");
+  const shaftActive = ACTIVE===4 ? " active" : "";
+  const svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="miniFlame" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff4d6"/>
+        <stop offset="55%" stop-color="#f5c542"/>
+        <stop offset="100%" stop-color="#c97a1e"/>
+      </linearGradient>
+    </defs>
+    <path class="branch-line${shaftActive}" d="M ${CX} ${LAMP_Y} L ${CX} ${SB}" fill="none" stroke-width="13" stroke-linecap="round"/>
+    ${branches}
+    <path class="mini-cup${shaftActive}" d="M ${CX-95} ${SB+58} Q ${CX} ${SB-58} ${CX+95} ${SB+58} Z"/>
+    <rect class="mini-cup${shaftActive}" x="${CX-16}" y="${SB-6}" width="32" height="16" rx="3"/>
+    <g>${allOrnaments()}</g>
+    ${[1,2,3,4,5,6,7].map(flameNode).join("")}
+  </svg>`;
+  const wrap = document.getElementById("miniMenorah");
+  wrap.innerHTML = svg;
+  wrap.querySelectorAll(".mini-node").forEach(node => {
+    const go = () => setPos(+node.dataset.pos);
+    node.addEventListener("click", go);
+    node.addEventListener("keydown", e => {
+      if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); }
+    });
+  });
+}
+
+function route(){
+  renderBranch(parsePos());
+}
+addEventListener("hashchange", route);
+if(!location.hash || !/#\/?[1-7]/.test(location.hash)){
+  history.replaceState(null,"", `#/${parsePos()}`);
+}
+route();
+</script>
+</body>
+</html>

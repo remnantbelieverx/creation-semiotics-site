@@ -1,0 +1,176 @@
+/* ============================================================
+   Creation Semiotics — shared chrome
+   Top bar, buttons, footer, brand mark.
+   ============================================================ */
+
+/* ---------- brand / top bar ---------- */
+.site-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  width: min(var(--max-wide), 100% - 2.5rem);
+  margin-inline: auto;
+  padding: 0.95rem 0 0.75rem;
+  background: linear-gradient(var(--bg-0) 72%, transparent);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  border: 0;
+  background: none;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 0;
+  cursor: pointer;
+}
+.brand:hover { color: inherit; }
+
+.brand-family {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.brand-page {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.brand-page .dot { color: var(--accent); }
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.15rem;
+  justify-content: flex-end;
+  align-items: center;
+}
+.site-nav a {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  border: 0;
+}
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+  color: var(--accent);
+}
+
+/* ---------- buttons ---------- */
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.85rem 1.6rem;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  border-bottom: 0;
+  text-align: center;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg-0);
+  border: 1px solid var(--accent);
+}
+.btn-primary:hover {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg-0);
+}
+.btn-ghost {
+  background: none;
+  color: var(--text-dim);
+  border: 1px solid var(--line);
+}
+.btn-ghost:hover {
+  color: var(--text);
+  border-color: var(--text-dim);
+}
+
+/* ---------- footer ---------- */
+footer.site {
+  border-top: 1px solid var(--line);
+  margin-top: 4rem;
+  padding: 3rem 0 4rem;
+}
+.foot-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2.2rem;
+}
+.email-stub {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.email-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.email-row input {
+  flex: 1 1 14rem;
+  padding: 0.8rem 1rem;
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.95rem;
+  border-radius: var(--radius);
+}
+.email-row input::placeholder { color: var(--text-faint); }
+
+.fine {
+  font-size: 0.82rem;
+  color: var(--text-faint);
+}
+.fine a { color: var(--text-dim); }
+
+#emailNote {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+
+.foot-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.foot-links a {
+  color: var(--text-dim);
+  border: 0;
+}
+.foot-links a:hover { color: var(--accent); }
+
+/* Legacy class aliases so older markup still works */
+.bar { /* mapped to site-bar if present */ }
+.wordmark { }
