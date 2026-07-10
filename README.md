@@ -18,6 +18,8 @@ architecture or phase gates change; this README stays run/routes-focused.
 | `/#/sign` | `index.html` | court | Gallery of free exhibits |
 | `/menorah.html` | `menorah.html` | **library** | Interactive Menorah index |
 | `/branch.html#/N` | `branch.html` | **library** | Branch view (positions 1–7) |
+| `/entry.html` · `#/<slug>` | `entry.html` | **library** | Public entry reader (allowlist summaries) |
+| `/care/welcome.html` | `care/welcome.html` | **grace** | Next steps + church help |
 
 ## Design system
 
@@ -35,14 +37,20 @@ site/css/chrome.css   — top bar, buttons, footer
 Shared: cool-neutral void (`#0B0D12`), single gold alloy (`#D4A84A`),
 Cormorant Garamond + Spectral, mono for forensic UI.
 
-Cross-links: Verdict ↔ Lamp ↔ Branches (and free Signs).
+Cross-links: Verdict ↔ Signs ↔ Lamp ↔ Branches ↔ **Entries** ↔ Care.
 
 ### Branch view
 
 - Hash routes: `branch.html#/1` … `branch.html#/7` (default `#/3` Wisdom).
 - Mini-menorah: touch any flame to switch branch.
-- From Menorah panel: **Enter this branch →**.
-- Position 3 ships with full triad copy, sample public entry cards, and dropped candidates; other positions have full triads/disciplines with entry cards pending allowlist.
+- Entry cards open `entry.html#/<slug>` (public summary).
+
+### Entry reader
+
+- Index: `entry.html`
+- Example: `entry.html#/snowflake`, `entry.html#/conscience`
+- Optional “Open free exhibit” when a Sign exists
+- Content governed by `Hermes/Memory/Public-Publish-Allowlist.md`
 
 ## Run it
 
