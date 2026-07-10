@@ -364,19 +364,40 @@ const CONFIG = {
   siteName: "The Verdict",
   waitlistKey: "verdict_signature_waitlist",
   careKey: "verdict_care_leads",
+  /* Canonical public origin (no trailing slash). Used for ESP redirects. */
+  publicBaseUrl: "https://remnantbelieverx.github.io/creation-semiotics-site",
   /* Next-steps landing (Care package). Relative to this page. */
   careWelcome: "care/welcome.html",
   /*
-   * When ESP is live, set these to form action URLs (Buttondown / Kit / Formspree).
-   * Leave empty to use mailto + localStorage interim.
-   * Sequences: Hermes/Drafts/Verdict-Care-Sequences.md
+   * ESP wiring — see Hermes/Memory/ESP-Setup.md
+   * Buttondown: set buttondownUsername only; form actions auto-build.
+   * Formspree: set formspreeQuestions for free-text "I have questions".
+   * Leave username empty to keep mailto + localStorage interim.
    */
   esp: {
-    signatureFormAction: "",  // e.g. https://buttondown.com/api/emails/embed-subscribe/…
-    wantFormAction: "",       // tags: verdict-want
-    questionsFormAction: "",  // tags: verdict-questions
+    provider: "buttondown",           // "buttondown" | "kit" | "none"
+    buttondownUsername: "",           // e.g. "alvin" → fill after signup
+    formspreeQuestions: "",           // e.g. "https://formspree.io/f/xxxxxxxx"
+    signatureFormAction: "",          // override (optional)
+    wantFormAction: "",               // override (optional)
+    questionsFormAction: "",          // override (optional); else formspreeQuestions
   },
 };
+
+/** Resolve live form endpoints + tags from CONFIG.esp */
+function espEndpoints(){
+  const e = CONFIG.esp || {};
+  const user = (e.buttondownUsername || "").trim();
+  const bd = (e.provider === "buttondown" && user)
+    ? `https://buttondown.com/api/emails/embed-subscribe/${encodeURIComponent(user)}`
+    : "";
+  return {
+    signature: (e.signatureFormAction || bd || "").trim(),
+    want: (e.wantFormAction || bd || "").trim(),
+    questions: (e.questionsFormAction || e.formspreeQuestions || "").trim(),
+    ready: !!(user || e.signatureFormAction || e.wantFormAction || e.formspreeQuestions),
+  };
+}
 
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -729,14 +750,14 @@ screens.push({golden: true, render: () => `
           <a class="btn btn-primary" href="${welcome}">Open next steps</a>
           <button class="btn btn-ghost" type="button" id="shareBtn2">Share the card</button>
         </div>
-        <form class="email-row" id="careWantForm" style="margin-top:1.2rem" ${CONFIG.esp.wantFormAction ? `action="${CONFIG.esp.wantFormAction}" method="post"` : ""}>
+        <form class="email-row" id="careWantForm" style="margin-top:1.2rem" method="post" target="_blank" rel="noopener">
           <input type="email" name="email" id="careWantEmail" placeholder="Email for the 7-day follow-up" aria-label="Email for follow-up" required autocomplete="email">
-          <input type="text" name="city" id="careWantCity" placeholder="City (optional)" aria-label="City optional" style="flex:1 1 8rem;padding:.8rem 1rem;background:var(--night-2);border:1px solid var(--line);color:var(--frost);font:inherit;font-size:.95rem;border-radius:2px">
+          <input type="text" name="metadata__city" id="careWantCity" placeholder="City (optional)" aria-label="City optional" style="flex:1 1 8rem;padding:.8rem 1rem;background:var(--night-2);border:1px solid var(--line);color:var(--frost);font:inherit;font-size:.95rem;border-radius:2px">
+          <input type="hidden" name="tag" value="verdict-want" id="careWantTag">
           <button class="btn btn-primary" type="submit">Send me the sequence</button>
         </form>
         <p id="careWantNote" class="fine" style="margin-top:.6rem" hidden role="status"></p>
-        <p class="fine" style="margin-top:.5rem">A person receives this — unhurried. Full sequence copy lives ready for the mail service
-          (John, church, speak). Crisis: <a href="tel:988">988</a> (US).</p>`,
+        <p class="fine" style="margin-top:.5rem">You will get a short sequence (John · church · speak). Crisis: <a href="tel:988">988</a> (US).</p>`,
       questions: `
         <h3 style="font-family:var(--serif)">Honest questions are welcome here.</h3>
         <p class="faq-a"><strong style="color:var(--frost)">“Isn’t this just fear-mongering?”</strong><br>
@@ -754,11 +775,13 @@ screens.push({golden: true, render: () => `
           goodness asks the Judge to accept a bribe. The court does not need your
           goodness balanced against your record — it needs your record answered.
           Only one Person has offered to answer it.</p>
-        <form id="careAskForm" style="margin-top:1.2rem;display:flex;flex-direction:column;gap:.7rem" ${CONFIG.esp.questionsFormAction ? `action="${CONFIG.esp.questionsFormAction}" method="post"` : ""}>
+        <form id="careAskForm" style="margin-top:1.2rem;display:flex;flex-direction:column;gap:.7rem" method="post" target="_blank" rel="noopener">
           <input type="email" name="email" id="careAskEmail" placeholder="Your email" aria-label="Your email" required autocomplete="email"
             style="padding:.8rem 1rem;background:var(--night-2);border:1px solid var(--line);color:var(--frost);font:inherit;border-radius:2px">
-          <textarea name="question" id="careAskBody" rows="4" required placeholder="Your question…" aria-label="Your question"
+          <textarea name="message" id="careAskBody" rows="4" required placeholder="Your question…" aria-label="Your question"
             style="padding:.8rem 1rem;background:var(--night-2);border:1px solid var(--line);color:var(--frost);font:inherit;border-radius:2px;resize:vertical"></textarea>
+          <input type="hidden" name="_subject" value="The Verdict — a question">
+          <input type="hidden" name="_next" id="careAskNext" value="">
           <button class="btn btn-primary" type="submit" style="align-self:flex-start">Send to a person</button>
         </form>
         <p id="careAskNote" class="fine" style="margin-top:.6rem" hidden role="status"></p>
@@ -796,45 +819,66 @@ function storeCareLead(kind, payload){
 }
 
 function wireCareForms(mount){
+  const ep = espEndpoints();
   const want = mount.querySelector("#careWantForm");
   if(want){
+    if(ep.want){
+      want.action = ep.want;
+      want.method = "post";
+    }
     want.addEventListener("submit", e => {
-      if(CONFIG.esp.wantFormAction) return; // let ESP handle
-      e.preventDefault();
       const email = (mount.querySelector("#careWantEmail").value || "").trim().toLowerCase();
       const city = (mount.querySelector("#careWantCity").value || "").trim();
-      if(!email){ mount.querySelector("#careWantEmail").reportValidity(); return; }
-      storeCareLead("want", {email, city});
-      track("care_want_submit", {has_city: !!city});
+      if(!email){ e.preventDefault(); mount.querySelector("#careWantEmail").reportValidity(); return; }
+      storeCareLead("want", {email, city, via: ep.want ? "esp" : "mailto"});
+      track("care_want_submit", {has_city: !!city, via: ep.want ? "esp" : "mailto"});
+      if(ep.want){
+        const note = mount.querySelector("#careWantNote");
+        note.hidden = false;
+        note.innerHTML = `Submitting… Check your inbox to confirm, then open
+          <a href="${CONFIG.careWelcome}">next steps</a>.`;
+        return; // native POST to Buttondown
+      }
+      e.preventDefault();
       const subject = encodeURIComponent("The Verdict — I want this exchange [verdict-want]");
       const body = encodeURIComponent(
         `I went through The Verdict and chose the exchange.\nPlease enroll me in the 7-day follow-up (John / church / speak).\n\nEmail: ${email}\nCity: ${city || "(not given)"}\n`
       );
       const note = mount.querySelector("#careWantNote");
       note.hidden = false;
-      note.innerHTML = `Saved on this device.
-        <a href="mailto:${CONFIG.contactEmail}?subject=${subject}&body=${body}">Click to send your request</a>
-        so we receive it — then open
-        <a href="${CONFIG.careWelcome}">next steps</a>.`;
+      note.innerHTML = `ESP not configured yet (see Hermes/Memory/ESP-Setup.md).
+        <a href="mailto:${CONFIG.contactEmail}?subject=${subject}&body=${body}">Click to email your request</a>
+        — then open <a href="${CONFIG.careWelcome}">next steps</a>.`;
     });
   }
   const ask = mount.querySelector("#careAskForm");
   if(ask){
+    if(ep.questions){
+      ask.action = ep.questions;
+      ask.method = "post";
+      const next = mount.querySelector("#careAskNext");
+      if(next) next.value = `${CONFIG.publicBaseUrl}/${CONFIG.careWelcome}`;
+    }
     ask.addEventListener("submit", e => {
-      if(CONFIG.esp.questionsFormAction) return;
-      e.preventDefault();
       const email = (mount.querySelector("#careAskEmail").value || "").trim().toLowerCase();
       const q = (mount.querySelector("#careAskBody").value || "").trim();
-      if(!email || !q){ ask.reportValidity(); return; }
-      storeCareLead("questions", {email, question: q.slice(0, 2000)});
-      track("care_questions_submit");
+      if(!email || !q){ e.preventDefault(); ask.reportValidity(); return; }
+      storeCareLead("questions", {email, question: q.slice(0, 2000), via: ep.questions ? "esp" : "mailto"});
+      track("care_questions_submit", {via: ep.questions ? "esp" : "mailto"});
+      if(ep.questions){
+        const note = mount.querySelector("#careAskNote");
+        note.hidden = false;
+        note.innerHTML = `Sending to a person… Thank you.`;
+        return;
+      }
+      e.preventDefault();
       const subject = encodeURIComponent("The Verdict — a question [verdict-questions]");
       const body = encodeURIComponent(`From: ${email}\n\nQuestion:\n${q}\n`);
       const note = mount.querySelector("#careAskNote");
       note.hidden = false;
-      note.innerHTML = `Ready to send.
+      note.innerHTML = `Formspree not configured yet (Hermes/Memory/ESP-Setup.md).
         <a href="mailto:${CONFIG.contactEmail}?subject=${subject}&body=${body}">Open your mail app</a>
-        — a person will reply unhurriedly. Auto-ack copy is ready in the Care sequences draft when ESP goes live.`;
+        — a person will reply unhurriedly.`;
     });
   }
 }
@@ -1850,43 +1894,56 @@ function drawFlake(ctx, cx, cy, R, rot, opts={}){
   addEventListener("resize", () => { initSky(); paintFlake(-Math.PI/12); paintSky(); });
 })();
 
-/* ---------------- Signature waitlist (local until ESP is wired) ---------------- */
-document.getElementById("emailForm").addEventListener("submit", e => {
-  const action = CONFIG.esp.signatureFormAction;
-  if(action){
-    e.target.action = action;
-    e.target.method = "post";
-    track("waitlist_join", {via: "esp"});
-    return; // allow native submit to ESP
+/* ---------------- Signature waitlist (Buttondown when username set) ---------------- */
+(function wireSignatureForm(){
+  const form = document.getElementById("emailForm");
+  if(!form) return;
+  // Ensure tag field for Buttondown
+  if(!form.querySelector('input[name="tag"]')){
+    const tag = document.createElement("input");
+    tag.type = "hidden"; tag.name = "tag"; tag.value = "signature";
+    form.appendChild(tag);
   }
-  e.preventDefault();
-  const input = document.getElementById("emailInput");
-  const note = document.getElementById("emailNote");
-  const email = (input.value || "").trim().toLowerCase();
-  if(!email || !input.checkValidity()){
-    input.reportValidity();
-    return;
-  }
-  let list = [];
-  try{ list = JSON.parse(localStorage.getItem(CONFIG.waitlistKey) || "[]"); }
-  catch(_){ list = []; }
-  if(!list.some(x => x.email === email)){
-    list.push({email, ts: new Date().toISOString(), source: location.hash || "#/"});
-    try{ localStorage.setItem(CONFIG.waitlistKey, JSON.stringify(list)); }
-    catch(_){ /* private mode — still offer mailto */ }
-  }
-  track("waitlist_join", {count: list.length, via: "mailto"});
-  const subject = encodeURIComponent("The Signature — waitlist [signature]");
-  const body = encodeURIComponent(
-    `Please add me to The Signature weekly letter.\n\nEmail: ${email}\n`
-  );
-  note.hidden = false;
-  note.innerHTML = `Saved on this device. The list isn’t on a mail server yet —
-    <a href="mailto:${CONFIG.contactEmail}?subject=${subject}&body=${body}">click here to send your signup</a>
-    so we actually receive it. Sequence + Signature copy:
-    ready in Hermes (Care package).`;
-  input.value = "";
-});
+  form.addEventListener("submit", e => {
+    const ep = espEndpoints();
+    const input = document.getElementById("emailInput");
+    const note = document.getElementById("emailNote");
+    const email = (input.value || "").trim().toLowerCase();
+    if(!email || !input.checkValidity()){
+      e.preventDefault();
+      input.reportValidity();
+      return;
+    }
+    if(ep.signature){
+      form.action = ep.signature;
+      form.method = "post";
+      form.target = "_blank";
+      track("waitlist_join", {via: "esp"});
+      note.hidden = false;
+      note.innerHTML = `Submitting to The Signature… Confirm the email if asked.`;
+      return; // native POST
+    }
+    e.preventDefault();
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(CONFIG.waitlistKey) || "[]"); }
+    catch(_){ list = []; }
+    if(!list.some(x => x.email === email)){
+      list.push({email, ts: new Date().toISOString(), source: location.hash || "#/"});
+      try{ localStorage.setItem(CONFIG.waitlistKey, JSON.stringify(list)); }
+      catch(_){}
+    }
+    track("waitlist_join", {count: list.length, via: "mailto"});
+    const subject = encodeURIComponent("The Signature — waitlist [signature]");
+    const body = encodeURIComponent(
+      `Please add me to The Signature weekly letter.\n\nEmail: ${email}\n`
+    );
+    note.hidden = false;
+    note.innerHTML = `ESP not configured yet — set <code>CONFIG.esp.buttondownUsername</code>
+      (Hermes/Memory/ESP-Setup.md). Interim:
+      <a href="mailto:${CONFIG.contactEmail}?subject=${subject}&body=${body}">email your signup</a>.`;
+    input.value = "";
+  });
+})();
 
 /* ---------------- boot ---------------- */
 track("page_view");
