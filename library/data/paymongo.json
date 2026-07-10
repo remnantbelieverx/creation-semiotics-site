@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "provider": "paymongo",
+  "mode": "off",
+  "currency": "PHP",
+  "publicKey": "",
+  "paymentLinks": {
+    "library_monthly": "",
+    "library_yearly": "",
+    "pastor_monthly": ""
+  },
+  "linkIds": {},
+  "amounts": {
+    "library_monthly": 49900,
+    "library_yearly": 449900,
+    "pastor_monthly": 109900
+  },
+  "checkoutApi": "",
+  "notes": "Primary for PH (RCBC payouts after KYC). Add PAYMONGO_SECRET_KEY and run: python3 Hermes/scripts/paymongo_provision.py — or paste Dashboard Payment Link URLs here."
+}

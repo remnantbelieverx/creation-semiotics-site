@@ -128,11 +128,12 @@
     study, full reading paths, and (for pastors) teaching packs. Sod-level material
     is never sold.</p>
 
-  <div class="banner" role="status" id="stripeBanner">
-    <strong>Stripe checkout</strong> — subscribe below when Payment Links are provisioned.
-    Until then, join the waitlist. The free front door (Verdict, Signs, public entries) never requires payment.
+  <div class="banner" role="status" id="payBanner">
+    <strong>PayMongo checkout (Philippines)</strong> — GCash, Maya, card, QR Ph when links are provisioned.
+    Payouts go to a local bank (e.g. RCBC) after PayMongo KYC. Until live, join the waitlist.
+    The free front door never requires payment.
   </div>
-  <p id="stripeStatus" hidden></p>
+  <p id="payStatus" hidden></p>
 
   <div class="cta-row">
     <a class="btn btn-primary" href="#tiers">Subscribe</a>
@@ -224,15 +225,15 @@
 
 const FORMSPREE = "https://formspree.io/f/xaqgrqov";
 
-/** Maps catalog tier ids → Stripe payment-link keys */
-const STRIPE_BTNS = {
+/** Maps catalog tier ids → payment-link keys */
+const PAY_BTNS = {
   free: [],
   library: [
-    { tier: "library_monthly", label: "Subscribe · monthly" },
-    { tier: "library_yearly", label: "Subscribe · yearly" },
+    { tier: "library_monthly", label: "Pay · monthly (₱499)" },
+    { tier: "library_yearly", label: "Pay · yearly (₱4,499)" },
   ],
   pastor: [
-    { tier: "pastor_monthly", label: "Subscribe · Pastor monthly" },
+    { tier: "pastor_monthly", label: "Pay · Pastor monthly (₱1,099)" },
   ],
 };
 
@@ -242,31 +243,43 @@ async function loadCatalog(){
   return res.json();
 }
 
-async function loadStripeCfg(){
+async function loadPayCfg(){
+  /* PayMongo first (PH); Stripe optional fallback if paymongo empty */
+  try{
+    const res = await fetch("library/data/paymongo.json", { cache: "no-store" });
+    if(res.ok){
+      const cfg = await res.json();
+      cfg._provider = "paymongo";
+      if(payReady(cfg)) return cfg;
+    }
+  }catch(_){}
   try{
     const res = await fetch("library/data/stripe.json", { cache: "no-store" });
-    if(!res.ok) return { mode: "off", paymentLinks: {} };
-    return res.json();
-  }catch(_){
-    return { mode: "off", paymentLinks: {} };
-  }
+    if(res.ok){
+      const cfg = await res.json();
+      cfg._provider = "stripe";
+      return cfg;
+    }
+  }catch(_){}
+  return { mode: "off", paymentLinks: {}, _provider: "none" };
 }
 
-function stripeReady(cfg){
+function payReady(cfg){
   const links = (cfg && cfg.paymentLinks) || {};
-  return !!(links.library_monthly || links.library_yearly || links.pastor_monthly);
+  return !!(links.library_monthly || links.library_yearly || links.pastor_monthly || (cfg && cfg.checkoutApi));
 }
 
 async function startCheckout(tier, cfg){
   const links = (cfg && cfg.paymentLinks) || {};
   const link = links[tier];
+  const provider = (cfg && cfg._provider) || "paymongo";
   if(link){
-    if(typeof csTrack === "function") csTrack("stripe_checkout_click", { tier, via: "payment_link" });
+    if(typeof csTrack === "function") csTrack("checkout_click", { tier, via: "payment_link", provider });
     location.href = link;
     return;
   }
   if(cfg && cfg.checkoutApi){
-    if(typeof csTrack === "function") csTrack("stripe_checkout_click", { tier, via: "api" });
+    if(typeof csTrack === "function") csTrack("checkout_click", { tier, via: "api", provider });
     try{
       const res = await fetch(cfg.checkoutApi, {
         method: "POST",
@@ -281,50 +294,62 @@ async function startCheckout(tier, cfg){
     }
     return;
   }
-  alert("Stripe is not configured yet. Join the waitlist and we will open membership soon.");
+  alert("PayMongo is not configured yet. Join the waitlist, or the owner can run paymongo_provision.py after adding API keys.");
   location.hash = "#waitlist";
 }
 
-function renderTiers(tiers, stripeCfg){
+function renderTiers(tiers, payCfg){
   const el = document.getElementById("tierMount");
-  const ready = stripeReady(stripeCfg);
+  const ready = payReady(payCfg);
+  const provider = (payCfg && payCfg._provider) || "paymongo";
   el.innerHTML = (tiers || []).map((t) => {
-    const btns = STRIPE_BTNS[t.id] || [];
+    const btns = PAY_BTNS[t.id] || [];
     let actions = "";
     if(t.id === "free"){
       actions = `<div class="actions"><a class="btn btn-ghost" href="entry.html">Use free catalog</a></div>`;
     }else if(btns.length){
       actions = `<div class="actions">${btns.map(b => {
-        const has = !!(stripeCfg.paymentLinks && stripeCfg.paymentLinks[b.tier]);
-        const cls = has || stripeCfg.checkoutApi ? "btn btn-primary" : "btn btn-primary btn-muted";
+        const has = !!(payCfg.paymentLinks && payCfg.paymentLinks[b.tier]);
+        const cls = has || payCfg.checkoutApi ? "btn btn-primary" : "btn btn-primary btn-muted";
         return `<button type="button" class="${cls}" data-tier="${b.tier}">${b.label}</button>`;
       }).join("")}
       ${!ready ? `<a class="btn btn-ghost" href="#waitlist">Notify me when live</a>` : ""}
       </div>`;
     }
+    /* Show PHP prices for paid tiers when using PayMongo */
+    let price = t.price;
+    if(provider === "paymongo" && t.id === "library") price = "₱499/mo · ₱4,499/yr (indicative)";
+    if(provider === "paymongo" && t.id === "pastor") price = "₱1,099/mo (indicative)";
     return `<article class="tier${t.id === "library" ? " featured" : ""}">
       <div class="name">${t.name}</div>
-      <div class="price">${t.price}</div>
+      <div class="price">${price}</div>
       <ul>${(t.includes || []).map(x => `<li>${x}</li>`).join("")}</ul>
       ${actions}
     </article>`;
   }).join("");
 
   el.querySelectorAll("button[data-tier]").forEach(btn => {
-    btn.addEventListener("click", () => startCheckout(btn.getAttribute("data-tier"), stripeCfg));
+    btn.addEventListener("click", () => startCheckout(btn.getAttribute("data-tier"), payCfg));
   });
 
-  const banner = document.getElementById("stripeBanner");
-  const status = document.getElementById("stripeStatus");
-  if(ready){
-    banner.innerHTML = `<strong>Stripe is connected</strong> (${stripeCfg.mode || "test"} mode).
-      Choose a plan below — you will complete payment on Stripe’s secure page.
+  const banner = document.getElementById("payBanner");
+  const status = document.getElementById("payStatus");
+  if(ready && provider === "paymongo"){
+    banner.innerHTML = `<strong>PayMongo is connected</strong> (${payCfg.mode || "test"} mode).
+      Pay with GCash, Maya, card, or QR Ph. Funds settle to your PayMongo wallet → RCBC / local bank after KYC.
       <a href="entry.html" style="color:var(--gold)">Public entries stay free</a>.`;
     status.hidden = false;
-    status.textContent = "Manage billing later via the link in your Stripe receipt / customer portal.";
+    status.textContent = "Receipts come from PayMongo. Member page access is still granted manually until auth is live.";
+  }else if(ready && provider === "stripe"){
+    banner.innerHTML = `<strong>Stripe fallback is connected</strong> (${payCfg.mode || "test"}).
+      Prefer PayMongo for PH bank payouts (RCBC). See Hermes/Memory/PayMongo-Membership.md.`;
+    status.hidden = false;
   }else{
-    banner.innerHTML = `<strong>Stripe not provisioned yet.</strong>
-      Owner: add <code>STRIPE_SECRET_KEY</code> and run <code>python3 Hermes/scripts/stripe_provision.py</code>, then redeploy.
+    banner.innerHTML = `<strong>PayMongo not provisioned yet.</strong>
+      Owner steps: sign up at <a href="https://dashboard.paymongo.com/signup" style="color:var(--gold)">dashboard.paymongo.com</a>,
+      complete KYC, add <code>PAYMONGO_SECRET_KEY</code>, run
+      <code>python3 Hermes/scripts/paymongo_provision.py</code>, redeploy.
+      Or paste Payment Link URLs into <code>library/data/paymongo.json</code>.
       Until then, use the waitlist. Free catalog remains open.`;
   }
 }
@@ -414,20 +439,23 @@ function wireWaitlist(){
 }
 
 (async function boot(){
-  const stripeCfg = await loadStripeCfg();
+  const payCfg = await loadPayCfg();
   try{
     const cat = await loadCatalog();
-    renderTiers(cat.tiers, stripeCfg);
+    renderTiers(cat.tiers, payCfg);
     renderPaths(cat.paths);
     renderEntries(cat.entries);
     renderTeasers(cat.member_teasers);
     const filter = document.getElementById("catalogFilter");
     filter.addEventListener("input", () => renderEntries(cat.entries, filter.value));
-    if(typeof csTrack === "function") csTrack("library_view", { stripe: stripeReady(stripeCfg) ? "on" : "off" });
+    if(typeof csTrack === "function") csTrack("library_view", {
+      pay: payReady(payCfg) ? "on" : "off",
+      provider: payCfg._provider || "none",
+    });
   }catch(err){
     document.getElementById("entryMount").innerHTML =
       `<p class="fine-print">Catalog unavailable. Run <code>python3 Hermes/scripts/build_library_catalog.py</code> and redeploy.</p>`;
-    renderTiers([], stripeCfg);
+    renderTiers([], payCfg);
   }
   wireWaitlist();
 })();

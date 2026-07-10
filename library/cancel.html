@@ -24,7 +24,7 @@
   <nav class="site-nav"><a href="../index.html">The Verdict</a><a href="../library.html">Library</a></nav>
 </header>
 <main>
-  <p style="font-family:var(--font-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)">Stripe · canceled</p>
+  <p style="font-family:var(--font-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)">Payment · canceled</p>
   <h1>No charge</h1>
   <p>Checkout was canceled. Nothing was taken. The free Library catalog, Verdict, and Signs remain open.</p>
   <div class="cta-row" style="margin-top:1.5rem">
@@ -34,7 +34,7 @@
   </div>
 </main>
 <script>
-if(typeof csTrack === "function") csTrack("stripe_cancel");
+if(typeof csTrack === "function") csTrack("checkout_cancel", { provider: "paymongo" });
 </script>
 </body>
 </html>

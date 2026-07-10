@@ -25,13 +25,13 @@
   <nav class="site-nav"><a href="../index.html">The Verdict</a><a href="../library.html">Library</a></nav>
 </header>
 <main>
-  <p class="eyebrow" style="font-family:var(--font-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)">Stripe · success</p>
+  <p class="eyebrow" style="font-family:var(--font-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)">Payment · success</p>
   <h1>Thank you</h1>
   <div class="ok">
-    Your subscription checkout completed. Stripe has your payment on file.
+    Your checkout completed. PayMongo (or Stripe) has recorded the payment.
     Access to member-depth pages is being connected — the free front door stays open either way.
   </div>
-  <p>You should receive a receipt from Stripe. We will email Library access instructions
+  <p>You should receive a receipt by email. We will send Library access instructions
     when member pages are gated (or reply to your receipt if you need help sooner).</p>
   <p id="tierLine" style="color:var(--muted);font-size:.9rem"></p>
   <div class="cta-row" style="margin-top:1.5rem">
@@ -51,7 +51,8 @@
     if(tier) localStorage.setItem("cs_member_tier_pending", tier);
     if(session) localStorage.setItem("cs_checkout_session", session);
   }catch(_){}
-  if(typeof csTrack === "function") csTrack("stripe_success", { tier: tier || "unknown" });
+  const provider = q.get("provider") || "paymongo";
+  if(typeof csTrack === "function") csTrack("checkout_success", { tier: tier || "unknown", provider });
 })();
 </script>
 </body>
