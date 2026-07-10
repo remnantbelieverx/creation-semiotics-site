@@ -1,7 +1,165 @@
 {
-  "version": 1,
-  "generated_at": "2026-07-10T04:31:22+00:00",
-  "note": "Free rows from Public-Publish-Allowlist; member teasers are planned, not vault dumps.",
+  "version": 2,
+  "generated_at": "2026-07-10T05:49:37+00:00",
+  "membership_open": false,
+  "note": "Library-first build: free shelves open; member studies locked until membership_open is true and PayMongo is live. Not vault dumps; not sod.",
+  "shelves": [
+    {
+      "pos": "1",
+      "name": "Fear of the LORD",
+      "lens": "Threshold",
+      "href": "branch.html#/1"
+    },
+    {
+      "pos": "2",
+      "name": "Knowledge",
+      "lens": "First Principle",
+      "href": "branch.html#/2"
+    },
+    {
+      "pos": "3",
+      "name": "Wisdom",
+      "lens": "Applied Knowledge",
+      "href": "branch.html#/3"
+    },
+    {
+      "pos": "4",
+      "name": "Shamash",
+      "lens": "The Fire Itself",
+      "href": "branch.html#/4"
+    },
+    {
+      "pos": "5",
+      "name": "Understanding",
+      "lens": "Divine Timing",
+      "href": "branch.html#/5"
+    },
+    {
+      "pos": "6",
+      "name": "Counsel",
+      "lens": "Friend, not Servant",
+      "href": "branch.html#/6"
+    },
+    {
+      "pos": "7",
+      "name": "Might",
+      "lens": "Co-regency",
+      "href": "branch.html#/7"
+    }
+  ],
+  "member_studies": [
+    {
+      "id": "MS-01",
+      "title": "Snowflake — multi-lock study",
+      "pos": "2",
+      "access": "member",
+      "related_free": "entry.html#/snowflake",
+      "outline": [
+        "Lock inventory: which confirmations are independent vs derived",
+        "Bond-angle → lattice chain with precision boundary restated",
+        "Menorah pairing: what the crystal does and does not encode",
+        "Teaching sequence: wonder → mechanism → correspondence → doxology"
+      ],
+      "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file."
+    },
+    {
+      "id": "MS-02",
+      "title": "Triple point — modalism correction brief",
+      "pos": "2",
+      "access": "member",
+      "related_free": "entry.html#/triplepoint",
+      "outline": [
+        "Phase diagram coordinate (public physics)",
+        "Why sequential water analogies fail",
+        "What T1 claims and refuses to claim",
+        "One-page pastor handout structure"
+      ],
+      "blurb": "How to teach the triple point without overclaiming the Trinity."
+    },
+    {
+      "id": "MS-03",
+      "title": "Menorah pairing — architecture notes",
+      "pos": "3",
+      "access": "member",
+      "related_free": "entry.html#/menorah-pairing",
+      "outline": [
+        "Outer / middle / inner pairs at a glance",
+        "Isaiah 11:2 couplets (public summary)",
+        "How Branch navigation uses the pairs",
+        "What stays vault-side (full lock tables)"
+      ],
+      "blurb": "Working map of bilateral architecture for Library readers."
+    },
+    {
+      "id": "MS-04",
+      "title": "Fire & shamash — seven properties pack",
+      "pos": "4",
+      "access": "member",
+      "related_free": "entry.html#/fire",
+      "outline": [
+        "Property list with one sentence each",
+        "Rising flame as load-bearing constant",
+        "Aaronic blessing adjacency (public)",
+        "Slide-ready image brief (for pastor tier later)"
+      ],
+      "blurb": "Shamash-centered study connecting fire exhibit to lamp center."
+    },
+    {
+      "id": "MS-05",
+      "title": "Conscience → Verdict → Care path deep",
+      "pos": "1",
+      "access": "member",
+      "related_free": "entry.html#/conscience",
+      "outline": [
+        "Forensic Greek terms (public altitude)",
+        "How The Verdict maps Entry 1.1",
+        "Robe Exchange as legal exchange (summary)",
+        "Follow-up: Care + church help without pressure"
+      ],
+      "blurb": "Pastoral-ready path from tribunal within to next steps."
+    },
+    {
+      "id": "MS-06",
+      "title": "Walk the lamp — position guide",
+      "pos": "all",
+      "access": "member",
+      "related_free": "menorah.html",
+      "outline": [
+        "One paragraph per Spirit-lens",
+        "Suggested first entry per branch",
+        "Bilateral pairs in reading order",
+        "What not to invent on thin shelves (esp. Counsel)"
+      ],
+      "blurb": "Companion to the interactive lamp for serious readers."
+    },
+    {
+      "id": "MS-07",
+      "title": "Sermon illustration pack (Pastor)",
+      "pos": "—",
+      "access": "pastor",
+      "related_free": "entry.html",
+      "outline": [
+        "One illustration page per free Sign",
+        "Citation line + precision note footer",
+        "Suggested Scripture reading",
+        "Teaching license terms (when live)"
+      ],
+      "blurb": "Pastor tier: citation-clean handouts — locked until membership opens."
+    },
+    {
+      "id": "MS-08",
+      "title": "Member catalog search",
+      "pos": "—",
+      "access": "member",
+      "related_free": "library.html#shelves",
+      "outline": [
+        "Search free + member study titles",
+        "Filter by position and path",
+        "Never indexes SecretThings"
+      ],
+      "blurb": "Tooling shelf — ships with auth; free filter already works on public catalog."
+    }
+  ],
   "tiers": [
     {
       "id": "free",
@@ -294,37 +452,92 @@
   ],
   "member_teasers": [
     {
-      "id": "M-01",
-      "title": "Full multi-lock tables (preview)",
+      "id": "MS-01",
+      "title": "Snowflake — multi-lock study",
       "altitude": "member",
       "access": "member",
-      "pos": null,
-      "blurb": "Side-by-side lock matrices for flagship entries — generated from vault frontmatter when the pipeline is live. Not shipped as raw markdown.",
+      "pos": "2",
+      "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file.",
       "publicHref": "entry.html#/snowflake",
       "memberHref": null,
-      "status": "planned"
+      "status": "locked"
     },
     {
-      "id": "M-02",
-      "title": "Sermon illustration pack (Pastor tier)",
-      "altitude": "member",
-      "access": "pastor",
-      "pos": null,
-      "blurb": "One-page, citation-clean illustrations per allowlisted sign — teaching license for church contexts.",
-      "publicHref": "entry.html",
-      "memberHref": null,
-      "status": "planned"
-    },
-    {
-      "id": "M-03",
-      "title": "Corpus search",
+      "id": "MS-02",
+      "title": "Triple point — modalism correction brief",
       "altitude": "member",
       "access": "member",
-      "pos": null,
-      "blurb": "Full-text search over member-altitude pages (not SecretThings). Static catalog filter is free; true search ships with the build pipeline.",
-      "publicHref": "library.html#catalog",
+      "pos": "2",
+      "blurb": "How to teach the triple point without overclaiming the Trinity.",
+      "publicHref": "entry.html#/triplepoint",
       "memberHref": null,
-      "status": "planned"
+      "status": "locked"
+    },
+    {
+      "id": "MS-03",
+      "title": "Menorah pairing — architecture notes",
+      "altitude": "member",
+      "access": "member",
+      "pos": "3",
+      "blurb": "Working map of bilateral architecture for Library readers.",
+      "publicHref": "entry.html#/menorah-pairing",
+      "memberHref": null,
+      "status": "locked"
+    },
+    {
+      "id": "MS-04",
+      "title": "Fire & shamash — seven properties pack",
+      "altitude": "member",
+      "access": "member",
+      "pos": "4",
+      "blurb": "Shamash-centered study connecting fire exhibit to lamp center.",
+      "publicHref": "entry.html#/fire",
+      "memberHref": null,
+      "status": "locked"
+    },
+    {
+      "id": "MS-05",
+      "title": "Conscience → Verdict → Care path deep",
+      "altitude": "member",
+      "access": "member",
+      "pos": "1",
+      "blurb": "Pastoral-ready path from tribunal within to next steps.",
+      "publicHref": "entry.html#/conscience",
+      "memberHref": null,
+      "status": "locked"
+    },
+    {
+      "id": "MS-06",
+      "title": "Walk the lamp — position guide",
+      "altitude": "member",
+      "access": "member",
+      "pos": "all",
+      "blurb": "Companion to the interactive lamp for serious readers.",
+      "publicHref": "menorah.html",
+      "memberHref": null,
+      "status": "locked"
+    },
+    {
+      "id": "MS-07",
+      "title": "Sermon illustration pack (Pastor)",
+      "altitude": "member",
+      "access": "pastor",
+      "pos": "—",
+      "blurb": "Pastor tier: citation-clean handouts — locked until membership opens.",
+      "publicHref": "entry.html",
+      "memberHref": null,
+      "status": "locked"
+    },
+    {
+      "id": "MS-08",
+      "title": "Member catalog search",
+      "altitude": "member",
+      "access": "member",
+      "pos": "—",
+      "blurb": "Tooling shelf — ships with auth; free filter already works on public catalog.",
+      "publicHref": "library.html#shelves",
+      "memberHref": null,
+      "status": "locked"
     }
   ],
   "paths": [

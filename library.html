@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0B0D12">
-<meta name="description" content="The Creation Semiotics Library — free front door, membership depth. Gospel free forever; typological depth for members.">
+<meta name="description" content="Creation Semiotics Library — free shelves open now; membership depth locked until payments are ready.">
 <title>Library · Creation Semiotics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,7 @@
 <style>
   body{font-weight:300}
   main.lib{
-    max-width:820px;margin:0 auto;
+    max-width:860px;margin:0 auto;
     padding:clamp(2rem,5vw,3.5rem) clamp(1.25rem,4vw,2rem) 4rem;
   }
   .eyebrow{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.2em;
@@ -26,34 +26,38 @@
     font-size:clamp(1.9rem,5vw,2.75rem);line-height:1.1;color:var(--parchment);
     margin:0 0 1rem;
   }
-  .lead{font-size:1.12rem;line-height:1.55;color:var(--text-dim);max-width:38em}
+  .lead{font-size:1.12rem;line-height:1.55;color:var(--text-dim);max-width:40em}
   .banner{
     margin:1.75rem 0;padding:1rem 1.15rem;border:1px solid color-mix(in srgb,var(--gold) 28%,transparent);
-    background:color-mix(in srgb,var(--gold) 8%,transparent);font-size:.95rem;color:var(--parchment);
+    background:color-mix(in srgb,var(--gold) 8%,transparent);font-size:.95rem;color:var(--parchment);line-height:1.5;
   }
   .banner strong{color:var(--gold)}
+  .subnav{
+    display:flex;flex-wrap:wrap;gap:.5rem .85rem;margin:1.25rem 0 0;
+    font-family:var(--font-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  }
+  .subnav a{color:var(--text-dim);border:0}
+  .subnav a:hover{color:var(--gold)}
   section{margin:2.75rem 0;padding-top:1.75rem;border-top:1px solid color-mix(in srgb,var(--gold) 12%,transparent)}
   section h2{
-    font-family:var(--font-display);font-weight:500;font-size:1.45rem;color:var(--parchment);margin:0 0 .85rem;
+    font-family:var(--font-display);font-weight:500;font-size:1.45rem;color:var(--parchment);margin:0 0 .5rem;
   }
-  section p{color:var(--text-dim);line-height:1.6;font-size:1rem}
-  .tier-grid{display:grid;gap:1rem;margin-top:1.25rem}
-  @media(min-width:640px){.tier-grid{grid-template-columns:repeat(3,1fr)}}
-  .tier{
-    border:1px solid color-mix(in srgb,var(--gold) 16%,transparent);
-    background:linear-gradient(180deg,color-mix(in srgb,var(--bg-2) 70%,transparent),color-mix(in srgb,var(--bg-0) 85%,transparent));
-    border-radius:var(--radius);padding:1.25rem 1.2rem;display:flex;flex-direction:column;gap:.55rem;
+  section .sec-lead{color:var(--text-dim);line-height:1.55;font-size:.98rem;margin:0 0 1.1rem;max-width:42em}
+  .shelf-grid{display:grid;gap:.75rem;margin-top:.5rem}
+  @media(min-width:560px){.shelf-grid{grid-template-columns:1fr 1fr}}
+  @media(min-width:800px){.shelf-grid{grid-template-columns:1fr 1fr 1fr}}
+  .shelf{
+    display:block;padding:1.1rem 1.15rem;border:1px solid color-mix(in srgb,var(--gold) 14%,transparent);
+    border-radius:var(--radius);text-decoration:none;color:inherit;
+    background:linear-gradient(180deg,color-mix(in srgb,var(--bg-2) 65%,transparent),color-mix(in srgb,var(--bg-0) 90%,transparent));
+    transition:border-color .2s,transform .15s;
   }
-  .tier.featured{border-color:color-mix(in srgb,var(--gold) 45%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--gold) 15%,transparent)}
-  .tier .name{font-family:var(--font-display);font-size:1.15rem;color:var(--parchment)}
-  .tier .price{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
-  .tier ul{margin:.4rem 0 0;padding-left:1.1rem;color:var(--text-dim);font-size:.9rem;line-height:1.5;flex:1}
-  .tier li{margin:.3rem 0}
-  .tier .actions{display:flex;flex-direction:column;gap:.45rem;margin-top:.85rem}
-  .tier .actions .btn{width:100%;text-align:center;justify-content:center}
-  .tier .btn-muted{opacity:.65;pointer-events:none}
-  #stripeStatus{font-size:.88rem;color:var(--muted);margin-top:.75rem}
-  .path-list{display:flex;flex-direction:column;gap:.75rem;margin-top:1rem}
+  .shelf:hover{border-color:color-mix(in srgb,var(--gold) 40%,transparent);transform:translateY(-1px);color:inherit}
+  .shelf .pos{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+  .shelf h3{font-family:var(--font-display);font-size:1.15rem;color:var(--parchment);margin:.35rem 0 .2rem}
+  .shelf .lens{font-size:.85rem;color:var(--muted);font-style:italic}
+  .shelf .count{font-size:.78rem;color:var(--text-faint);margin-top:.55rem}
+  .path-list{display:flex;flex-direction:column;gap:.75rem}
   .path-card{
     border:1px solid color-mix(in srgb,var(--gold) 14%,transparent);border-radius:var(--radius);
     padding:1.1rem 1.2rem;background:color-mix(in srgb,var(--bg-1) 80%,transparent);
@@ -62,18 +66,18 @@
   .path-card .aud{font-size:.85rem;color:var(--muted);font-style:italic;margin-bottom:.65rem}
   .path-card ol{margin:0;padding-left:1.2rem;color:var(--text-dim);font-size:.92rem}
   .path-card a{color:var(--gold)}
-  .path-card.locked{opacity:.85}
+  .path-card.locked{opacity:.9;border-style:dashed}
   .lock-tag{
     display:inline-block;font-family:var(--font-mono);font-size:.58rem;letter-spacing:.14em;
     text-transform:uppercase;color:var(--gold);border:1px solid color-mix(in srgb,var(--gold) 35%,transparent);
     padding:.15rem .45rem;border-radius:2px;margin-left:.4rem;vertical-align:middle;
   }
-  .catalog-tools{display:flex;flex-wrap:wrap;gap:.65rem;margin:1rem 0;align-items:center}
+  .catalog-tools{display:flex;flex-wrap:wrap;gap:.65rem;margin:0 0 1rem;align-items:center}
   .catalog-tools input{
     flex:1;min-width:12rem;padding:.6rem .75rem;border:1px solid var(--line);border-radius:2px;
     background:var(--bg);color:var(--text);font:inherit;
   }
-  .entry-list{display:flex;flex-direction:column;gap:.55rem;margin-top:.75rem}
+  .entry-list{display:flex;flex-direction:column;gap:.55rem}
   .entry-row{
     display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem 1rem;align-items:baseline;
     padding:.85rem 1rem;border:1px solid color-mix(in srgb,var(--gold) 12%,transparent);border-radius:var(--radius);
@@ -83,6 +87,35 @@
   .entry-row .id{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
   .entry-row .t{font-family:var(--font-display);font-size:1.05rem;color:var(--parchment)}
   .entry-row .meta{font-size:.8rem;color:var(--muted)}
+  .study-list{display:flex;flex-direction:column;gap:1rem}
+  .study{
+    border:1px dashed color-mix(in srgb,var(--gold) 28%,transparent);border-radius:var(--radius);
+    padding:1.15rem 1.25rem;background:color-mix(in srgb,var(--bg-1) 70%,transparent);position:relative;
+  }
+  .study h3{font-family:var(--font-display);font-size:1.15rem;color:var(--parchment);margin:0 0 .4rem}
+  .study .blurb{font-size:.92rem;color:var(--text-dim);line-height:1.5;margin:0 0 .75rem}
+  .study ol{margin:0;padding-left:1.2rem;color:var(--muted);font-size:.88rem;line-height:1.5}
+  .study li{margin:.3rem 0}
+  .study .foot{margin-top:.85rem;display:flex;flex-wrap:wrap;gap:.65rem;align-items:center;font-size:.85rem}
+  .study .foot a{color:var(--gold)}
+  .study .locked-label{
+    font-family:var(--font-mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);
+  }
+  .tier-grid{display:grid;gap:1rem;margin-top:1rem}
+  @media(min-width:640px){.tier-grid{grid-template-columns:repeat(3,1fr)}}
+  .tier{
+    border:1px solid color-mix(in srgb,var(--gold) 16%,transparent);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--bg-2) 70%,transparent),color-mix(in srgb,var(--bg-0) 85%,transparent));
+    border-radius:var(--radius);padding:1.25rem 1.2rem;display:flex;flex-direction:column;gap:.55rem;
+  }
+  .tier.featured{border-color:color-mix(in srgb,var(--gold) 40%,transparent)}
+  .tier .name{font-family:var(--font-display);font-size:1.1rem;color:var(--parchment)}
+  .tier .price{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+  .tier ul{margin:.4rem 0 0;padding-left:1.1rem;color:var(--text-dim);font-size:.88rem;line-height:1.45;flex:1}
+  .tier .soon{
+    margin-top:.75rem;font-family:var(--font-mono);font-size:.58rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--text-faint);
+  }
   .wait{
     margin-top:1rem;padding:1.25rem 1.3rem;border:1px solid color-mix(in srgb,var(--gold) 22%,transparent);
     background:color-mix(in srgb,var(--bg-2) 75%,transparent);border-radius:var(--radius);
@@ -95,13 +128,6 @@
   #waitNote{font-size:.9rem;color:var(--text-dim);margin:0}
   #waitNote[hidden]{display:none}
   .fine-print{font-size:.85rem;color:var(--muted);font-style:italic;margin-top:1rem;line-height:1.5}
-  .teaser-grid{display:grid;gap:.75rem;margin-top:1rem}
-  @media(min-width:560px){.teaser-grid{grid-template-columns:1fr 1fr}}
-  .teaser{
-    padding:1rem 1.1rem;border:1px dashed color-mix(in srgb,var(--gold) 22%,transparent);border-radius:var(--radius);
-  }
-  .teaser h3{font-size:1rem;color:var(--parchment);margin:0 0 .4rem;font-family:var(--font-display)}
-  .teaser p{font-size:.88rem;margin:0;color:var(--text-dim);line-height:1.5}
 </style>
 </head>
 <body data-register="library">
@@ -121,59 +147,71 @@
 </header>
 
 <main class="lib">
-  <p class="eyebrow">Phase 2 · Membership shell</p>
-  <h1>The Library</h1>
-  <p class="lead">The front door stays free forever — The Verdict, free Signs, Care, and public
-    entry summaries. Membership is for <em>typological depth</em>: longer allowlisted
-    study, full reading paths, and (for pastors) teaching packs. Sod-level material
-    is never sold.</p>
+  <p class="eyebrow">Phase 2 · The Library</p>
+  <h1>Read the lamp seriously</h1>
+  <p class="lead">This is the digital reading room for Creation Semiotics. <strong style="color:var(--parchment);font-weight:500">Free shelves are open now</strong> —
+    public entries, reading paths, and the seven branches. <em>Membership depth is built and locked</em>
+    until payments (PayMongo) and access are ready. Sod-level material is never sold.</p>
 
-  <div class="banner" role="status" id="payBanner">
-    <strong>PayMongo checkout (Philippines)</strong> — GCash, Maya, card, QR Ph when links are provisioned.
-    Payouts go to a local bank (e.g. RCBC) after PayMongo KYC. Until live, join the waitlist.
-    The free front door never requires payment.
-  </div>
-  <p id="payStatus" hidden></p>
-
-  <div class="cta-row">
-    <a class="btn btn-primary" href="#tiers">Subscribe</a>
-    <a class="btn btn-ghost" href="#waitlist">Waitlist</a>
-    <a class="btn btn-ghost" href="menorah.html">Free lamp</a>
-    <a class="btn btn-ghost" href="entry.html">Public entries</a>
+  <div class="banner" role="status">
+    <strong>Membership checkout is closed for now.</strong>
+    We are finishing the Library first. Join the waitlist if you want to be told when
+    paid depth opens. Meanwhile: walk the free shelves below.
   </div>
 
-  <section id="tiers" aria-labelledby="tiers-h">
-    <h2 id="tiers-h">Tiers</h2>
-    <p>Prices are indicative until Stripe products are connected. Gospel content is never gated.</p>
-    <div class="tier-grid" id="tierMount"></div>
+  <nav class="subnav" aria-label="On this page">
+    <a href="#shelves">Shelves</a>
+    <a href="#paths">Paths</a>
+    <a href="#catalog">Free catalog</a>
+    <a href="#member-depth">Member depth (locked)</a>
+    <a href="#waitlist">Waitlist</a>
+  </nav>
+
+  <div class="cta-row" style="margin-top:1.25rem">
+    <a class="btn btn-primary" href="#shelves">Browse free shelves</a>
+    <a class="btn btn-ghost" href="menorah.html">The Lamp</a>
+    <a class="btn btn-ghost" href="entry.html">All public entries</a>
+    <a class="btn btn-ghost" href="#waitlist">Join waitlist</a>
+  </div>
+
+  <section id="shelves" aria-labelledby="shelves-h">
+    <h2 id="shelves-h">Shelves by branch</h2>
+    <p class="sec-lead">Seven positions of the lamp. Each shelf opens the Branch view and lists how many free catalog items touch that position.</p>
+    <div class="shelf-grid" id="shelfMount"></div>
   </section>
 
   <section id="paths" aria-labelledby="paths-h">
     <h2 id="paths-h">Reading paths</h2>
-    <p>Curated walks through free material. Member-only paths show as locked until membership opens.</p>
+    <p class="sec-lead">Curated walks through free material. One member path stays locked as a preview of paid depth.</p>
     <div class="path-list" id="pathMount"></div>
   </section>
 
   <section id="catalog" aria-labelledby="catalog-h">
-    <h2 id="catalog-h">Free catalog (allowlisted)</h2>
-    <p>Every row is already readable on the public site. Filter by title or allowlist id.</p>
+    <h2 id="catalog-h">Free catalog</h2>
+    <p class="sec-lead">Allowlisted public summaries only. Filter by title, id, or keyword — then open the entry reader.</p>
     <div class="catalog-tools">
-      <input type="search" id="catalogFilter" placeholder="Filter entries…" aria-label="Filter catalog">
+      <input type="search" id="catalogFilter" placeholder="Filter free entries…" aria-label="Filter catalog">
     </div>
     <div class="entry-list" id="entryMount"></div>
   </section>
 
-  <section id="coming" aria-labelledby="coming-h">
-    <h2 id="coming-h">Coming for members</h2>
-    <p>Planned depth — not vault dumps, not SecretThings.</p>
-    <div class="teaser-grid" id="teaserMount"></div>
+  <section id="member-depth" aria-labelledby="depth-h">
+    <h2 id="depth-h">Member depth <span class="lock-tag">Locked</span></h2>
+    <p class="sec-lead">Study sheets and pastor packs are designed here so the Library is real before checkout opens.
+      Outlines are visible; full sheets stay locked. Not vault dumps. Not SecretThings.</p>
+    <div class="study-list" id="studyMount"></div>
+  </section>
+
+  <section id="tiers" aria-labelledby="tiers-h">
+    <h2 id="tiers-h">When membership opens</h2>
+    <p class="sec-lead">Indicative tiers (PayMongo, PHP). No payment buttons until the owner enables checkout.</p>
+    <div class="tier-grid" id="tierMount"></div>
   </section>
 
   <section id="waitlist" aria-labelledby="wait-h">
     <h2 id="wait-h">Waitlist</h2>
     <div class="wait">
-      <p>Tell us your email and which tier interests you. A person is notified; we will
-        write when membership opens — unhurriedly, no spam blasts.</p>
+      <p>Get a quiet note when membership depth unlocks. Free shelves stay free either way.</p>
       <form id="waitForm">
         <div>
           <label for="waitEmail">Email</label>
@@ -192,16 +230,14 @@
         <button class="btn btn-primary" type="submit">Join waitlist</button>
         <p id="waitNote" hidden role="status"></p>
       </form>
-      <p class="fine-print">By joining you agree only to hear when the Library opens or when
-        you ask a question. The Verdict and free Signs stay free without joining.</p>
+      <p class="fine-print">No spam. Gospel content never requires a subscription.</p>
     </div>
   </section>
 
   <section>
     <h2>Stewardship</h2>
-    <p>“The front door is free forever. Members and donors hold it open.” Depth may be
-      paid; the court may not. For the product plan and publication boundary, see the
-      vault docs (Hermes Memory) — this page is the public shell of Phase 2.</p>
+    <p class="sec-lead" style="margin:0">“The front door is free forever. Members and donors hold it open.”
+      Payments (PayMongo) come after the Library is worth unlocking.</p>
   </section>
 </main>
 
@@ -215,8 +251,7 @@
       <a href="library.html">Library</a>
       <a href="care/welcome.html">Care</a>
     </nav>
-    <p class="fine">Phase 2 shell · Auth/Stripe not connected · Catalog from allowlist ·
-      Sod withheld by design</p>
+    <p class="fine">Library-first · Membership locked · Free shelves open · Sod withheld</p>
   </div>
 </footer>
 
@@ -225,133 +260,38 @@
 
 const FORMSPREE = "https://formspree.io/f/xaqgrqov";
 
-/** Maps catalog tier ids → payment-link keys */
-const PAY_BTNS = {
-  free: [],
-  library: [
-    { tier: "library_monthly", label: "Pay · monthly (₱499)" },
-    { tier: "library_yearly", label: "Pay · yearly (₱4,499)" },
-  ],
-  pastor: [
-    { tier: "pastor_monthly", label: "Pay · Pastor monthly (₱1,099)" },
-  ],
-};
-
 async function loadCatalog(){
   const res = await fetch("library/data/catalog.json", { cache: "no-store" });
-  if(!res.ok) throw new Error("catalog missing — run build_library_catalog.py");
+  if(!res.ok) throw new Error("catalog missing");
   return res.json();
 }
 
-async function loadPayCfg(){
-  /* PayMongo first (PH); Stripe optional fallback if paymongo empty */
-  try{
-    const res = await fetch("library/data/paymongo.json", { cache: "no-store" });
-    if(res.ok){
-      const cfg = await res.json();
-      cfg._provider = "paymongo";
-      if(payReady(cfg)) return cfg;
+function countByPos(entries){
+  const map = {};
+  (entries || []).forEach(e => {
+    const raw = String(e.pos || "");
+    const nums = raw.match(/\d+/g) || [];
+    if(!nums.length && (raw === "all" || e.id === "A-12")){
+      for(let i=1;i<=7;i++) map[String(i)] = (map[String(i)] || 0) + 1;
+      return;
     }
-  }catch(_){}
-  try{
-    const res = await fetch("library/data/stripe.json", { cache: "no-store" });
-    if(res.ok){
-      const cfg = await res.json();
-      cfg._provider = "stripe";
-      return cfg;
-    }
-  }catch(_){}
-  return { mode: "off", paymentLinks: {}, _provider: "none" };
-}
-
-function payReady(cfg){
-  const links = (cfg && cfg.paymentLinks) || {};
-  return !!(links.library_monthly || links.library_yearly || links.pastor_monthly || (cfg && cfg.checkoutApi));
-}
-
-async function startCheckout(tier, cfg){
-  const links = (cfg && cfg.paymentLinks) || {};
-  const link = links[tier];
-  const provider = (cfg && cfg._provider) || "paymongo";
-  if(link){
-    if(typeof csTrack === "function") csTrack("checkout_click", { tier, via: "payment_link", provider });
-    location.href = link;
-    return;
-  }
-  if(cfg && cfg.checkoutApi){
-    if(typeof csTrack === "function") csTrack("checkout_click", { tier, via: "api", provider });
-    try{
-      const res = await fetch(cfg.checkoutApi, {
-        method: "POST",
-        headers: { "Accept": "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({ tier }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if(data.url){ location.href = data.url; return; }
-      alert(data.error || "Checkout unavailable. Try the waitlist.");
-    }catch(_){
-      alert("Checkout unavailable. Try the waitlist.");
-    }
-    return;
-  }
-  alert("PayMongo is not configured yet. Join the waitlist, or the owner can run paymongo_provision.py after adding API keys.");
-  location.hash = "#waitlist";
-}
-
-function renderTiers(tiers, payCfg){
-  const el = document.getElementById("tierMount");
-  const ready = payReady(payCfg);
-  const provider = (payCfg && payCfg._provider) || "paymongo";
-  el.innerHTML = (tiers || []).map((t) => {
-    const btns = PAY_BTNS[t.id] || [];
-    let actions = "";
-    if(t.id === "free"){
-      actions = `<div class="actions"><a class="btn btn-ghost" href="entry.html">Use free catalog</a></div>`;
-    }else if(btns.length){
-      actions = `<div class="actions">${btns.map(b => {
-        const has = !!(payCfg.paymentLinks && payCfg.paymentLinks[b.tier]);
-        const cls = has || payCfg.checkoutApi ? "btn btn-primary" : "btn btn-primary btn-muted";
-        return `<button type="button" class="${cls}" data-tier="${b.tier}">${b.label}</button>`;
-      }).join("")}
-      ${!ready ? `<a class="btn btn-ghost" href="#waitlist">Notify me when live</a>` : ""}
-      </div>`;
-    }
-    /* Show PHP prices for paid tiers when using PayMongo */
-    let price = t.price;
-    if(provider === "paymongo" && t.id === "library") price = "₱499/mo · ₱4,499/yr (indicative)";
-    if(provider === "paymongo" && t.id === "pastor") price = "₱1,099/mo (indicative)";
-    return `<article class="tier${t.id === "library" ? " featured" : ""}">
-      <div class="name">${t.name}</div>
-      <div class="price">${price}</div>
-      <ul>${(t.includes || []).map(x => `<li>${x}</li>`).join("")}</ul>
-      ${actions}
-    </article>`;
-  }).join("");
-
-  el.querySelectorAll("button[data-tier]").forEach(btn => {
-    btn.addEventListener("click", () => startCheckout(btn.getAttribute("data-tier"), payCfg));
+    nums.forEach(n => { map[n] = (map[n] || 0) + 1; });
   });
+  return map;
+}
 
-  const banner = document.getElementById("payBanner");
-  const status = document.getElementById("payStatus");
-  if(ready && provider === "paymongo"){
-    banner.innerHTML = `<strong>PayMongo is connected</strong> (${payCfg.mode || "test"} mode).
-      Pay with GCash, Maya, card, or QR Ph. Funds settle to your PayMongo wallet → RCBC / local bank after KYC.
-      <a href="entry.html" style="color:var(--gold)">Public entries stay free</a>.`;
-    status.hidden = false;
-    status.textContent = "Receipts come from PayMongo. Member page access is still granted manually until auth is live.";
-  }else if(ready && provider === "stripe"){
-    banner.innerHTML = `<strong>Stripe fallback is connected</strong> (${payCfg.mode || "test"}).
-      Prefer PayMongo for PH bank payouts (RCBC). See Hermes/Memory/PayMongo-Membership.md.`;
-    status.hidden = false;
-  }else{
-    banner.innerHTML = `<strong>PayMongo not provisioned yet.</strong>
-      Owner steps: sign up at <a href="https://dashboard.paymongo.com/signup" style="color:var(--gold)">dashboard.paymongo.com</a>,
-      complete KYC, add <code>PAYMONGO_SECRET_KEY</code>, run
-      <code>python3 Hermes/scripts/paymongo_provision.py</code>, redeploy.
-      Or paste Payment Link URLs into <code>library/data/paymongo.json</code>.
-      Until then, use the waitlist. Free catalog remains open.`;
-  }
+function renderShelves(shelves, entries){
+  const counts = countByPos(entries);
+  const el = document.getElementById("shelfMount");
+  el.innerHTML = (shelves || []).map(s => {
+    const n = counts[s.pos] || 0;
+    return `<a class="shelf" href="${s.href}">
+      <div class="pos">Position ${s.pos}</div>
+      <h3>${s.name}</h3>
+      <div class="lens">${s.lens}</div>
+      <div class="count">${n} free catalog touch${n===1?"":"es"} · open branch</div>
+    </a>`;
+  }).join("");
 }
 
 function renderPaths(paths){
@@ -387,20 +327,49 @@ function renderEntries(entries, q){
   el.innerHTML = list.map(e => `
     <a class="entry-row" href="${e.publicHref || "entry.html"}">
       <div>
-        <div class="id">${e.id} · ${e.access || "free"}</div>
+        <div class="id">${e.id} · free</div>
         <div class="t">${e.title}</div>
       </div>
-      <div class="meta">Pos ${e.pos || "—"} · ${e.status || ""}</div>
+      <div class="meta">Pos ${e.pos || "—"}</div>
     </a>`).join("");
 }
 
-function renderTeasers(rows){
-  const el = document.getElementById("teaserMount");
-  el.innerHTML = (rows || []).map(t => `
-    <article class="teaser">
-      <h3>${t.title} <span class="lock-tag">${t.access || "member"}</span></h3>
-      <p>${t.blurb || ""}</p>
-    </article>`).join("");
+function renderStudies(studies){
+  const el = document.getElementById("studyMount");
+  el.innerHTML = (studies || []).map(s => {
+    const outline = (s.outline || []).map(x => `<li>${x}</li>`).join("");
+    const free = s.related_free
+      ? `<a href="${s.related_free}">Open related free page →</a>`
+      : "";
+    return `<article class="study">
+      <h3>${s.title} <span class="lock-tag">${s.access || "member"}</span></h3>
+      <p class="blurb">${s.blurb || ""}</p>
+      <ol>${outline}</ol>
+      <div class="foot">
+        <span class="locked-label">Full sheet locked</span>
+        ${free}
+      </div>
+    </article>`;
+  }).join("");
+}
+
+function renderTiers(tiers){
+  const el = document.getElementById("tierMount");
+  el.innerHTML = (tiers || []).map(t => {
+    let price = t.price;
+    if(t.id === "library") price = "₱499/mo · ₱4,499/yr (when open)";
+    if(t.id === "pastor") price = "₱1,099/mo (when open)";
+    if(t.id === "free") price = "Free forever";
+    const soon = t.id === "free"
+      ? `<div class="soon"><a class="btn btn-ghost" href="#catalog" style="width:100%;text-align:center">Browse free catalog</a></div>`
+      : `<div class="soon">Checkout locked · waitlist only</div>`;
+    return `<article class="tier${t.id === "library" ? " featured" : ""}">
+      <div class="name">${t.name}</div>
+      <div class="price">${price}</div>
+      <ul>${(t.includes || []).map(x => `<li>${x}</li>`).join("")}</ul>
+      ${soon}
+    </article>`;
+  }).join("");
 }
 
 function wireWaitlist(){
@@ -420,7 +389,7 @@ function wireWaitlist(){
         body: JSON.stringify({
           email,
           tier,
-          message: "Library membership waitlist",
+          message: "Library membership waitlist (membership locked / library-first)",
           list: "library-membership",
           _subject: "Library membership waitlist",
         }),
@@ -428,7 +397,7 @@ function wireWaitlist(){
       const data = await res.json().catch(() => ({}));
       if(res.ok || data.ok){
         note.innerHTML = "You're on the list for <strong>" + email.replace(/</g,"") +
-          "</strong>. We'll write when membership opens.";
+          "</strong>. We'll write when membership depth unlocks.";
         form.reset();
         if(typeof csTrack === "function") csTrack("library_waitlist", { tier });
       }else throw new Error("fail");
@@ -439,23 +408,25 @@ function wireWaitlist(){
 }
 
 (async function boot(){
-  const payCfg = await loadPayCfg();
   try{
     const cat = await loadCatalog();
-    renderTiers(cat.tiers, payCfg);
+    renderShelves(cat.shelves, cat.entries);
     renderPaths(cat.paths);
     renderEntries(cat.entries);
-    renderTeasers(cat.member_teasers);
+    renderStudies(cat.member_studies || cat.member_teasers);
+    renderTiers(cat.tiers);
     const filter = document.getElementById("catalogFilter");
     filter.addEventListener("input", () => renderEntries(cat.entries, filter.value));
-    if(typeof csTrack === "function") csTrack("library_view", {
-      pay: payReady(payCfg) ? "on" : "off",
-      provider: payCfg._provider || "none",
-    });
+    if(typeof csTrack === "function"){
+      csTrack("library_view", {
+        membership_open: !!cat.membership_open,
+        free_entries: (cat.entries || []).length,
+        locked_studies: (cat.member_studies || []).length,
+      });
+    }
   }catch(err){
     document.getElementById("entryMount").innerHTML =
-      `<p class="fine-print">Catalog unavailable. Run <code>python3 Hermes/scripts/build_library_catalog.py</code> and redeploy.</p>`;
-    renderTiers([], payCfg);
+      `<p class="fine-print">Catalog unavailable. Run <code>python3 Hermes/scripts/build_library_catalog.py</code>.</p>`;
   }
   wireWaitlist();
 })();
