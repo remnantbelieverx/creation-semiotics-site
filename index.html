@@ -384,6 +384,9 @@ const CONFIG = {
     signatureFormAction: "",          // override (optional)
     wantFormAction: "",               // override (optional)
     questionsFormAction: "",          // override (optional); else formspreeQuestions
+    /* Optional: HTTPS URL of a secret-holding proxy that POSTs to Buttondown API
+       (see Hermes/scripts/esp_subscribe_proxy). When set, no Turnstile popup. */
+    subscribeProxy: "",
   },
 };
 
@@ -830,18 +833,26 @@ function formspreeUrl(){
   return (espEndpoints().questions || CONFIG.esp.formspreeQuestions || "").trim();
 }
 
-/** Submit to Formspree via fetch (no stuck captcha page). */
+function escapeHtml(s){
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** Submit to Formspree via fetch (owner notification). */
 async function submitFormspree(fields, noteEl, successHtml){
   const url = formspreeUrl();
   if(!url){
-    if(noteEl){
+    if(noteEl && successHtml === undefined){
       noteEl.hidden = false;
       noteEl.innerHTML = `Form not configured. Email
         <a href="mailto:${CONFIG.contactEmail}">${CONFIG.contactEmail}</a>.`;
     }
     return false;
   }
-  if(noteEl){ noteEl.hidden = false; noteEl.textContent = "Sending…"; }
+  if(noteEl && successHtml !== null){ noteEl.hidden = false; noteEl.textContent = "Sending…"; }
   try{
     const res = await fetch(url, {
       method: "POST",
@@ -850,11 +861,111 @@ async function submitFormspree(fields, noteEl, successHtml){
     });
     const data = await res.json().catch(() => ({}));
     if(res.ok || data.ok){
-      if(noteEl){ noteEl.hidden = false; noteEl.innerHTML = successHtml; }
+      if(noteEl && successHtml){ noteEl.hidden = false; noteEl.innerHTML = successHtml; }
       return true;
     }
     throw new Error((data && data.error) || res.statusText || "Request failed");
   }catch(err){
+    if(noteEl && successHtml !== null){
+      noteEl.hidden = false;
+      noteEl.innerHTML = `Could not send. Try again, or email
+        <a href="mailto:${CONFIG.contactEmail}">${CONFIG.contactEmail}</a>.`;
+    }
+    return false;
+  }
+}
+
+/**
+ * Add subscriber on Buttondown so they receive the confirmation email.
+ * Prefer CONFIG.esp.subscribeProxy (server-side API). Fallback: popup to
+ * Buttondown embed (Turnstile must run on buttondown.com — cannot iframe).
+ * Call only from a user gesture so the popup is not blocked.
+ */
+async function subscribeButtondown(email, listTag, popupRef){
+  const proxy = ((CONFIG.esp || {}).subscribeProxy || "").trim();
+  if(proxy){
+    try{
+      const res = await fetch(proxy, {
+        method: "POST",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({ email, list: listTag || "signature" }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if(res.ok && (data.ok || data.id || data.email_address)){
+        return { ok: true, via: "proxy", needsVerify: false };
+      }
+      /* fall through to embed if proxy misconfigured */
+    }catch(_){ /* fall through */ }
+  }
+
+  const user = ((CONFIG.esp || {}).buttondownUsername || "").trim();
+  if(!user) return { ok: false, via: "none" };
+  const action = `https://buttondown.com/api/emails/embed-subscribe/${encodeURIComponent(user)}`;
+  const tag = listTag || "signature";
+
+  /* Prefer pre-opened popup (user gesture). Else open now; else same-tab. */
+  let w = popupRef && !popupRef.closed ? popupRef : null;
+  if(!w){
+    try{ w = window.open("about:blank", "bd_subscribe", "popup=yes,width=520,height=720"); }
+    catch(_){ w = null; }
+  }
+
+  const esc = (s) => String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+  const formHtml = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>Confirm subscription</title>
+<style>
+  body{font:16px/1.45 system-ui,sans-serif;background:#0b1220;color:#e8eefc;margin:0;padding:2rem;text-align:center}
+  p{max-width:28rem;margin:0 auto 1rem}
+  .dim{color:#9aa8c7;font-size:.9rem}
+</style></head><body>
+  <p><strong>One quick step</strong></p>
+  <p class="dim">Complete the verification below so we can email your confirmation link.
+     This window is Buttondown (our letter service) — not a third-party ad.</p>
+  <form id="f" method="post" action="${esc(action)}">
+    <input type="hidden" name="email" value="${esc(email)}">
+    <input type="hidden" name="tag" value="${esc(tag)}">
+    <input type="hidden" name="metadata__source" value="verdict-site">
+    <input type="hidden" name="metadata__list" value="${esc(tag)}">
+  </form>
+  <script>document.getElementById("f").submit()</script>
+</body></html>`;
+
+  if(w){
+    try{
+      w.document.open();
+      w.document.write(formHtml);
+      w.document.close();
+      return { ok: true, via: "popup", needsVerify: true };
+    }catch(_){
+      try{ w.close(); }catch(__){}
+    }
+  }
+
+  /* Same-tab fallback when popups are blocked */
+  const form = document.createElement("form");
+  form.method = "post";
+  form.action = action;
+  form.acceptCharset = "utf-8";
+  [["email", email], ["tag", tag], ["metadata__source", "verdict-site"], ["metadata__list", tag]]
+    .forEach(([n, v]) => {
+      const inp = document.createElement("input");
+      inp.type = "hidden"; inp.name = n; inp.value = v;
+      form.appendChild(inp);
+    });
+  document.body.appendChild(form);
+  form.submit();
+  return { ok: true, via: "redirect", needsVerify: true };
+}
+
+/** Signature / Want: Formspree (owner) + Buttondown (visitor confirmation email). */
+async function submitListSignup({ email, list, formspreeFields, noteEl, successBaseHtml, popupRef }){
+  if(noteEl){ noteEl.hidden = false; noteEl.textContent = "Sending…"; }
+
+  const fsPromise = submitFormspree(formspreeFields, null, null);
+  const bdResult = await subscribeButtondown(email, list, popupRef);
+  const fsOk = await fsPromise;
+
+  if(!fsOk && !bdResult.ok){
     if(noteEl){
       noteEl.hidden = false;
       noteEl.innerHTML = `Could not send. Try again, or email
@@ -862,6 +973,24 @@ async function submitFormspree(fields, noteEl, successHtml){
     }
     return false;
   }
+
+  let extra = "";
+  if(bdResult.needsVerify){
+    extra = bdResult.via === "popup"
+      ? ` <strong>Finish the short verification in the popup</strong> so your confirmation email can send.
+         Allow popups for this site if you did not see it, then submit again.`
+      : ` Complete the verification on the next screen so your confirmation email can send.`;
+  }else if(bdResult.ok){
+    extra = ` Check <strong>${escapeHtml(email)}</strong> (and spam) for a confirmation link from Buttondown.`;
+  }else{
+    extra = ` We have your address and will add you to the letter list.`;
+  }
+
+  if(noteEl){
+    noteEl.hidden = false;
+    noteEl.innerHTML = successBaseHtml + extra;
+  }
+  return true;
 }
 
 function wireCareForms(mount){
@@ -872,20 +1001,27 @@ function wireCareForms(mount){
       const email = (mount.querySelector("#careWantEmail").value || "").trim().toLowerCase();
       const city = (mount.querySelector("#careWantCity").value || "").trim();
       if(!email){ mount.querySelector("#careWantEmail").reportValidity(); return; }
-      storeCareLead("want", {email, city, via: "formspree"});
-      track("care_want_submit", {has_city: !!city, via: "formspree"});
-      const ok = await submitFormspree(
-        {
+      /* Open popup immediately while still in the user-gesture stack */
+      let popup = null;
+      try{ popup = window.open("about:blank", "bd_subscribe", "popup=yes,width=520,height=720"); }
+      catch(_){ popup = null; }
+      storeCareLead("want", {email, city, via: "formspree+buttondown"});
+      track("care_want_submit", {has_city: !!city, via: "formspree+buttondown"});
+      const ok = await submitListSignup({
+        email,
+        list: "verdict-want",
+        popupRef: popup,
+        formspreeFields: {
           email,
           city: city || "(not given)",
           message: "I want this exchange — please send the follow-up sequence (John / church / speak).",
           list: "verdict-want",
           _subject: "The Verdict — I want this exchange",
         },
-        mount.querySelector("#careWantNote"),
-        `Received for <strong>${email}</strong>. Open <a href="${CONFIG.careWelcome}">next steps</a> now.
-         A person has been notified and will follow up — check spam if you expect a reply.`
-      );
+        noteEl: mount.querySelector("#careWantNote"),
+        successBaseHtml: `Received for <strong>${escapeHtml(email)}</strong>.
+          Open <a href="${CONFIG.careWelcome}">next steps</a> now.`,
+      });
       if(ok) want.reset();
     });
   }
@@ -906,7 +1042,8 @@ function wireCareForms(mount){
           _subject: "The Verdict — a question",
         },
         mount.querySelector("#careAskNote"),
-        `Sent. A person will reply unhurriedly to <strong>${email}</strong>.`
+        `Sent. A person will reply unhurriedly to <strong>${escapeHtml(email)}</strong>.
+         You will not get an automated newsletter from this form — only a human reply.`
       );
       if(ok) ask.reset();
     });
@@ -1924,7 +2061,7 @@ function drawFlake(ctx, cx, cy, R, rot, opts={}){
   addEventListener("resize", () => { initSky(); paintFlake(-Math.PI/12); paintSky(); });
 })();
 
-/* Signature waitlist — Formspree-backed waitlist (reliable); owner can mirror into Buttondown. */
+/* Signature waitlist — Formspree (owner) + Buttondown (visitor confirmation email). */
 (function wireSignatureForm(){
   const form = document.getElementById("emailForm");
   if(!form) return;
@@ -1934,21 +2071,25 @@ function drawFlake(ctx, cx, cy, R, rot, opts={}){
     const note = document.getElementById("emailNote");
     const email = (input.value || "").trim().toLowerCase();
     if(!email || !input.checkValidity()){ input.reportValidity(); return; }
-    storeCareLead("signature", {email, via: "formspree"});
-    track("waitlist_join", {via: "formspree"});
-    const ok = await submitFormspree(
-      {
+    /* Open popup immediately while still in the user-gesture stack */
+    let popup = null;
+    try{ popup = window.open("about:blank", "bd_subscribe", "popup=yes,width=520,height=720"); }
+    catch(_){ popup = null; }
+    storeCareLead("signature", {email, via: "formspree+buttondown"});
+    track("waitlist_join", {via: "formspree+buttondown"});
+    const ok = await submitListSignup({
+      email,
+      list: "signature",
+      popupRef: popup,
+      formspreeFields: {
         email,
         message: "Please add me to The Signature weekly letter.",
         list: "signature",
         _subject: "The Signature — waitlist",
       },
-      note,
-      `Got it — <strong>${email}</strong> is recorded.
-       You won’t get an automated welcome until the newsletter sequence is activated;
-       we’ve been notified and will add you. Open
-       <a href="${CONFIG.careWelcome}">next steps</a> anytime.`
-    );
+      noteEl: note,
+      successBaseHtml: `Got it — <strong>${escapeHtml(email)}</strong> is on The Signature list.`,
+    });
     if(ok) form.reset();
   });
 })();

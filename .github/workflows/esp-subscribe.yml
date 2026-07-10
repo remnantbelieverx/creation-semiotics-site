@@ -1,0 +1,64 @@
+# Copy into the PUBLIC site repo as .github/workflows/esp-subscribe.yml
+# Trigger: repository_dispatch type esp_subscribe
+#   client_payload: { "email": "...", "list": "signature" }
+#
+# Requires repo secret: BUTTONDOWN_API_KEY
+#
+# To call without putting a powerful PAT in the browser, prefer the Vercel
+# api/subscribe.js proxy (or esp_subscribe_proxy.py). This workflow is for
+# operator/manual and future bot integrations.
+
+name: ESP subscribe
+
+on:
+  repository_dispatch:
+    types: [esp_subscribe]
+  workflow_dispatch:
+    inputs:
+      email:
+        description: Subscriber email
+        required: true
+        type: string
+      list:
+        description: List tag (signature | verdict-want)
+        required: false
+        default: signature
+        type: string
+
+jobs:
+  subscribe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Buttondown subscriber
+        env:
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+          EMAIL: ${{ github.event.client_payload.email || inputs.email }}
+          LIST: ${{ github.event.client_payload.list || inputs.list || 'signature' }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${BUTTONDOWN_API_KEY:-}" ]]; then
+            echo "BUTTONDOWN_API_KEY secret missing" >&2
+            exit 1
+          fi
+          EMAIL="$(echo "$EMAIL" | tr '[:upper:]' '[:lower:]' | xargs)"
+          if [[ ! "$EMAIL" =~ ^[^@[:space:]]+@[^@[:space:]]+\.[^@[:space:]]+$ ]]; then
+            echo "Invalid email: $EMAIL" >&2
+            exit 1
+          fi
+          LIST="$(echo "${LIST:-signature}" | head -c 64)"
+          code=$(curl -sS -o /tmp/bd.json -w "%{http_code}" -X POST \
+            "https://api.buttondown.com/v1/subscribers" \
+            -H "Authorization: Token ${BUTTONDOWN_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -H "X-Buttondown-Collision-Behavior: overwrite" \
+            -H "X-Buttondown-Bypass-Firewall: true" \
+            -d "{\"email_address\":\"${EMAIL}\",\"metadata\":{\"source\":\"gh-action\",\"list\":\"${LIST}\"},\"notes\":\"list=${LIST}\"}")
+          echo "HTTP $code"
+          head -c 800 /tmp/bd.json; echo
+          if [[ "$code" == "201" || "$code" == "200" ]]; then
+            exit 0
+          fi
+          if grep -qi already /tmp/bd.json; then
+            exit 0
+          fi
+          exit 1
