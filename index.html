@@ -911,24 +911,27 @@ async function subscribeButtondown(email, listTag, popupRef){
   }
 
   const esc = (s) => String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
-  const formHtml = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
-<title>Confirm subscription</title>
-<style>
-  body{font:16px/1.45 system-ui,sans-serif;background:#0b1220;color:#e8eefc;margin:0;padding:2rem;text-align:center}
-  p{max-width:28rem;margin:0 auto 1rem}
-  .dim{color:#9aa8c7;font-size:.9rem}
-</style></head><body>
-  <p><strong>One quick step</strong></p>
-  <p class="dim">Complete the verification below so we can email your confirmation link.
-     This window is Buttondown (our letter service) — not a third-party ad.</p>
-  <form id="f" method="post" action="${esc(action)}">
-    <input type="hidden" name="email" value="${esc(email)}">
-    <input type="hidden" name="tag" value="${esc(tag)}">
-    <input type="hidden" name="metadata__source" value="verdict-site">
-    <input type="hidden" name="metadata__list" value="${esc(tag)}">
-  </form>
-  <script>document.getElementById("f").submit()</script>
-</body></html>`;
+  /* Build popup HTML without a literal </script> — that would close this page's script tag. */
+  const formHtml = [
+    "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\">",
+    "<title>Confirm subscription</title>",
+    "<style>",
+    "body{font:16px/1.45 system-ui,sans-serif;background:#0b1220;color:#e8eefc;margin:0;padding:2rem;text-align:center}",
+    "p{max-width:28rem;margin:0 auto 1rem}",
+    ".dim{color:#9aa8c7;font-size:.9rem}",
+    "</style></head><body>",
+    "<p><strong>One quick step</strong></p>",
+    "<p class=\"dim\">Complete the verification below so we can email your confirmation link. ",
+    "This window is Buttondown (our letter service) — not a third-party ad.</p>",
+    `<form id="f" method="post" action="${esc(action)}">`,
+    `<input type="hidden" name="email" value="${esc(email)}">`,
+    `<input type="hidden" name="tag" value="${esc(tag)}">`,
+    `<input type="hidden" name="metadata__source" value="verdict-site">`,
+    `<input type="hidden" name="metadata__list" value="${esc(tag)}">`,
+    "</form>",
+    "<scr" + "ipt>document.getElementById(\"f\").submit()</scr" + "ipt>",
+    "</body></html>",
+  ].join("");
 
   if(w){
     try{
