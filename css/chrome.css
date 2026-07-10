@@ -156,6 +156,24 @@ footer.site {
   letter-spacing: 0.05em;
 }
 
+/* Buttondown official embed (Turnstile runs inside iframe) */
+.bd-embed {
+  width: 100%;
+  max-width: 28rem;
+  margin-top: 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+}
+.bd-embed iframe {
+  display: block;
+  width: 100%;
+  height: 260px;
+  border: 0;
+  background: #fff;
+}
+
 .foot-links {
   display: flex;
   flex-wrap: wrap;
