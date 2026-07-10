@@ -1,20 +1,24 @@
 {
   "version": 1,
   "provider": "paymongo",
-  "mode": "off",
+  "mode": "live",
   "currency": "PHP",
-  "publicKey": "",
+  "publicKey": "pk_live_vSSytkrVD7JRQYCWL9N2eM54",
   "paymentLinks": {
-    "library_monthly": "",
-    "library_yearly": "",
-    "pastor_monthly": ""
+    "library_monthly": "https://pm.link/org-nFKJeryQeum2N6WTS85TxM8m/t0t1W2j",
+    "library_yearly": "https://pm.link/org-nFKJeryQeum2N6WTS85TxM8m/ApCcb1I",
+    "pastor_monthly": "https://pm.link/org-nFKJeryQeum2N6WTS85TxM8m/9XHFWeS"
   },
-  "linkIds": {},
+  "linkIds": {
+    "library_monthly": "link_20334b7ddbb138ef8ffaa4a1",
+    "library_yearly": "link_caf1b7a2acb24b6de55dbdf8",
+    "pastor_monthly": "link_6302b9a12498bb6e1f0739fe"
+  },
   "amounts": {
     "library_monthly": 49900,
     "library_yearly": 449900,
     "pastor_monthly": 109900
   },
   "checkoutApi": "",
-  "notes": "Primary for PH (RCBC payouts after KYC). Add PAYMONGO_SECRET_KEY and run: python3 Hermes/scripts/paymongo_provision.py — or paste Dashboard Payment Link URLs here."
+  "notes": "Public file. Never put sk_ secret keys here. Payouts: complete KYC in PayMongo Dashboard and link RCBC / local bank under Wallets / Payouts. Regenerate: python3 Hermes/scripts/paymongo_provision.py"
 }

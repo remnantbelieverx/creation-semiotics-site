@@ -150,13 +150,11 @@
   <p class="eyebrow">Phase 2 · The Library</p>
   <h1>Read the lamp seriously</h1>
   <p class="lead">This is the digital reading room for Creation Semiotics. <strong style="color:var(--parchment);font-weight:500">Free shelves are open now</strong> —
-    public entries, reading paths, and the seven branches. <em>Membership depth is built and locked</em>
-    until payments (PayMongo) and access are ready. Sod-level material is never sold.</p>
+    public entries, reading paths, and the seven branches. <em>Member study sheets stay locked</em>
+    until access is wired — you can already support via PayMongo when checkout is live. Sod is never sold.</p>
 
-  <div class="banner" role="status">
-    <strong>Membership checkout is closed for now.</strong>
-    We are finishing the Library first. Join the waitlist if you want to be told when
-    paid depth opens. Meanwhile: walk the free shelves below.
+  <div class="banner" role="status" id="payBanner">
+    Checking payment setup…
   </div>
 
   <nav class="subnav" aria-label="On this page">
@@ -164,14 +162,15 @@
     <a href="#paths">Paths</a>
     <a href="#catalog">Free catalog</a>
     <a href="#member-depth">Member depth (locked)</a>
+    <a href="#tiers">Membership</a>
     <a href="#waitlist">Waitlist</a>
   </nav>
 
   <div class="cta-row" style="margin-top:1.25rem">
     <a class="btn btn-primary" href="#shelves">Browse free shelves</a>
+    <a class="btn btn-ghost" href="#tiers">Membership</a>
     <a class="btn btn-ghost" href="menorah.html">The Lamp</a>
     <a class="btn btn-ghost" href="entry.html">All public entries</a>
-    <a class="btn btn-ghost" href="#waitlist">Join waitlist</a>
   </div>
 
   <section id="shelves" aria-labelledby="shelves-h">
@@ -203,15 +202,15 @@
   </section>
 
   <section id="tiers" aria-labelledby="tiers-h">
-    <h2 id="tiers-h">When membership opens</h2>
-    <p class="sec-lead">Indicative tiers (PayMongo, PHP). No payment buttons until the owner enables checkout.</p>
+    <h2 id="tiers-h">Membership (PayMongo)</h2>
+    <p class="sec-lead">Support depth in PHP (GCash, Maya, card, QR Ph). Member study sheets remain locked until access is granted — payment does not auto-unlock yet.</p>
     <div class="tier-grid" id="tierMount"></div>
   </section>
 
   <section id="waitlist" aria-labelledby="wait-h">
-    <h2 id="wait-h">Waitlist</h2>
+    <h2 id="wait-h">Waitlist / questions</h2>
     <div class="wait">
-      <p>Get a quiet note when membership depth unlocks. Free shelves stay free either way.</p>
+      <p>Prefer a note before paying, or already paid and need access? Leave your email.</p>
       <form id="waitForm">
         <div>
           <label for="waitEmail">Email</label>
@@ -237,7 +236,7 @@
   <section>
     <h2>Stewardship</h2>
     <p class="sec-lead" style="margin:0">“The front door is free forever. Members and donors hold it open.”
-      Payments (PayMongo) come after the Library is worth unlocking.</p>
+      Member study sheets unlock after access is wired — not automatically on payment (yet).</p>
   </section>
 </main>
 
@@ -251,7 +250,7 @@
       <a href="library.html">Library</a>
       <a href="care/welcome.html">Care</a>
     </nav>
-    <p class="fine">Library-first · Membership locked · Free shelves open · Sod withheld</p>
+    <p class="fine">Free shelves open · Member sheets locked · PayMongo live when provisioned · Sod withheld</p>
   </div>
 </footer>
 
@@ -260,10 +259,47 @@
 
 const FORMSPREE = "https://formspree.io/f/xaqgrqov";
 
+const PAY_BTNS = {
+  free: [],
+  library: [
+    { tier: "library_monthly", label: "Pay · monthly (₱499)" },
+    { tier: "library_yearly", label: "Pay · yearly (₱4,499)" },
+  ],
+  pastor: [
+    { tier: "pastor_monthly", label: "Pay · Pastor monthly (₱1,099)" },
+  ],
+};
+
 async function loadCatalog(){
   const res = await fetch("library/data/catalog.json", { cache: "no-store" });
   if(!res.ok) throw new Error("catalog missing");
   return res.json();
+}
+
+async function loadPayCfg(){
+  try{
+    const res = await fetch("library/data/paymongo.json", { cache: "no-store" });
+    if(!res.ok) return { mode: "off", paymentLinks: {} };
+    return await res.json();
+  }catch(_){
+    return { mode: "off", paymentLinks: {} };
+  }
+}
+
+function payReady(cfg){
+  const links = (cfg && cfg.paymentLinks) || {};
+  return !!(links.library_monthly || links.library_yearly || links.pastor_monthly);
+}
+
+function startCheckout(tier, cfg){
+  const link = (cfg.paymentLinks || {})[tier];
+  if(link){
+    if(typeof csTrack === "function") csTrack("checkout_click", { tier, provider: "paymongo" });
+    location.href = link;
+    return;
+  }
+  alert("That plan link is missing. Use the waitlist or try again later.");
+  location.hash = "#waitlist";
 }
 
 function countByPos(entries){
@@ -353,23 +389,51 @@ function renderStudies(studies){
   }).join("");
 }
 
-function renderTiers(tiers){
+function renderTiers(tiers, payCfg){
   const el = document.getElementById("tierMount");
+  const ready = payReady(payCfg);
+  const banner = document.getElementById("payBanner");
+  if(ready){
+    banner.innerHTML = `<strong>PayMongo is live</strong> (${payCfg.mode || "live"}).
+      Pay with GCash, Maya, card, or QR Ph. Member study sheets stay locked until access is granted manually.
+      <a href="entry.html" style="color:var(--gold)">Public entries remain free</a>.`;
+  }else{
+    banner.innerHTML = `<strong>Checkout not provisioned yet.</strong>
+      Free shelves are open. Join the waitlist, or the owner can run paymongo_provision.py.`;
+  }
   el.innerHTML = (tiers || []).map(t => {
     let price = t.price;
-    if(t.id === "library") price = "₱499/mo · ₱4,499/yr (when open)";
-    if(t.id === "pastor") price = "₱1,099/mo (when open)";
+    if(t.id === "library") price = "₱499/mo · ₱4,499/yr";
+    if(t.id === "pastor") price = "₱1,099/mo";
     if(t.id === "free") price = "Free forever";
-    const soon = t.id === "free"
-      ? `<div class="soon"><a class="btn btn-ghost" href="#catalog" style="width:100%;text-align:center">Browse free catalog</a></div>`
-      : `<div class="soon">Checkout locked · waitlist only</div>`;
+    let actions = "";
+    if(t.id === "free"){
+      actions = `<div class="soon" style="margin-top:.75rem"><a class="btn btn-ghost" href="#catalog" style="width:100%;text-align:center;display:block">Browse free catalog</a></div>`;
+    }else{
+      const btns = PAY_BTNS[t.id] || [];
+      if(ready && btns.length){
+        actions = `<div style="display:flex;flex-direction:column;gap:.45rem;margin-top:.85rem">
+          ${btns.map(b => {
+            const has = !!(payCfg.paymentLinks && payCfg.paymentLinks[b.tier]);
+            return has
+              ? `<button type="button" class="btn btn-primary" data-tier="${b.tier}" style="width:100%">${b.label}</button>`
+              : "";
+          }).join("")}
+        </div>`;
+      }else{
+        actions = `<div class="soon" style="margin-top:.75rem">Checkout not live · <a href="#waitlist" style="color:var(--gold)">waitlist</a></div>`;
+      }
+    }
     return `<article class="tier${t.id === "library" ? " featured" : ""}">
       <div class="name">${t.name}</div>
       <div class="price">${price}</div>
       <ul>${(t.includes || []).map(x => `<li>${x}</li>`).join("")}</ul>
-      ${soon}
+      ${actions}
     </article>`;
   }).join("");
+  el.querySelectorAll("button[data-tier]").forEach(btn => {
+    btn.addEventListener("click", () => startCheckout(btn.getAttribute("data-tier"), payCfg));
+  });
 }
 
 function wireWaitlist(){
@@ -408,18 +472,20 @@ function wireWaitlist(){
 }
 
 (async function boot(){
+  const payCfg = await loadPayCfg();
   try{
     const cat = await loadCatalog();
     renderShelves(cat.shelves, cat.entries);
     renderPaths(cat.paths);
     renderEntries(cat.entries);
     renderStudies(cat.member_studies || cat.member_teasers);
-    renderTiers(cat.tiers);
+    renderTiers(cat.tiers, payCfg);
     const filter = document.getElementById("catalogFilter");
     filter.addEventListener("input", () => renderEntries(cat.entries, filter.value));
     if(typeof csTrack === "function"){
       csTrack("library_view", {
         membership_open: !!cat.membership_open,
+        paymongo: payReady(payCfg) ? "on" : "off",
         free_entries: (cat.entries || []).length,
         locked_studies: (cat.member_studies || []).length,
       });
@@ -427,6 +493,7 @@ function wireWaitlist(){
   }catch(err){
     document.getElementById("entryMount").innerHTML =
       `<p class="fine-print">Catalog unavailable. Run <code>python3 Hermes/scripts/build_library_catalog.py</code>.</p>`;
+    renderTiers([], payCfg);
   }
   wireWaitlist();
 })();
