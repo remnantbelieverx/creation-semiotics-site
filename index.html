@@ -331,19 +331,14 @@
       <p class="eyebrow" style="color:var(--frost-faint)">The Signature — a weekly letter</p>
       <p style="color:var(--frost-dim);font-size:.95rem">One sign from
         creation, four hundred words, every Saturday. Free.</p>
-      <!-- Official Buttondown embed (handles Cloudflare verification correctly) -->
-      <div class="bd-embed" id="emailForm">
-        <iframe
-          title="Subscribe to The Signature"
-          src="https://buttondown.com/ebreo?as_embed=true"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-      <p class="fine" id="emailNote" style="margin-top:.6rem">
-        If the form does not load, open
-        <a href="https://buttondown.com/ebreo" target="_blank" rel="noopener">buttondown.com/ebreo</a>
-        and subscribe there, then confirm the email.
-      </p>
+      <form class="email-row" id="emailForm" method="post">
+        <input type="email" name="email" id="emailInput" placeholder="you@example.com" aria-label="Email address" required autocomplete="email">
+        <input type="hidden" name="_subject" value="The Signature — waitlist">
+        <input type="hidden" name="list" value="signature">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+        <button class="btn btn-primary" type="submit">Join the waitlist</button>
+      </form>
+      <p id="emailNote" class="fine" hidden role="status" style="margin-top:.6rem"></p>
     </div>
     <nav class="foot-links" aria-label="Site">
       <a href="#/">The Verdict</a>
@@ -758,18 +753,17 @@ screens.push({golden: true, render: () => `
           <a class="btn btn-primary" href="${welcome}">Open next steps</a>
           <button class="btn btn-ghost" type="button" id="shareBtn2">Share the card</button>
         </div>
-        <div class="bd-embed" id="careWantForm" style="margin-top:1.2rem;max-width:100%">
-          <iframe
-            title="Subscribe for the follow-up sequence"
-            src="https://buttondown.com/ebreo?as_embed=true"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-        <p id="careWantNote" class="fine" style="margin-top:.6rem">
-          After you subscribe and confirm your email, open
-          <a href="${welcome}">next steps</a>
-          (John · church · speak). Or subscribe at
-          <a href="https://buttondown.com/ebreo" target="_blank" rel="noopener">buttondown.com/ebreo</a>.
+        <form class="email-row" id="careWantForm" style="margin-top:1.2rem" method="post">
+          <input type="email" name="email" id="careWantEmail" placeholder="Your email" aria-label="Email for follow-up" required autocomplete="email">
+          <input type="text" name="city" id="careWantCity" placeholder="City (optional)" aria-label="City optional" style="flex:1 1 8rem;padding:.8rem 1rem;background:var(--night-2);border:1px solid var(--line);color:var(--frost);font:inherit;font-size:.95rem;border-radius:2px">
+          <input type="hidden" name="_subject" value="The Verdict — I want this exchange">
+          <input type="hidden" name="list" value="verdict-want">
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+          <button class="btn btn-primary" type="submit">Send me the sequence</button>
+        </form>
+        <p id="careWantNote" class="fine" style="margin-top:.6rem" hidden role="status"></p>
+        <p class="fine" style="margin-top:.5rem">
+          After you submit, open <a href="${welcome}">next steps</a> (John · church · speak).
           Crisis: <a href="tel:988">988</a> (US).
         </p>`,
       questions: `
@@ -832,39 +826,89 @@ function storeCareLead(kind, payload){
   catch(_){}
 }
 
+function formspreeUrl(){
+  return (espEndpoints().questions || CONFIG.esp.formspreeQuestions || "").trim();
+}
+
+/** Submit to Formspree via fetch (no stuck captcha page). */
+async function submitFormspree(fields, noteEl, successHtml){
+  const url = formspreeUrl();
+  if(!url){
+    if(noteEl){
+      noteEl.hidden = false;
+      noteEl.innerHTML = `Form not configured. Email
+        <a href="mailto:${CONFIG.contactEmail}">${CONFIG.contactEmail}</a>.`;
+    }
+    return false;
+  }
+  if(noteEl){ noteEl.hidden = false; noteEl.textContent = "Sending…"; }
+  try{
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Accept": "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify(fields),
+    });
+    const data = await res.json().catch(() => ({}));
+    if(res.ok || data.ok){
+      if(noteEl){ noteEl.hidden = false; noteEl.innerHTML = successHtml; }
+      return true;
+    }
+    throw new Error((data && data.error) || res.statusText || "Request failed");
+  }catch(err){
+    if(noteEl){
+      noteEl.hidden = false;
+      noteEl.innerHTML = `Could not send. Try again, or email
+        <a href="mailto:${CONFIG.contactEmail}">${CONFIG.contactEmail}</a>.`;
+    }
+    return false;
+  }
+}
+
 function wireCareForms(mount){
-  const ep = espEndpoints();
-  // Want door uses official Buttondown iframe (Turnstile-safe) — no custom POST.
-  if(mount.querySelector("#careWantForm")){
-    track("care_want_embed_shown");
+  const want = mount.querySelector("#careWantForm");
+  if(want){
+    want.addEventListener("submit", async e => {
+      e.preventDefault();
+      const email = (mount.querySelector("#careWantEmail").value || "").trim().toLowerCase();
+      const city = (mount.querySelector("#careWantCity").value || "").trim();
+      if(!email){ mount.querySelector("#careWantEmail").reportValidity(); return; }
+      storeCareLead("want", {email, city, via: "formspree"});
+      track("care_want_submit", {has_city: !!city, via: "formspree"});
+      const ok = await submitFormspree(
+        {
+          email,
+          city: city || "(not given)",
+          message: "I want this exchange — please send the follow-up sequence (John / church / speak).",
+          list: "verdict-want",
+          _subject: "The Verdict — I want this exchange",
+        },
+        mount.querySelector("#careWantNote"),
+        `Received. Open <a href="${CONFIG.careWelcome}">next steps</a> now.
+         We will follow up at <strong>${email}</strong>.`
+      );
+      if(ok) want.reset();
+    });
   }
   const ask = mount.querySelector("#careAskForm");
   if(ask){
-    if(ep.questions){
-      ask.action = ep.questions;
-      ask.method = "post";
-      const next = mount.querySelector("#careAskNext");
-      if(next) next.value = `${CONFIG.publicBaseUrl}/${CONFIG.careWelcome}`;
-    }
-    ask.addEventListener("submit", e => {
+    ask.addEventListener("submit", async e => {
+      e.preventDefault();
       const email = (mount.querySelector("#careAskEmail").value || "").trim().toLowerCase();
       const q = (mount.querySelector("#careAskBody").value || "").trim();
-      if(!email || !q){ e.preventDefault(); ask.reportValidity(); return; }
-      storeCareLead("questions", {email, question: q.slice(0, 2000), via: ep.questions ? "esp" : "mailto"});
-      track("care_questions_submit", {via: ep.questions ? "esp" : "mailto"});
-      if(ep.questions){
-        const note = mount.querySelector("#careAskNote");
-        note.hidden = false;
-        note.innerHTML = `Sending to a person… Thank you.`;
-        return;
-      }
-      e.preventDefault();
-      const subject = encodeURIComponent("The Verdict — a question [verdict-questions]");
-      const body = encodeURIComponent(`From: ${email}\n\nQuestion:\n${q}\n`);
-      const note = mount.querySelector("#careAskNote");
-      note.hidden = false;
-      note.innerHTML = `Formspree not configured yet.
-        <a href="mailto:${CONFIG.contactEmail}?subject=${subject}&body=${body}">Open your mail app</a>.`;
+      if(!email || !q){ ask.reportValidity(); return; }
+      storeCareLead("questions", {email, question: q.slice(0, 2000), via: "formspree"});
+      track("care_questions_submit", {via: "formspree"});
+      const ok = await submitFormspree(
+        {
+          email,
+          message: q,
+          list: "verdict-questions",
+          _subject: "The Verdict — a question",
+        },
+        mount.querySelector("#careAskNote"),
+        `Sent. A person will reply unhurriedly to <strong>${email}</strong>.`
+      );
+      if(ok) ask.reset();
     });
   }
 }
@@ -1880,9 +1924,30 @@ function drawFlake(ctx, cx, cy, R, rot, opts={}){
   addEventListener("resize", () => { initSky(); paintFlake(-Math.PI/12); paintSky(); });
 })();
 
-/* Signature uses official Buttondown iframe (no custom POST / Turnstile trap). */
-(function noteSignatureEmbed(){
-  if(document.getElementById("emailForm")) track("signature_embed_shown");
+/* Signature waitlist — Formspree (reliable); owner can mirror into Buttondown. */
+(function wireSignatureForm(){
+  const form = document.getElementById("emailForm");
+  if(!form) return;
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const input = document.getElementById("emailInput");
+    const note = document.getElementById("emailNote");
+    const email = (input.value || "").trim().toLowerCase();
+    if(!email || !input.checkValidity()){ input.reportValidity(); return; }
+    storeCareLead("signature", {email, via: "formspree"});
+    track("waitlist_join", {via: "formspree"});
+    const ok = await submitFormspree(
+      {
+        email,
+        message: "Please add me to The Signature weekly letter.",
+        list: "signature",
+        _subject: "The Signature — waitlist",
+      },
+      note,
+      `You’re on the list for <strong>${email}</strong>. Watch your inbox.`
+    );
+    if(ok) form.reset();
+  });
 })();
 
 /* ---------------- boot ---------------- */
