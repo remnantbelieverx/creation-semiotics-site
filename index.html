@@ -339,10 +339,10 @@
         creation, four hundred words, every Saturday. Free.</p>
       <form class="email-row" id="emailForm" method="post">
         <input type="email" name="email" id="emailInput" placeholder="you@example.com" aria-label="Email address" required autocomplete="email">
-        <input type="hidden" name="_subject" value="The Signature — waitlist">
+        <input type="hidden" name="_subject" value="The Signature — subscribe">
         <input type="hidden" name="list" value="signature">
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
-        <button class="btn btn-primary" type="submit">Join the waitlist</button>
+        <button class="btn btn-primary" type="submit">Subscribe</button>
       </form>
       <p id="emailNote" class="fine" hidden role="status" style="margin-top:.6rem"></p>
     </div>
@@ -374,7 +374,7 @@ const CONFIG = {
   /* Owner contact for interim follow-up (mailto). Replace when email service is live. */
   contactEmail: "alvinebreo@gmail.com",
   siteName: "The Verdict",
-  waitlistKey: "verdict_signature_waitlist",
+  signatureKey: "verdict_signature_subscribers",
   careKey: "verdict_care_leads",
   /* Canonical public origin (no trailing slash). Used for ESP redirects. */
   publicBaseUrl: "https://remnantbelieverx.github.io/creation-semiotics-site",
@@ -2230,7 +2230,7 @@ function drawFlake(ctx, cx, cy, R, rot, opts={}){
   addEventListener("resize", () => { initSky(); paintFlake(-Math.PI/12); paintSky(); });
 })();
 
-/* Signature waitlist — Formspree (owner) + Buttondown (visitor confirmation email). */
+/* Signature subscribe — Formspree (owner) + Buttondown (visitor confirmation email). */
 (function wireSignatureForm(){
   const form = document.getElementById("emailForm");
   if(!form) return;
@@ -2245,7 +2245,7 @@ function drawFlake(ctx, cx, cy, R, rot, opts={}){
     try{ popup = window.open("about:blank", "bd_subscribe", "popup=yes,width=520,height=720"); }
     catch(_){ popup = null; }
     storeCareLead("signature", {email, via: "formspree+buttondown"});
-    track("waitlist_join", {via: "formspree+buttondown"});
+    track("signature_subscribe", {via: "formspree+buttondown"});
     const ok = await submitListSignup({
       email,
       list: "signature",
@@ -2254,7 +2254,7 @@ function drawFlake(ctx, cx, cy, R, rot, opts={}){
         email,
         message: "Please add me to The Signature weekly letter.",
         list: "signature",
-        _subject: "The Signature — waitlist",
+        _subject: "The Signature — subscribe",
       },
       noteEl: note,
       successBaseHtml: `Got it — <strong>${escapeHtml(email)}</strong> is on The Signature list.`,

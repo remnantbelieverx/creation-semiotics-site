@@ -2,9 +2,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/api/subscribe", "destination": "/api/subscribe" },
-    { "source": "/api/create-checkout-session", "destination": "/api/create-checkout-session" },
-    { "source": "/api/create-paymongo-checkout", "destination": "/api/create-paymongo-checkout" }
+    { "source": "/api/subscribe", "destination": "/api/subscribe" }
   ],
   "headers": [
     {

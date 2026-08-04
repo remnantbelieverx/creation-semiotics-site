@@ -101,32 +101,6 @@
   .study .locked-label{
     font-family:var(--font-mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);
   }
-  .tier-grid{display:grid;gap:1rem;margin-top:1rem}
-  @media(min-width:640px){.tier-grid{grid-template-columns:repeat(3,1fr)}}
-  .tier{
-    border:1px solid color-mix(in srgb,var(--gold) 16%,transparent);
-    background:linear-gradient(180deg,color-mix(in srgb,var(--bg-2) 70%,transparent),color-mix(in srgb,var(--bg-0) 85%,transparent));
-    border-radius:var(--radius);padding:1.25rem 1.2rem;display:flex;flex-direction:column;gap:.55rem;
-  }
-  .tier.featured{border-color:color-mix(in srgb,var(--gold) 40%,transparent)}
-  .tier .name{font-family:var(--font-display);font-size:1.1rem;color:var(--parchment)}
-  .tier .price{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
-  .tier ul{margin:.4rem 0 0;padding-left:1.1rem;color:var(--text-dim);font-size:.88rem;line-height:1.45;flex:1}
-  .tier .soon{
-    margin-top:.75rem;font-family:var(--font-mono);font-size:.58rem;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--text-faint);
-  }
-  .wait{
-    margin-top:1rem;padding:1.25rem 1.3rem;border:1px solid color-mix(in srgb,var(--gold) 22%,transparent);
-    background:color-mix(in srgb,var(--bg-2) 75%,transparent);border-radius:var(--radius);
-  }
-  .wait form{display:flex;flex-direction:column;gap:.65rem;max-width:26rem;margin-top:.85rem}
-  .wait label{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
-  .wait input,.wait select{
-    padding:.6rem .7rem;border:1px solid var(--line);border-radius:2px;background:var(--bg);color:var(--text);font:inherit;
-  }
-  #waitNote{font-size:.9rem;color:var(--text-dim);margin:0}
-  #waitNote[hidden]{display:none}
   .fine-print{font-size:.85rem;color:var(--muted);font-style:italic;margin-top:1rem;line-height:1.5}
 </style>
 </head>

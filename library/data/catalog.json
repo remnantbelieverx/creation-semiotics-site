@@ -62,7 +62,7 @@
         "Common overclaims to refuse (five-fold myths, 'secret code' icing)",
         "One discussion question for a small group"
       ],
-      "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file. Full draft: Hermes/Drafts/Library-Study-MS-01-Snowflake.md (locked until membership opens).",
+      "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file. Full draft: Hermes/Drafts/Library-Study-MS-01-Snowflake.md (free).",
       "draft": "Hermes/Drafts/Library-Study-MS-01-Snowflake.md"
     },
     {
@@ -77,7 +77,7 @@
         "What T1 claims and refuses to claim",
         "One-page pastor handout structure"
       ],
-      "blurb": "How to teach the triple point without overclaiming the Trinity. Full draft: Hermes/Drafts/Library-Study-MS-02-TriplePoint.md (locked until membership opens).",
+      "blurb": "How to teach the triple point without overclaiming the Trinity. Full draft: Hermes/Drafts/Library-Study-MS-02-TriplePoint.md (free).",
       "draft": "Hermes/Drafts/Library-Study-MS-02-TriplePoint.md"
     },
     {
@@ -92,7 +92,7 @@
         "How Branch navigation uses the pairs",
         "What stays vault-side (full lock tables)"
       ],
-      "blurb": "Working map of bilateral architecture for Library readers. Full draft: Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md (locked until membership opens).",
+      "blurb": "Working map of bilateral architecture for Library readers. Full draft: Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md (free).",
       "draft": "Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md"
     },
     {
@@ -105,9 +105,9 @@
         "Property list with one sentence each",
         "Rising flame as load-bearing constant",
         "Aaronic blessing adjacency (public)",
-        "Slide-ready image brief (for pastor tier later)"
+        "Slide-ready image brief (free)"
       ],
-      "blurb": "Shamash-centered study connecting fire exhibit to lamp center. Full draft: Hermes/Drafts/Library-Study-MS-04-Fire-Shamash.md (locked until membership opens).",
+      "blurb": "Shamash-centered study connecting fire exhibit to lamp center. Full draft: Hermes/Drafts/Library-Study-MS-04-Fire-Shamash.md (free).",
       "draft": "Hermes/Drafts/Library-Study-MS-04-Fire-Shamash.md"
     },
     {
@@ -122,7 +122,7 @@
         "Robe Exchange as legal exchange (summary)",
         "Follow-up: Care + church help without pressure"
       ],
-      "blurb": "Pastoral-ready path from tribunal within to next steps. Full draft: Hermes/Drafts/Library-Study-MS-05-Conscience-Verdict-Care.md (locked until membership opens).",
+      "blurb": "Pastoral-ready path from tribunal within to next steps. Full draft: Hermes/Drafts/Library-Study-MS-05-Conscience-Verdict-Care.md (free).",
       "draft": "Hermes/Drafts/Library-Study-MS-05-Conscience-Verdict-Care.md"
     },
     {
@@ -137,7 +137,7 @@
         "Bilateral pairs in reading order",
         "What not to invent on thin shelves (esp. Counsel)"
       ],
-      "blurb": "Companion to the interactive lamp for serious readers. Full draft: Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md (locked until membership opens).",
+      "blurb": "Companion to the interactive lamp for serious readers. Full draft: Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md (free).",
       "draft": "Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md"
     },
     {
@@ -152,7 +152,7 @@
         "Suggested Scripture reading",
         "Teaching license terms (when live)"
       ],
-      "blurb": "Pastor tier: citation-clean handouts — locked until membership opens."
+      "blurb": "Teaching pack: citation-clean handouts — free."
     },
     {
       "id": "MS-08",
@@ -528,7 +528,7 @@
       "altitude": "member",
       "access": "free",
       "pos": "2",
-      "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file. Full draft: Hermes/Drafts/Library-Study-MS-01-Snowflake.md (locked until membership opens).",
+      "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file. Full draft: Hermes/Drafts/Library-Study-MS-01-Snowflake.md — free.",
       "publicHref": "entry.html#/snowflake",
       "memberHref": null,
       "status": "locked"
@@ -539,7 +539,7 @@
       "altitude": "member",
       "access": "free",
       "pos": "2",
-      "blurb": "How to teach the triple point without overclaiming the Trinity. Full draft: Hermes/Drafts/Library-Study-MS-02-TriplePoint.md (locked until membership opens).",
+      "blurb": "How to teach the triple point without overclaiming the Trinity. Full draft: Hermes/Drafts/Library-Study-MS-02-TriplePoint.md — free.",
       "publicHref": "entry.html#/triplepoint",
       "memberHref": null,
       "status": "locked"
@@ -550,7 +550,7 @@
       "altitude": "member",
       "access": "free",
       "pos": "3",
-      "blurb": "Working map of bilateral architecture for Library readers. Full draft: Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md (locked until membership opens).",
+      "blurb": "Working map of bilateral architecture for Library readers. Full draft: Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md — free.",
       "publicHref": "entry.html#/menorah-pairing",
       "memberHref": null,
       "status": "locked"
@@ -561,7 +561,7 @@
       "altitude": "member",
       "access": "free",
       "pos": "4",
-      "blurb": "Shamash-centered study connecting fire exhibit to lamp center. Full draft: Hermes/Drafts/Library-Study-MS-04-Fire-Shamash.md (locked until membership opens).",
+      "blurb": "Shamash-centered study connecting fire exhibit to lamp center. Full draft: Hermes/Drafts/Library-Study-MS-04-Fire-Shamash.md — free.",
       "publicHref": "entry.html#/fire",
       "memberHref": null,
       "status": "locked"
@@ -572,7 +572,7 @@
       "altitude": "member",
       "access": "free",
       "pos": "1",
-      "blurb": "Pastoral-ready path from tribunal within to next steps. Full draft: Hermes/Drafts/Library-Study-MS-05-Conscience-Verdict-Care.md (locked until membership opens).",
+      "blurb": "Pastoral-ready path from tribunal within to next steps. Full draft: Hermes/Drafts/Library-Study-MS-05-Conscience-Verdict-Care.md — free.",
       "publicHref": "entry.html#/conscience",
       "memberHref": null,
       "status": "locked"
@@ -583,7 +583,7 @@
       "altitude": "member",
       "access": "free",
       "pos": "all",
-      "blurb": "Companion to the interactive lamp for serious readers. Full draft: Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md (locked until membership opens).",
+      "blurb": "Companion to the interactive lamp for serious readers. Full draft: Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md — free.",
       "publicHref": "menorah.html",
       "memberHref": null,
       "status": "locked"
@@ -594,7 +594,7 @@
       "altitude": "member",
       "access": "free",
       "pos": "—",
-      "blurb": "Pastor tier: citation-clean handouts — locked until membership opens.",
+      "blurb": "Teaching pack: citation-clean handouts — free.",
       "publicHref": "entry.html",
       "memberHref": null,
       "status": "locked"
