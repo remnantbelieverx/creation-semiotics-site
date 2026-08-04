@@ -66,7 +66,7 @@
   </section>
 
   <div id="letters">
-    <div class="empty">
+    <div class="empty" id="emptyState">
       <h2>The first letter is being written</h2>
       <p>The archive begins with the first issue. Until then, the signs gallery
         and the lamp are already open — and the front door stays free.</p>
@@ -92,6 +92,29 @@
       No spam. Unsubscribe anytime. Gospel content never requires a subscription.</p>
   </div>
 </main>
+
+<script>
+(function loadLetters(){
+  const mount = document.getElementById("letters");
+  const empty = document.getElementById("emptyState");
+  fetch("signature/letters.json", { cache: "no-store" })
+    .then(r => { if(!r.ok) throw new Error("missing"); return r.json(); })
+    .then(data => {
+      const letters = (data && data.letters) || [];
+      if(!letters.length) return;
+      if(empty) empty.style.display = "none";
+      mount.innerHTML = letters.map(l => `
+        <article class="letter">
+          <div class="date">${l.date} · ${l.source || ""}</div>
+          <h2>${l.title}</h2>
+          ${(l.body || []).map(s => `<p><strong>${s.h}</strong> ${s.p}</p>`).join("")}
+          ${(l.links || []).map(x => `<a class="btn btn-ghost" style="margin:.4rem .4rem 0 0" href="${x.href}">${x.label}</a>`).join("")}
+        </article>`).join("");
+      if(typeof csTrack === "function") csTrack("signature_archive", { letters: letters.length });
+    })
+    .catch(() => { /* keep empty state */ });
+})();
+</script>
 
 <footer class="site">
   <div class="col foot-grid">

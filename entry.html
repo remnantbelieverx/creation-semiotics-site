@@ -665,12 +665,61 @@ const ENTRIES = {
     branch:"branch.html#/7",
     related:[{href:"branch.html#/1",label:"Fear (pair)"},{href:"index.html#/verdict/0",label:"The Verdict"},{href:"care/welcome.html",label:"Care"}],
   },
+
+  cellcycle: {
+    slug:"cellcycle", allow:"A-19", vault:"Entry 2.21", pos:2, posName:"Knowledge",
+    ratings:["S1"], locks:"Architecture B", altitude:"general",
+    title:"The Cell That Rests",
+    hook:"Every cell in your body runs six phases of work — then enters a finished seventh. The same architecture as the week God blessed and made holy.",
+    anchor:"Genesis 2:2–3 · Isaiah 6:3 · Position 2 · Knowledge · cell biology",
+    observation:`The cell cycle is six mechanistically real, sequentially necessary phases
+      (G1, S, G2, Prophase, Metaphase, Anaphase/Telophase) terminating in G0 — the
+      quiescent state where the fully differentiated cell performs its highest
+      designed purpose. The same six-plus-terminal-seventh architecture as the
+      creation week, at the molecular floor.`,
+    body:[
+      {h:"The mechanism — six phases, then rest", html:`
+        <ol>
+          <li><strong>G1.</strong> The cell grows, synthesizes proteins, and assesses readiness.</li>
+          <li><strong>S.</strong> The entire genome is precisely duplicated.</li>
+          <li><strong>G2.</strong> The copy is verified before release.</li>
+          <li><strong>Prophase.</strong> The duplicated inheritance is ordered for separation.</li>
+          <li><strong>Metaphase.</strong> Chromosomes align at the equator with mathematical precision.</li>
+          <li><strong>Anaphase/Telophase.</strong> The work is finished; two daughter cells emerge.</li>
+        </ol>
+        <p>Then the seventh: <strong>G0</strong> — not death, not dormancy. The neuron fires,
+          the heart cell contracts, the red blood cell carries oxygen. The cell has
+          become most fully what it was always being made to be.</p>`},
+      {h:"Correspondence", html:`
+        <p>Genesis 2:3 says God blessed the seventh day and <em>made it holy</em> —
+          the first thing in all of Scripture called holy is a unit of time.</p>
+        <blockquote class="ex-quote">“So God blessed the seventh day and made it holy,
+          because on it God rested from all his work that he had done in creation.”
+          <footer>Genesis 2:3</footer></blockquote>
+        <p>Six phases of labor, then a categorically distinct seventh — at every scale
+          of creaturely time: the week, the agricultural year, the Shemitah, the
+          Jubilee, the feasts, and the cell cycle. The same architecture, from the
+          division of a single cell to the sweep of the redemptive calendar.</p>`},
+      {h:"How to hold the claim", html:`
+        <ol>
+          <li>The biology is real biology — a cell cannot skip S phase and still divide; G0 is a documented physiological state.</li>
+          <li>The correspondence is architectural (six-plus-terminal-seventh), not a claim that each phase maps to a creation day, nor that the cell worships.</li>
+          <li>Even the refusal of the seventh is written into biology as pathology: the cell that will not enter G0 is what the body calls malignant.</li>
+        </ol>`},
+    ],
+    precision:`Structural correspondence, not hidden prophecy: six genuine sequential phases
+      and a qualitatively distinct seventh — stated exactly as far as the architecture reaches.`,
+    doxology:"The first thing called holy in Scripture is a unit of time — and your cells keep it.",
+    exhibit:"",
+    branch:"branch.html#/2",
+    related:[{href:"index.html#/sign/embryology",label:"Embryology exhibit (eighth day)"},{href:"branch.html#/3",label:"Wisdom"},{href:"care/welcome.html",label:"Care"}],
+  },
 };
 
 const ORDER = [
   "conscience","snowflake","triplepoint","spectrum","harmonics","fire","cymatics",
   "menorah-pairing","golden-ratio-canon","aaronic-blessing","psalm-19",
-  "binah-sight","counsel","might",
+  "binah-sight","counsel","might","cellcycle",
 ];
 
 function chips(ratings){
@@ -684,7 +733,7 @@ function renderIndex(){
   document.title = "Entries · Creation Semiotics Library";
   const groups = {
     "Position 1 · Fear": ["conscience"],
-    "Position 2 · Knowledge": ["snowflake","triplepoint","spectrum","cymatics"],
+    "Position 2 · Knowledge": ["snowflake","triplepoint","spectrum","cymatics","cellcycle"],
     "Position 3 · Wisdom": ["harmonics","menorah-pairing","golden-ratio-canon"],
     "Position 4 · Shamash": ["fire","aaronic-blessing","psalm-19"],
     "Position 5 · Understanding": ["binah-sight"],

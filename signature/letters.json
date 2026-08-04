@@ -1,0 +1,21 @@
+{
+  "letters": [
+    {
+      "id": "signature-001",
+      "date": "August 8, 2026",
+      "title": "The Cell That Rests",
+      "slug": "cell-that-rests",
+      "source": "Entry 2.21 · Cell Cycle G0",
+      "body": [
+        {"h": "One physical observation", "p": "Every cell in your body is either working or resting — and the distinction is not what you'd guess. A dividing cell runs six mechanistically distinct phases: it grows, copies its entire genome, verifies the copy, condenses its chromosomes, lines them up with mathematical precision, and pulls the two halves apart. Then, instead of repeating forever, most cells enter a seventh state called G0. Not death. Not dormancy. The neuron fires, the cardiomyocyte contracts, the red blood cell carries oxygen. The cell in G0 has stopped reproducing because it has become most fully what it was made to be."},
+        {"h": "One canonical thread", "p": "Genesis 2:3 says God blessed the seventh day and made it holy — the first thing in all Scripture called holy is not a person or a place, but a unit of time. The same six-plus-one architecture appears at every scale: six working days then the Sabbath, six years then the Shemitah, six feasts then Tabernacles. The Maker pressed the pattern into the smallest machinery we have — the cell's own cycle, completing its six phases and entering the finished state."},
+        {"h": "One precision boundary", "p": "We are not claiming the cell cycle is a hidden prophecy, nor that each phase maps to a day of creation. The claim is structural: six real, sequential, necessary phases terminating in a qualitatively distinct seventh — the same architecture, at a different scale. A cell in G0 is not a metaphor; it is a working instance of the pattern."},
+        {"h": "Quiet doxology", "p": "The cell that refuses G0 is what we call malignant. The cell that enters it performs its highest purpose. The Maker built the refusal of endless work into the biology of everything that lives."}
+      ],
+      "links": [
+        {"href": "index.html", "label": "Take the stand"},
+        {"href": "index.html#/sign", "label": "This week's signs"}
+      ]
+    }
+  ]
+}
