@@ -3,18 +3,10 @@
   "mode": "off",
   "publishableKey": "",
   "baseUrl": "https://remnantbelieverx.github.io/creation-semiotics-site",
-  "paymentLinks": {
-    "library_monthly": "",
-    "library_yearly": "",
-    "pastor_monthly": ""
-  },
-  "priceIds": {
-    "library_monthly": "",
-    "library_yearly": "",
-    "pastor_monthly": ""
-  },
+  "paymentLinks": {},
+  "priceIds": {},
   "productIds": {},
   "checkoutApi": "",
   "customerPortalUrl": "",
-  "notes": "Public config only. Run: python3 Hermes/scripts/stripe_provision.py after adding STRIPE_SECRET_KEY to ~/.hermes/profiles/creation-semiotics/.env"
+  "notes": "FREE LIBRARY (Aug 2026): Stripe decommissioned — the Library is entirely free by owner decision. Kept for compatibility; never used."
 }

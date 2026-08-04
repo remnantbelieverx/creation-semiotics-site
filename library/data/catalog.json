@@ -1,8 +1,8 @@
 {
   "version": 2,
   "generated_at": "2026-07-10T06:11:55+00:00",
-  "membership_open": false,
-  "note": "Library-first build: free shelves open; member studies locked until membership_open is true and PayMongo is live. Not vault dumps; not sod.",
+  "membership_open": true,
+  "note": "Free Library (Aug 2026): everything open — shelves, studies, paths. No membership tiers, no payments. Not vault dumps; not sod; SecretThings withheld.",
   "shelves": [
     {
       "pos": "1",
@@ -52,7 +52,7 @@
       "id": "MS-01",
       "title": "Snowflake — multi-lock study",
       "pos": "2",
-      "access": "member",
+      "access": "free",
       "related_free": "entry.html#/snowflake",
       "outline": [
         "Lock inventory: which confirmations are independent vs derived",
@@ -69,7 +69,7 @@
       "id": "MS-02",
       "title": "Triple point — modalism correction brief",
       "pos": "2",
-      "access": "member",
+      "access": "free",
       "related_free": "entry.html#/triplepoint",
       "outline": [
         "Phase diagram coordinate (public physics)",
@@ -84,7 +84,7 @@
       "id": "MS-03",
       "title": "Menorah pairing — architecture notes",
       "pos": "3",
-      "access": "member",
+      "access": "free",
       "related_free": "entry.html#/menorah-pairing",
       "outline": [
         "Outer / middle / inner pairs at a glance",
@@ -99,7 +99,7 @@
       "id": "MS-04",
       "title": "Fire & shamash — seven properties pack",
       "pos": "4",
-      "access": "member",
+      "access": "free",
       "related_free": "entry.html#/fire",
       "outline": [
         "Property list with one sentence each",
@@ -114,7 +114,7 @@
       "id": "MS-05",
       "title": "Conscience → Verdict → Care path deep",
       "pos": "1",
-      "access": "member",
+      "access": "free",
       "related_free": "entry.html#/conscience",
       "outline": [
         "Forensic Greek terms (public altitude)",
@@ -129,7 +129,7 @@
       "id": "MS-06",
       "title": "Walk the lamp — position guide",
       "pos": "all",
-      "access": "member",
+      "access": "free",
       "related_free": "menorah.html",
       "outline": [
         "One paragraph per Spirit-lens",
@@ -144,7 +144,7 @@
       "id": "MS-07",
       "title": "Sermon illustration pack (Pastor)",
       "pos": "—",
-      "access": "pastor",
+      "access": "free",
       "related_free": "entry.html",
       "outline": [
         "One illustration page per free Sign",
@@ -158,7 +158,7 @@
       "id": "MS-08",
       "title": "Member catalog search",
       "pos": "—",
-      "access": "member",
+      "access": "free",
       "related_free": "library.html#shelves",
       "outline": [
         "Search free + member study titles",
@@ -171,7 +171,7 @@
       "id": "MS-09",
       "title": "Harmonics — seven-limit honesty sheet",
       "pos": "3",
-      "access": "member",
+      "access": "free",
       "related_free": "entry.html#/harmonics",
       "outline": [
         "Fundamental + partials in plain language",
@@ -185,7 +185,7 @@
       "id": "MS-10",
       "title": "Light, feasts, spectrum — teaching caution",
       "pos": "2",
-      "access": "member",
+      "access": "free",
       "related_free": "entry.html#/spectrum",
       "outline": [
         "Continuous spectrum vs pedagogical seven",
@@ -199,7 +199,7 @@
       "id": "MS-11",
       "title": "Understanding branch — John / Colossians path",
       "pos": "5",
-      "access": "member",
+      "access": "free",
       "related_free": "entry.html#/binah-sight",
       "outline": [
         "One week in John (chapter plan)",
@@ -213,7 +213,7 @@
       "id": "MS-12",
       "title": "Might without triumphalism",
       "pos": "7",
-      "access": "member",
+      "access": "free",
       "related_free": "entry.html#/might",
       "outline": [
         "Fear ⇌ Might as outer pair",
@@ -227,7 +227,7 @@
       "id": "MS-13",
       "title": "Counsel shelf discipline",
       "pos": "6",
-      "access": "member",
+      "access": "free",
       "related_free": "entry.html#/counsel",
       "outline": [
         "Why this shelf stays thin in public",
@@ -241,7 +241,7 @@
       "id": "MS-14",
       "title": "Psalm 19 — two books, one Speaker",
       "pos": "4",
-      "access": "member",
+      "access": "free",
       "related_free": "entry.html#/psalm-19",
       "outline": [
         "Heavens that declare without speech",
@@ -255,36 +255,15 @@
   "tiers": [
     {
       "id": "free",
-      "name": "Front door",
+      "name": "The Library",
       "price": "Free forever",
       "includes": [
         "The Verdict",
         "Free Signs gallery",
         "Public entry summaries",
         "Lamp + Branch map",
+        "Study sheets + reading paths",
         "Care / church help"
-      ]
-    },
-    {
-      "id": "library",
-      "name": "Library membership",
-      "price": "About $9/mo or $79/yr (indicative)",
-      "includes": [
-        "Deeper allowlisted entry bodies (sod stripped)",
-        "Full reading paths",
-        "Search over member catalog",
-        "Priority updates as the lamp fills"
-      ]
-    },
-    {
-      "id": "pastor",
-      "name": "Pastor / Teacher",
-      "price": "About $19/mo (indicative)",
-      "includes": [
-        "Everything in Library",
-        "Sermon illustration packs",
-        "Teaching license for church use",
-        "Quarterly new-signs briefs"
       ]
     }
   ],
@@ -547,7 +526,7 @@
       "id": "MS-01",
       "title": "Snowflake — multi-lock study",
       "altitude": "member",
-      "access": "member",
+      "access": "free",
       "pos": "2",
       "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file. Full draft: Hermes/Drafts/Library-Study-MS-01-Snowflake.md (locked until membership opens).",
       "publicHref": "entry.html#/snowflake",
@@ -558,7 +537,7 @@
       "id": "MS-02",
       "title": "Triple point — modalism correction brief",
       "altitude": "member",
-      "access": "member",
+      "access": "free",
       "pos": "2",
       "blurb": "How to teach the triple point without overclaiming the Trinity. Full draft: Hermes/Drafts/Library-Study-MS-02-TriplePoint.md (locked until membership opens).",
       "publicHref": "entry.html#/triplepoint",
@@ -569,7 +548,7 @@
       "id": "MS-03",
       "title": "Menorah pairing — architecture notes",
       "altitude": "member",
-      "access": "member",
+      "access": "free",
       "pos": "3",
       "blurb": "Working map of bilateral architecture for Library readers. Full draft: Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md (locked until membership opens).",
       "publicHref": "entry.html#/menorah-pairing",
@@ -580,7 +559,7 @@
       "id": "MS-04",
       "title": "Fire & shamash — seven properties pack",
       "altitude": "member",
-      "access": "member",
+      "access": "free",
       "pos": "4",
       "blurb": "Shamash-centered study connecting fire exhibit to lamp center. Full draft: Hermes/Drafts/Library-Study-MS-04-Fire-Shamash.md (locked until membership opens).",
       "publicHref": "entry.html#/fire",
@@ -591,7 +570,7 @@
       "id": "MS-05",
       "title": "Conscience → Verdict → Care path deep",
       "altitude": "member",
-      "access": "member",
+      "access": "free",
       "pos": "1",
       "blurb": "Pastoral-ready path from tribunal within to next steps. Full draft: Hermes/Drafts/Library-Study-MS-05-Conscience-Verdict-Care.md (locked until membership opens).",
       "publicHref": "entry.html#/conscience",
@@ -602,7 +581,7 @@
       "id": "MS-06",
       "title": "Walk the lamp — position guide",
       "altitude": "member",
-      "access": "member",
+      "access": "free",
       "pos": "all",
       "blurb": "Companion to the interactive lamp for serious readers. Full draft: Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md (locked until membership opens).",
       "publicHref": "menorah.html",
@@ -613,7 +592,7 @@
       "id": "MS-07",
       "title": "Sermon illustration pack (Pastor)",
       "altitude": "member",
-      "access": "pastor",
+      "access": "free",
       "pos": "—",
       "blurb": "Pastor tier: citation-clean handouts — locked until membership opens.",
       "publicHref": "entry.html",
@@ -624,7 +603,7 @@
       "id": "MS-08",
       "title": "Member catalog search",
       "altitude": "member",
-      "access": "member",
+      "access": "free",
       "pos": "—",
       "blurb": "Tooling shelf — ships with auth; free filter already works on public catalog.",
       "publicHref": "library.html#shelves",
@@ -635,7 +614,7 @@
       "id": "MS-09",
       "title": "Harmonics — seven-limit honesty sheet",
       "altitude": "member",
-      "access": "member",
+      "access": "free",
       "pos": "3",
       "blurb": "Acoustics study that refuses both reductionism and occult freights.",
       "publicHref": "entry.html#/harmonics",
@@ -646,7 +625,7 @@
       "id": "MS-10",
       "title": "Light, feasts, spectrum — teaching caution",
       "altitude": "member",
-      "access": "member",
+      "access": "free",
       "pos": "2",
       "blurb": "Keeps the feast/spectrum thread honest under pressure.",
       "publicHref": "entry.html#/spectrum",
@@ -657,7 +636,7 @@
       "id": "MS-11",
       "title": "Understanding branch — John / Colossians path",
       "altitude": "member",
-      "access": "member",
+      "access": "free",
       "pos": "5",
       "blurb": "Gospel-altitude study for binah without systematics overload.",
       "publicHref": "entry.html#/binah-sight",
@@ -668,7 +647,7 @@
       "id": "MS-12",
       "title": "Might without triumphalism",
       "altitude": "member",
-      "access": "member",
+      "access": "free",
       "pos": "7",
       "blurb": "Co-regency under the Lamb — locked sheet for careful readers.",
       "publicHref": "entry.html#/might",
@@ -679,7 +658,7 @@
       "id": "MS-13",
       "title": "Counsel shelf discipline",
       "altitude": "member",
-      "access": "member",
+      "access": "free",
       "pos": "6",
       "blurb": "Meta-study: the empty shelf is part of the rigor.",
       "publicHref": "entry.html#/counsel",
@@ -690,7 +669,7 @@
       "id": "MS-14",
       "title": "Psalm 19 — two books, one Speaker",
       "altitude": "member",
-      "access": "member",
+      "access": "free",
       "pos": "4",
       "blurb": "Shamash-thread reading of Psalm 19 for Library members.",
       "publicHref": "entry.html#/psalm-19",
@@ -879,7 +858,7 @@
       "id": "member-deep",
       "name": "Member deep dive (locked)",
       "audience": "Library members",
-      "access": "member",
+      "access": "free",
       "steps": [
         {
           "label": "Multi-lock study sheets",

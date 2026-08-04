@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0B0D12">
-<meta name="description" content="Creation Semiotics Library — free shelves open now; membership depth locked until payments are ready.">
+<meta name="description" content="Creation Semiotics Library — entirely free. Shelves, study sheets, reading paths, and public summaries — no membership, no payments.">
 <title>Library · Creation Semiotics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Spectral:ital,wght@0,300;0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/chrome.css">
-<script>window.CS_ANALYTICS = window.CS_ANALYTICS || { domain: "" };</script>
+<script>window.CS_ANALYTICS = window.CS_ANALYTICS || { domain: "remnantbelieverx.github.io" };</script>
 <script defer src="js/analytics.js"></script>
 <style>
   body{font-weight:300}
@@ -66,7 +66,7 @@
   .path-card .aud{font-size:.85rem;color:var(--muted);font-style:italic;margin-bottom:.65rem}
   .path-card ol{margin:0;padding-left:1.2rem;color:var(--text-dim);font-size:.92rem}
   .path-card a{color:var(--gold)}
-  .path-card.locked{opacity:.9;border-style:dashed}
+  .path-card{opacity:.9;border-style:dashed}
   .lock-tag{
     display:inline-block;font-family:var(--font-mono);font-size:.58rem;letter-spacing:.14em;
     text-transform:uppercase;color:var(--gold);border:1px solid color-mix(in srgb,var(--gold) 35%,transparent);
@@ -147,28 +147,21 @@
 </header>
 
 <main class="lib">
-  <p class="eyebrow">Phase 2 · The Library</p>
+  <p class="eyebrow">The Library</p>
   <h1>Read the lamp seriously</h1>
-  <p class="lead">This is the digital reading room for Creation Semiotics. <strong style="color:var(--parchment);font-weight:500">Free shelves are open now</strong> —
-    public entries, reading paths, and the seven branches. <em>Member study sheets stay locked</em>
-    until access is wired — you can already support via PayMongo when checkout is live. Sod is never sold.</p>
-
-  <div class="banner" role="status" id="payBanner">
-    Checking payment setup…
-  </div>
+  <p class="lead">This is the digital reading room for Creation Semiotics. <strong style="color:var(--parchment);font-weight:500">Everything here is free</strong> —
+    public entries, study sheets, reading paths, and the seven branches. No membership, no payments, no waitlist.
+    Sod is never published — some depth stays vault-only by design.</p>
 
   <nav class="subnav" aria-label="On this page">
     <a href="#shelves">Shelves</a>
     <a href="#paths">Paths</a>
     <a href="#catalog">Free catalog</a>
-    <a href="#member-depth">Member depth (locked)</a>
-    <a href="#tiers">Membership</a>
-    <a href="#waitlist">Waitlist</a>
+    <a href="#studies">Study sheets</a>
   </nav>
 
   <div class="cta-row" style="margin-top:1.25rem">
-    <a class="btn btn-primary" href="#shelves">Browse free shelves</a>
-    <a class="btn btn-ghost" href="#tiers">Membership</a>
+    <a class="btn btn-primary" href="#shelves">Browse the shelves</a>
     <a class="btn btn-ghost" href="menorah.html">The Lamp</a>
     <a class="btn btn-ghost" href="entry.html">All public entries</a>
   </div>
@@ -181,7 +174,7 @@
 
   <section id="paths" aria-labelledby="paths-h">
     <h2 id="paths-h">Reading paths</h2>
-    <p class="sec-lead">Curated walks through free material. One member path stays locked as a preview of paid depth.</p>
+    <p class="sec-lead">Curated walks through the material — every path open, every step free.</p>
     <div class="path-list" id="pathMount"></div>
   </section>
 
@@ -194,49 +187,11 @@
     <div class="entry-list" id="entryMount"></div>
   </section>
 
-  <section id="member-depth" aria-labelledby="depth-h">
-    <h2 id="depth-h">Member depth <span class="lock-tag">Locked</span></h2>
-    <p class="sec-lead">Study sheets and pastor packs are designed here so the Library is real before checkout opens.
-      Outlines are visible; full sheets stay locked. Not vault dumps. Not SecretThings.</p>
+  <section id="studies" aria-labelledby="studies-h">
+    <h2 id="studies-h">Study sheets</h2>
+    <p class="sec-lead">Extended study sheets — outlines, lock inventories, and teaching sequences. All free, all open.
+      Not vault dumps. Not SecretThings.</p>
     <div class="study-list" id="studyMount"></div>
-  </section>
-
-  <section id="tiers" aria-labelledby="tiers-h">
-    <h2 id="tiers-h">Membership (PayMongo)</h2>
-    <p class="sec-lead">Support depth in PHP (GCash, Maya, card, QR Ph). Member study sheets remain locked until access is granted — payment does not auto-unlock yet.</p>
-    <div class="tier-grid" id="tierMount"></div>
-  </section>
-
-  <section id="waitlist" aria-labelledby="wait-h">
-    <h2 id="wait-h">Waitlist / questions</h2>
-    <div class="wait">
-      <p>Prefer a note before paying, or already paid and need access? Leave your email.</p>
-      <form id="waitForm">
-        <div>
-          <label for="waitEmail">Email</label>
-          <input type="email" id="waitEmail" required autocomplete="email" placeholder="you@example.com">
-        </div>
-        <div>
-          <label for="waitTier">Interest</label>
-          <select id="waitTier">
-            <option value="library">Library membership</option>
-            <option value="pastor">Pastor / Teacher</option>
-            <option value="either">Not sure yet</option>
-            <option value="donor">I want to support the free door</option>
-          </select>
-        </div>
-        <input type="hidden" name="list" value="library-membership">
-        <button class="btn btn-primary" type="submit">Join waitlist</button>
-        <p id="waitNote" hidden role="status"></p>
-      </form>
-      <p class="fine-print">No spam. Gospel content never requires a subscription.</p>
-    </div>
-  </section>
-
-  <section>
-    <h2>Stewardship</h2>
-    <p class="sec-lead" style="margin:0">“The front door is free forever. Members and donors hold it open.”
-      Member study sheets unlock after access is wired — not automatically on payment (yet).</p>
   </section>
 </main>
 
@@ -248,9 +203,10 @@
       <a href="branch.html#/3">Branches</a>
       <a href="entry.html">Entries</a>
       <a href="library.html">Library</a>
+      <a href="signature.html">The Signature</a>
       <a href="care/welcome.html">Care</a>
     </nav>
-    <p class="fine">Free shelves open · Member sheets locked · PayMongo live when provisioned · Sod withheld</p>
+    <p class="fine">Entirely free · Study sheets open · Sod withheld · Not for sale</p>
   </div>
 </footer>
 
@@ -259,47 +215,10 @@
 
 const FORMSPREE = "https://formspree.io/f/xaqgrqov";
 
-const PAY_BTNS = {
-  free: [],
-  library: [
-    { tier: "library_monthly", label: "Pay · monthly (₱499)" },
-    { tier: "library_yearly", label: "Pay · yearly (₱4,499)" },
-  ],
-  pastor: [
-    { tier: "pastor_monthly", label: "Pay · Pastor monthly (₱1,099)" },
-  ],
-};
-
 async function loadCatalog(){
   const res = await fetch("library/data/catalog.json", { cache: "no-store" });
   if(!res.ok) throw new Error("catalog missing");
   return res.json();
-}
-
-async function loadPayCfg(){
-  try{
-    const res = await fetch("library/data/paymongo.json", { cache: "no-store" });
-    if(!res.ok) return { mode: "off", paymentLinks: {} };
-    return await res.json();
-  }catch(_){
-    return { mode: "off", paymentLinks: {} };
-  }
-}
-
-function payReady(cfg){
-  const links = (cfg && cfg.paymentLinks) || {};
-  return !!(links.library_monthly || links.library_yearly || links.pastor_monthly);
-}
-
-function startCheckout(tier, cfg){
-  const link = (cfg.paymentLinks || {})[tier];
-  if(link){
-    if(typeof csTrack === "function") csTrack("checkout_click", { tier, provider: "paymongo" });
-    location.href = link;
-    return;
-  }
-  alert("That plan link is missing. Use the waitlist or try again later.");
-  location.hash = "#waitlist";
 }
 
 function countByPos(entries){
@@ -333,15 +252,14 @@ function renderShelves(shelves, entries){
 function renderPaths(paths){
   const el = document.getElementById("pathMount");
   el.innerHTML = (paths || []).map(p => {
-    const locked = p.access && p.access !== "free";
     const steps = (p.steps || []).map(s => {
-      if(locked || !s.href){
-        return `<li>${s.label}${locked ? " · locked" : ""}</li>`;
+      if(!s.href){
+        return `<li>${s.label}</li>`;
       }
       return `<li><a href="${s.href}">${s.label}</a></li>`;
     }).join("");
-    return `<article class="path-card${locked ? " locked" : ""}">
-      <h3>${p.name}${locked ? '<span class="lock-tag">Member</span>' : ""}</h3>
+    return `<article class="path-card">
+      <h3>${p.name}</h3>
       <div class="aud">${p.audience || ""}</div>
       <ol>${steps}</ol>
     </article>`;
@@ -378,124 +296,34 @@ function renderStudies(studies){
       ? `<a href="${s.related_free}">Open related free page →</a>`
       : "";
     return `<article class="study">
-      <h3>${s.title} <span class="lock-tag">${s.access || "member"}</span></h3>
+      <h3>${s.title}</h3>
       <p class="blurb">${s.blurb || ""}</p>
       <ol>${outline}</ol>
-      <div class="foot">
-        <span class="locked-label">Full sheet locked</span>
-        ${free}
-      </div>
+      <div class="foot">${free}</div>
     </article>`;
   }).join("");
-}
-
-function renderTiers(tiers, payCfg){
-  const el = document.getElementById("tierMount");
-  const ready = payReady(payCfg);
-  const banner = document.getElementById("payBanner");
-  if(ready){
-    banner.innerHTML = `<strong>PayMongo is live</strong> (${payCfg.mode || "live"}).
-      Pay with GCash, Maya, card, or QR Ph. Member study sheets stay locked until access is granted manually.
-      <a href="entry.html" style="color:var(--gold)">Public entries remain free</a>.`;
-  }else{
-    banner.innerHTML = `<strong>Checkout not provisioned yet.</strong>
-      Free shelves are open. Join the waitlist, or the owner can run paymongo_provision.py.`;
-  }
-  el.innerHTML = (tiers || []).map(t => {
-    let price = t.price;
-    if(t.id === "library") price = "₱499/mo · ₱4,499/yr";
-    if(t.id === "pastor") price = "₱1,099/mo";
-    if(t.id === "free") price = "Free forever";
-    let actions = "";
-    if(t.id === "free"){
-      actions = `<div class="soon" style="margin-top:.75rem"><a class="btn btn-ghost" href="#catalog" style="width:100%;text-align:center;display:block">Browse free catalog</a></div>`;
-    }else{
-      const btns = PAY_BTNS[t.id] || [];
-      if(ready && btns.length){
-        actions = `<div style="display:flex;flex-direction:column;gap:.45rem;margin-top:.85rem">
-          ${btns.map(b => {
-            const has = !!(payCfg.paymentLinks && payCfg.paymentLinks[b.tier]);
-            return has
-              ? `<button type="button" class="btn btn-primary" data-tier="${b.tier}" style="width:100%">${b.label}</button>`
-              : "";
-          }).join("")}
-        </div>`;
-      }else{
-        actions = `<div class="soon" style="margin-top:.75rem">Checkout not live · <a href="#waitlist" style="color:var(--gold)">waitlist</a></div>`;
-      }
-    }
-    return `<article class="tier${t.id === "library" ? " featured" : ""}">
-      <div class="name">${t.name}</div>
-      <div class="price">${price}</div>
-      <ul>${(t.includes || []).map(x => `<li>${x}</li>`).join("")}</ul>
-      ${actions}
-    </article>`;
-  }).join("");
-  el.querySelectorAll("button[data-tier]").forEach(btn => {
-    btn.addEventListener("click", () => startCheckout(btn.getAttribute("data-tier"), payCfg));
-  });
-}
-
-function wireWaitlist(){
-  const form = document.getElementById("waitForm");
-  const note = document.getElementById("waitNote");
-  form.addEventListener("submit", async e => {
-    e.preventDefault();
-    const email = (document.getElementById("waitEmail").value || "").trim().toLowerCase();
-    const tier = document.getElementById("waitTier").value;
-    if(!email){ form.reportValidity(); return; }
-    note.hidden = false;
-    note.textContent = "Sending…";
-    try{
-      const res = await fetch(FORMSPREE, {
-        method: "POST",
-        headers: { "Accept": "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          tier,
-          message: "Library membership waitlist (membership locked / library-first)",
-          list: "library-membership",
-          _subject: "Library membership waitlist",
-        }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if(res.ok || data.ok){
-        note.innerHTML = "You're on the list for <strong>" + email.replace(/</g,"") +
-          "</strong>. We'll write when membership depth unlocks.";
-        form.reset();
-        if(typeof csTrack === "function") csTrack("library_waitlist", { tier });
-      }else throw new Error("fail");
-    }catch(_){
-      note.innerHTML = 'Could not send. Email <a href="mailto:alvinebreo@gmail.com">alvinebreo@gmail.com</a>.';
-    }
-  });
 }
 
 (async function boot(){
-  const payCfg = await loadPayCfg();
   try{
     const cat = await loadCatalog();
     renderShelves(cat.shelves, cat.entries);
     renderPaths(cat.paths);
     renderEntries(cat.entries);
     renderStudies(cat.member_studies || cat.member_teasers);
-    renderTiers(cat.tiers, payCfg);
     const filter = document.getElementById("catalogFilter");
     filter.addEventListener("input", () => renderEntries(cat.entries, filter.value));
     if(typeof csTrack === "function"){
       csTrack("library_view", {
-        membership_open: !!cat.membership_open,
-        paymongo: payReady(payCfg) ? "on" : "off",
+        open: true,
         free_entries: (cat.entries || []).length,
-        locked_studies: (cat.member_studies || []).length,
+        studies: (cat.member_studies || []).length,
       });
     }
   }catch(err){
     document.getElementById("entryMount").innerHTML =
       `<p class="fine-print">Catalog unavailable. Run <code>python3 Hermes/scripts/build_library_catalog.py</code>.</p>`;
-    renderTiers([], payCfg);
   }
-  wireWaitlist();
 })();
 </script>
 </body>
