@@ -262,6 +262,28 @@
   }
   .books{font-size:15px;line-height:1.9;color:var(--muted)}
   .books b{color:var(--parchment);font-weight:400}
+  .triad-row{margin-bottom:1.05rem}
+  .triad-row:last-child{margin-bottom:0}
+  .triad-row-id{
+    font-family:var(--font-display);
+    font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:.4em;
+  }
+  .triad-books-grid{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 12px;
+  }
+  .triad-books-grid i{
+    display:block;font-style:normal;
+    font-family:var(--font-display);
+    font-size:9px;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--gold);opacity:.85;margin-bottom:3px;
+  }
+  .triad-books-grid b{
+    color:var(--parchment);font-weight:400;font-style:italic;font-size:15px;line-height:1.25;
+  }
+  @media (max-width:560px){
+    .triad-books-grid{grid-template-columns:1fr}
+  }
   .pair{
     margin-top:2em;font-size:14px;line-height:1.6;color:var(--muted);
     border-left:2px solid color-mix(in srgb, var(--gold) 30%, transparent);padding-left:14px;
@@ -276,7 +298,7 @@
 
   .lamp-caption{
     margin-top:auto;padding-top:32px;text-align:center;
-    font-style:italic;color:var(--muted);font-size:13px;max-width:50ch;
+    font-style:italic;color:var(--muted);font-size:13px;max-width:58ch;
   }
   .bridge{
     margin-top:1.25rem;text-align:center;max-width:40ch;
@@ -313,14 +335,14 @@
   <p class="eyebrow">The Library · interactive index</p>
   <h1>The Menorah</h1>
   <p class="anchor">In whom are hidden all the treasures of wisdom and knowledge. <cite>— Colossians 2:3</cite></p>
-  <p class="hint">Touch a flame to enter its branch</p>
+  <p class="hint">Touch a flame for its branch · a blossom for its book</p>
 
   <div class="lamp-wrap" id="lampWrap">
     <!-- SVG injected by script -->
   </div>
 
   <p class="lamp-caption">
-    Seven branches. One source of fire. Every discipline of human knowing finds its address on the lamp — and every treasure was hidden in Christ before any branch discovered it.
+    Seven branches. One source of fire. Twenty-two almond-blossom sets — cup, knob, and flower — name the books as three forms of one hammered work, not as a botanical growth cycle. Every discipline of human knowing finds its address on the lamp; every treasure was hidden in Christ before any branch discovered it.
   </p>
   <p class="bridge">
     New here? The court is still open.
@@ -348,43 +370,37 @@
 </footer>
 
 <script>
-/* ---------------- DATA: the seven positions (from the Menorah Disciplines Map) ------------- */
+/* ---------------- DATA: spirits/lenses/disciplines from the Menorah Disciplines Map;
+   book slots from Entry 4.4 as corrected by Addenda B–E. Do not flatten triads. ------------- */
 const POSITIONS = {
-  1:{ side:"arche", sideLabel:"Archē · Left", spirit:"Fear of the LORD", heb:"yir'at YHWH",
+  1:{ side:"arche", sideLabel:"Archē · Outer left", spirit:"Fear of the LORD", heb:"yir'at YHWH",
       lens:"Threshold", pair:7,
       body:"The initiating confrontation with what is ultimate — standing at the limit of what the creature can know from below and feeling the weight of what it cannot answer.",
-      disc:["Political Science","Political Philosophy","Ethics","Social Ethics","Sociology","Philosophy of History","Existential Philosophy","Anthropology","History (threshold)"],
-      books:["Malachi","Zephaniah","Amos","Nahum","Joel","Micah","Obadiah","1 Kings","Jonah"] },
-  2:{ side:"arche", sideLabel:"Archē · Left", spirit:"Knowledge", heb:"da'at",
+      disc:["Political Science","Political Philosophy","Ethics","Social Ethics","Sociology","Philosophy of History","Existential Philosophy","Anthropology (image-bearer)","History (threshold)"] },
+  2:{ side:"arche", sideLabel:"Archē · Middle left", spirit:"Knowledge", heb:"da'at",
       lens:"First Principle", pair:6,
       body:"The systematic, foundational reception of what is actually there — letting reality speak before constructing anything from it.",
-      disc:["Natural Science","Philology / Linguistics","Geography","History (archival)","Taxonomy","Empirical Social Science","Psychology","Ethnography","Humanities","Semiotics (observational)"],
-      books:["Hosea","Daniel","Zechariah","2 Kings","1–2 Chronicles","Haggai","Ezra","Nehemiah"] },
-  3:{ side:"arche", sideLabel:"Archē · Left", spirit:"Wisdom", heb:"chokmah",
+      disc:["Natural Science","Philology / Linguistics","Geography","History (archival)","Taxonomy","Empirical Social Science","Psychology (relational)","Ethnography","Humanities","Semiotics (observational)"] },
+  3:{ side:"arche", sideLabel:"Archē · Inner left", spirit:"Wisdom", heb:"chokmah",
       lens:"Applied Knowledge", pair:5,
       body:"Knowledge received and now governing construction and making — the discipline of building from received structure.",
-      disc:["Formal Science","Epistemology","Engineering / Applied Tech","Architecture","Structural Science","Logic (as method)","Music Theory / Poetics","Metaphysics / Ontology","Systems Thinking","Philosophical Anthropology"],
-      books:["Job","Ruth","Song of Songs","Lamentations","Habakkuk","Psalms","Proverbs","Ecclesiastes","Esther"] },
+      disc:["Formal Science","Philosophy of Science / Epistemology","Engineering / Applied Tech","Architecture","Structural Science","Logic (as method)","Music Theory / Poetics","Metaphysics / Ontology","Systems Thinking","Philosophical Anthropology","Philosophy (formal)"] },
   4:{ side:"center", sideLabel:"Shamash · Center", spirit:"The Spirit of the LORD", heb:"Ruach YHWH",
-      lens:"The Fire Itself", pair:null,
-      body:"The central shaft — the epistemological threshold where the regime turns from seeing-is-believing to believing-precedes-seeing. The one source of fire for all six branches. Here Scripture stands, and theology tends the lamp.",
-      disc:["Scripture","Theology tends the lamp"],
-      books:["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","1 Samuel","2 Samuel","Isaiah","Jeremiah","Ezekiel"] },
-  5:{ side:"telos", sideLabel:"Telos · Right", spirit:"Understanding", heb:"binah",
+      lens:"Shamash — fire itself", pair:null,
+      body:"The central shaft — the threshold where the regime turns from seeing-is-believing to believing-precedes-seeing. The one source of fire for all six branches. Here Scripture stands, and theology tends the lamp.",
+      disc:["Scripture","Theology tends the lamp"] },
+  5:{ side:"telos", sideLabel:"Telos · Inner right", spirit:"Understanding", heb:"binah",
       lens:"Divine Timing", pair:3,
       body:"The same building capacity as Wisdom, now after the center-crossing — where timing belongs to God and construction proceeds before the outcome is visible.",
-      disc:["Narrative Theology","Salvation History","Typology","Eschatological Ethics","Systematic Theology","Church History","Soteriology","Christology","Trinitarian Theology","Missiology (binah)"],
-      books:["Romans","Colossians","John","Galatians","Ephesians","Acts","Luke","Mark","Matthew"] },
-  6:{ side:"telos", sideLabel:"Telos · Right", spirit:"Counsel", heb:"'etsah",
+      disc:["Narrative Theology","Salvation History","Typology","Eschatological Ethics","Systematic Theology","Church History","Soteriology","Christology","Trinitarian Theology","Missiology (binah)"] },
+  6:{ side:"telos", sideLabel:"Telos · Middle right", spirit:"Counsel", heb:"'etsah",
       lens:"Friend, not Servant", pair:2,
-      body:"The same receptive posture as Knowledge, now in the sod register — receiving not by method or observation but as the Friend told by the Master what He is doing.",
-      disc:["Pastoral Theology","Church Polity","Apologetics (corrective)","Ecclesiology","Pastoral Care","Spiritual Direction","Applied Ethics","Kenotic Theology","Reconciliation","Traditioned Theology"],
-      books:["2 Corinthians","Philemon","2 Timothy","1 Thessalonians","Philippians","1 Corinthians","Titus","2 Thessalonians","1 Timothy"] },
-  7:{ side:"telos", sideLabel:"Telos · Right", spirit:"Might", heb:"gevurah",
+      body:"The same receptive posture as Knowledge, now as Friend rather than servant — receiving not by method or observation but as the Friend told by the Master what He is doing.",
+      disc:["Pastoral Theology","Church Polity","Apologetics (corrective)","Ecclesiology","Pastoral Care","Spiritual Direction","Applied Ethics","Kenotic Theology","Mediation / Reconciliation","Traditioned Theology"] },
+  7:{ side:"telos", sideLabel:"Telos · Outer right", spirit:"Might", heb:"gevurah",
       lens:"Co-regency", pair:1,
       body:"The same threshold encounter as the Fear of the LORD, now with authority received and enacted — not standing at the boundary asking who governs, but governing as the King's under-regent.",
-      disc:["Pastoral Discernment","Confessional Theology","Practical Theology","Theological Polemics","Combat Apologetics","Theology of Suffering","Covenant Theology","Mystical Theology","Eschatology (gevurah)","Missiology (gevurah)"],
-      books:["Hebrews","1 John","Revelation","2 Peter","Jude","1 Peter","3 John","James","2 John"] },
+      disc:["Pastoral Discernment","Confessional Theology","Practical Theology","Theological Polemics","Combat Apologetics","Theology of Suffering","Biblical Theology of Covenant","Mystical Theology","Eschatology (gevurah)","Missiology (gevurah)"] },
 };
 
 /* ---------------- TRIADS: cup/knob/flower books per triad (Entry 4.4 + Addenda B–E) -------- */
@@ -635,8 +651,16 @@ function renderPanel(p){
     </div>
 
     <div class="p-section">
-      <h3>Canonical books · the fire deposited here</h3>
-      <div class="books">${d.books.map(b=>`<b>${b}</b>`).join(" · ")}</div>
+      <h3>Canonical books · cup, knob, flower</h3>
+      ${TRIADS[p].map(t=>`
+        <div class="triad-row">
+          <div class="triad-row-id">${t.id} · ${t.label}</div>
+          <div class="triad-books-grid">
+            <span><i>Cup</i><b>${t.cup}</b></span>
+            <span><i>Knob</i><b>${t.knob}</b></span>
+            <span><i>Flower</i><b>${t.flower}</b></span>
+          </div>
+        </div>`).join("")}
     </div>
 
     ${pairHtml}
