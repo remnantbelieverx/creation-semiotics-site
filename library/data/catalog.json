@@ -85,14 +85,16 @@
       "title": "Menorah pairing — architecture notes",
       "pos": "3",
       "access": "free",
-      "related_free": "entry.html#/menorah-pairing",
+      "status": "live",
+      "href": "library/menorah-pairing.html",
+      "related_free": "library/menorah-pairing.html",
       "outline": [
         "Outer / middle / inner pairs at a glance",
         "Isaiah 11:2 couplets (public summary)",
         "How Branch navigation uses the pairs",
         "What stays vault-side (full lock tables)"
       ],
-      "blurb": "Working map of bilateral architecture for Library readers. Full draft: Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md (free).",
+      "blurb": "Working map of the three height-pairs and the unpaired center. Not a lock dump.",
       "draft": "Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md"
     },
     {
@@ -585,13 +587,13 @@
     {
       "id": "MS-03",
       "title": "Menorah pairing — architecture notes",
-      "altitude": "member",
+      "altitude": "library",
       "access": "free",
       "pos": "3",
-      "blurb": "Working map of bilateral architecture for Library readers. Full draft: Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md — free.",
-      "publicHref": "entry.html#/menorah-pairing",
+      "blurb": "Working map of the three height-pairs and the unpaired center.",
+      "publicHref": "library/menorah-pairing.html",
       "memberHref": null,
-      "status": "locked"
+      "status": "live"
     },
     {
       "id": "MS-04",

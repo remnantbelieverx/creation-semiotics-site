@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" data-register="library">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0B0D12">
+<meta name="description" content="Menorah pairing — a working map of the three opposite pairs and the unpaired center in the Creation Semiotics Library.">
+<title>Menorah pairing · Creation Semiotics Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Spectral:ital,wght@0,300;0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/chrome.css">
+<script>window.CS_ANALYTICS = window.CS_ANALYTICS || { domain: "remnantbelieverx.github.io" };</script>
+<script defer src="../js/analytics.js"></script>
+<style>
+  body{font-weight:300}
+  main.study{
+    max-width:740px;margin:0 auto;
+    padding:clamp(2rem,5vw,3.5rem) clamp(1.25rem,4vw,2rem) 4rem;
+  }
+  .crumb{
+    font-family:var(--font-mono);font-size:.62rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--text-faint);margin-bottom:1.25rem;
+  }
+  .crumb a{color:var(--gold);border:0}
+  .id-chip{
+    display:inline-block;font-family:var(--font-mono);font-size:.58rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--gold);
+    border:1px solid color-mix(in srgb,var(--gold) 35%,transparent);
+    padding:.18rem .5rem;border-radius:2px;margin-bottom:.85rem;
+  }
+  h1{
+    font-family:var(--font-display);font-weight:500;
+    font-size:clamp(1.85rem,5vw,2.6rem);line-height:1.1;color:var(--parchment);
+    margin:.15rem 0 .6rem;
+  }
+  .lead{font-size:1.1rem;line-height:1.55;color:var(--text-dim);max-width:38em}
+  .subnav{
+    display:flex;flex-wrap:wrap;gap:.5rem .85rem;margin:1.35rem 0 0;
+    font-family:var(--font-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  }
+  .subnav a{color:var(--text-dim);border:0}
+  .subnav a:hover{color:var(--gold)}
+  section{margin:2.4rem 0;padding-top:1.6rem;border-top:1px solid color-mix(in srgb,var(--gold) 12%,transparent)}
+  section h2{
+    font-family:var(--font-display);font-weight:500;font-size:1.3rem;color:var(--parchment);margin:0 0 .7rem;
+  }
+  section p, section li{font-size:1rem;line-height:1.65;color:var(--text-dim)}
+  section p + p{margin-top:.85rem}
+  section ol, section ul{margin:.45rem 0 0;padding-left:1.2rem}
+  section li{margin:.4rem 0}
+  section strong{color:var(--parchment);font-weight:500}
+  section em{color:var(--gold-soft);font-style:italic}
+  blockquote.ex-quote{
+    margin:1rem 0;padding:1rem 1.15rem;border-left:2px solid var(--gold-deep);
+    background:color-mix(in srgb,var(--bg-2) 80%,transparent);font-style:italic;color:var(--parchment);
+  }
+  blockquote.ex-quote footer{
+    font-style:normal;font-family:var(--font-mono);font-size:.65rem;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);margin-top:.55rem;
+  }
+  .pair-grid{display:grid;gap:.65rem;margin-top:.75rem}
+  @media(min-width:560px){.pair-grid{grid-template-columns:1fr 1fr}}
+  .pair{
+    padding:.95rem 1.05rem;border:1px solid color-mix(in srgb,var(--gold) 14%,transparent);
+    border-radius:var(--radius);
+    background:color-mix(in srgb,var(--bg-1) 75%,transparent);
+  }
+  .pair .who{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+  .pair h3{
+    font-family:var(--font-display);font-weight:500;font-size:1.12rem;color:var(--parchment);
+    margin:.25rem 0 .2rem;
+  }
+  .pair p{margin:.25rem 0 0;font-size:.92rem;color:var(--text-dim)}
+  .pair a{color:var(--gold)}
+  .pair.center{
+    border-color:color-mix(in srgb,var(--gold) 28%,transparent);
+  }
+  @media(min-width:560px){.pair.center{grid-column:1 / -1}}
+  .refuse{
+    margin-top:.5rem;padding:1.05rem 1.15rem;
+    border:1px solid color-mix(in srgb,var(--gold) 18%,transparent);
+    background:color-mix(in srgb,var(--bg-1) 90%,transparent);
+  }
+  .refuse ul{margin:.4rem 0 0}
+  .fine{font-size:.88rem;color:var(--muted);font-style:italic;margin-top:1.1rem;line-height:1.5}
+</style>
+</head>
+<body data-register="library">
+
+<header class="site-bar">
+  <a class="brand" href="../library.html">
+    <span class="brand-family">Creation Semiotics</span>
+    <span class="brand-page">Study<span class="dot"> ·</span></span>
+  </a>
+  <nav class="site-nav" aria-label="Primary">
+    <a href="../index.html">The Verdict</a>
+    <a href="../index.html#/sign">The Signs</a>
+    <a href="../menorah.html">The Lamp</a>
+    <a href="../branch.html#/3">Branches</a>
+    <a href="../entry.html">Entries</a>
+    <a href="../library.html" aria-current="page">Library</a>
+  </nav>
+</header>
+
+<main class="study">
+  <p class="crumb"><a href="../library.html">Library</a> · Study sheets · MS-03</p>
+  <span class="id-chip">MS-03 · positions 3 ⇌ 5 · free</span>
+  <h1>Menorah pairing</h1>
+  <p class="lead">Six branches in three opposite pairs around one unpaired center. Depth is relational — not a pile of disconnected topics.</p>
+
+  <nav class="subnav" aria-label="On this page">
+    <a href="#aim">Aim</a>
+    <a href="#claim">Claim</a>
+    <a href="#map">Pair map</a>
+    <a href="#isaiah">Isaiah 11:2</a>
+    <a href="#teach">Teach</a>
+    <a href="#rules">Rules</a>
+  </nav>
+
+  <div class="cta-row">
+    <a class="btn btn-primary" href="../menorah.html">Open the lamp</a>
+    <a class="btn btn-ghost" href="../entry.html#/menorah-pairing">Public entry</a>
+    <a class="btn btn-ghost" href="walk-the-lamp.html">Walk the lamp</a>
+  </div>
+
+  <section id="aim">
+    <h2>What this sheet is for</h2>
+    <p>A working map of the lamp’s second dimension — pairing — so a reader can:</p>
+    <ol>
+      <li>Name the three height-pairs and the unpaired center.</li>
+      <li>Read Isaiah 11:2 as one Spirit with ordered designations, not a grab bag.</li>
+      <li>Navigate the public site by pairs without inventing filler.</li>
+      <li>Leave the full lock table in the vault.</li>
+    </ol>
+  </section>
+
+  <section id="claim">
+    <h2>The public claim</h2>
+    <p>The Menorah is not six random arms. Exodus specifies branches out of both sides of one shaft. That shaft is not a seventh peer; it is the source and axis. The public Library uses that bilateral map: Wisdom faces Understanding, Knowledge faces Counsel, Fear faces Might.</p>
+    <p>The linear walk asks <em>where am I in the sequence?</em> The pair walk asks <em>who faces me across the fire?</em> Both questions belong to one object. Empty public shelves — especially Counsel — are sometimes discipline, not neglect.</p>
+  </section>
+
+  <section id="map">
+    <h2>The pair map</h2>
+    <p>Physical pairing from the lamp’s own specification: three branches from one side, three from the other, matched by height. Use this table while teaching on <a href="../menorah.html">the lamp</a>.</p>
+    <div class="pair-grid">
+      <article class="pair">
+        <div class="who">Outer · 1 ⇌ 7</div>
+        <h3>Fear ⇌ Might</h3>
+        <p>Threshold faces co-regency under the Lamb.</p>
+        <p><a href="../branch.html#/1">Branch 1</a> · <a href="../branch.html#/7">Branch 7</a> · <a href="../entry.html#/conscience">Conscience</a> · <a href="../entry.html#/might">Might</a></p>
+      </article>
+      <article class="pair">
+        <div class="who">Middle · 2 ⇌ 6</div>
+        <h3>Knowledge ⇌ Counsel</h3>
+        <p>Observation faces reception as Friend. Counsel’s public shelf stays thin on purpose.</p>
+        <p><a href="../branch.html#/2">Branch 2</a> · <a href="../branch.html#/6">Branch 6</a> · <a href="../entry.html#/snowflake">Snowflake</a> · <a href="../entry.html#/counsel">Counsel</a></p>
+      </article>
+      <article class="pair">
+        <div class="who">Inner · 3 ⇌ 5</div>
+        <h3>Wisdom ⇌ Understanding</h3>
+        <p>Making faces seeing — the builder’s pair after the center-crossing.</p>
+        <p><a href="../branch.html#/3">Branch 3</a> · <a href="../branch.html#/5">Branch 5</a> · <a href="../entry.html#/harmonics">Harmonics</a> · <a href="../entry.html#/binah-sight">Binah-sight</a></p>
+      </article>
+      <article class="pair center">
+        <div class="who">Center · 4 · unpaired</div>
+        <h3>The Spirit of the LORD</h3>
+        <p>The shamash does not face a partner. All six grow from it and receive fire from it. It is the axis, not a seventh equal branch.</p>
+        <p><a href="../branch.html#/4">Branch 4</a> · <a href="../entry.html#/fire">Fire</a> · <a href="../entry.html#/psalm-19">Psalm 19</a></p>
+      </article>
+    </div>
+  </section>
+
+  <section id="isaiah">
+    <h2>Isaiah 11:2 — public altitude</h2>
+    <blockquote class="ex-quote">“And the Spirit of the LORD shall rest upon him, the Spirit of wisdom and understanding, the Spirit of counsel and might, the Spirit of knowledge and the fear of the LORD.”
+      <footer>Isaiah 11:2</footer></blockquote>
+    <p>The Spirit is one. The designations are ordered, not a grab bag. Wisdom <em>and</em> understanding is the most explicit grammatical couplet in the verse, and it matches the lamp’s inner height-pair.</p>
+    <p>Do not flatten the rest of the verse into the height table as if every “and” were already a branch facing its neighbor. The lamp’s pairs are physical (same height across the shaft). Isaiah’s grammar is a second, related reading of the same sevenfold Spirit. Both belong to one object. The full couplet analysis stays in the vault.</p>
+    <p><strong>Precision:</strong> do not force every modern spiritual-gift list onto the Menorah. Stay with Isaiah’s text and the lamp’s architecture.</p>
+  </section>
+
+  <section id="teach">
+    <h2>A short teaching sequence</h2>
+    <p>Twenty to thirty-five minutes.</p>
+    <ol>
+      <li>Open <a href="../menorah.html">the lamp</a>; touch three pairs and the center.</li>
+      <li>Read Exodus 25:31–32 — six branches out of the sides of one shaft.</li>
+      <li>Read Isaiah 11:2 slowly, without rearranging the “ands.”</li>
+      <li>Walk one pair live: <a href="../branch.html#/3">Wisdom</a> and <a href="../branch.html#/5">Understanding</a>.</li>
+      <li>State the empty-shelf rule for Counsel.</li>
+      <li>Close: one light; faces across the fire.</li>
+    </ol>
+    <p>Homework: <a href="../entry.html#/menorah-pairing">the public pairing entry</a>, then one free Sign on Knowledge.</p>
+
+    <h2 style="margin-top:2rem">Questions for a small group</h2>
+    <ol>
+      <li>Why is an unpaired center different from a seventh equal branch?</li>
+      <li>Where do we treat topics as disconnected when the lamp treats them as pairs?</li>
+      <li>How does “Friend, not servant” (Counsel) resist method-only religion?</li>
+    </ol>
+  </section>
+
+  <section id="rules">
+    <h2>What we claim · what we refuse</h2>
+    <p>Bilateral pairing on the lamp is independently specified in Scripture. Opposite-arm pairing on a snowflake is <em>derived</em> from radial six-fold geometry — see <a href="../entry.html#/snowflake">Entry 2.1</a>. Do not treat those two pairings as the same kind of fact.</p>
+    <div class="refuse">
+      <h2>Overclaims to refuse</h2>
+      <ul>
+        <li>Every doctrine has a forced cup–knob–flower slot.</li>
+        <li>Pairing justifies numerology games.</li>
+        <li>A thin public Counsel shelf means the vault is empty of counsel. It may simply be withheld.</li>
+        <li>Publishing the eight-lock table under the name “pairing.”</li>
+      </ul>
+    </div>
+  </section>
+
+  <p class="fine">Allowlist A-10 and A-15. Structural summary only. The 66-book map is Entry 4.4, not this sheet. The golden ratio is Entry 3.2, not this sheet.</p>
+
+  <div class="cta-row">
+    <a class="btn btn-primary" href="../branch.html#/3">Enter Wisdom</a>
+    <a class="btn btn-ghost" href="../branch.html#/5">Enter Understanding</a>
+    <a class="btn btn-ghost" href="walk-the-lamp.html">Walk the seven positions</a>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="col foot-grid">
+    <nav class="foot-links" aria-label="Site">
+      <a href="../index.html">The Verdict</a>
+      <a href="../menorah.html">The Lamp</a>
+      <a href="../branch.html#/3">Branches</a>
+      <a href="../entry.html">Entries</a>
+      <a href="../library.html">Library</a>
+    </nav>
+    <p class="fine">A Creation Semiotics project · The light is one, and the pairs still face each other across the fire.</p>
+  </div>
+</footer>
+
+</body>
+</html>
