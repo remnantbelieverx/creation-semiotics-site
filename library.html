@@ -92,6 +92,9 @@
     border:1px dashed color-mix(in srgb,var(--gold) 28%,transparent);border-radius:var(--radius);
     padding:1.15rem 1.25rem;background:color-mix(in srgb,var(--bg-1) 70%,transparent);position:relative;
   }
+  .study.is-live{
+    border-style:solid;border-color:color-mix(in srgb,var(--gold) 22%,transparent);
+  }
   .study h3{font-family:var(--font-display);font-size:1.15rem;color:var(--parchment);margin:0 0 .4rem}
   .study .blurb{font-size:.92rem;color:var(--text-dim);line-height:1.5;margin:0 0 .75rem}
   .study ol{margin:0;padding-left:1.2rem;color:var(--muted);font-size:.88rem;line-height:1.5}
@@ -266,14 +269,19 @@ function renderStudies(studies){
   const el = document.getElementById("studyMount");
   el.innerHTML = (studies || []).map(s => {
     const outline = (s.outline || []).map(x => `<li>${x}</li>`).join("");
-    const free = s.related_free
-      ? `<a href="${s.related_free}">Open related free page →</a>`
-      : "";
-    return `<article class="study">
-      <h3>${s.title}</h3>
+    const href = s.href || (s.status === "live" ? s.related_free : "");
+    const live = Boolean(s.href) || s.status === "live";
+    const title = href
+      ? `<h3><a href="${href}" style="color:inherit;border:0">${s.title}</a></h3>`
+      : `<h3>${s.title}</h3>`;
+    const foot = href
+      ? `<a href="${href}">Read the sheet →</a>`
+      : (s.related_free ? `<a href="${s.related_free}">Open related free page →</a>` : "");
+    return `<article class="study${live ? " is-live" : ""}">
+      ${title}
       <p class="blurb">${s.blurb || ""}</p>
       <ol>${outline}</ol>
-      <div class="foot">${free}</div>
+      <div class="foot">${foot}</div>
     </article>`;
   }).join("");
 }

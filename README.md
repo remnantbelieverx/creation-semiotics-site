@@ -21,6 +21,7 @@ architecture or phase gates change; this README stays run/routes-focused.
 | `/entry.html` · `#/<slug>` | `entry.html` | **library** | Public entry reader (allowlist summaries) |
 | `/care/welcome.html` | `care/welcome.html` | **grace** | Next steps + church help |
 | `/library.html` | `library.html` | **library** | Free Library — shelves, paths, study sheets, catalog |
+| `/library/walk-the-lamp.html` | `library/walk-the-lamp.html` | **library** | MS-06 study sheet — seven-position tour |
 | `/signature.html` | `signature.html` | **library** | The Signature — weekly letter archive + subscribe |
 
 ## Design system

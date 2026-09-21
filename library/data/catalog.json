@@ -130,14 +130,16 @@
       "title": "Walk the lamp — position guide",
       "pos": "all",
       "access": "free",
-      "related_free": "menorah.html",
+      "status": "live",
+      "href": "library/walk-the-lamp.html",
+      "related_free": "library/walk-the-lamp.html",
       "outline": [
         "One paragraph per Spirit-lens",
         "Suggested first entry per branch",
         "Bilateral pairs in reading order",
         "What not to invent on thin shelves (esp. Counsel)"
       ],
-      "blurb": "Companion to the interactive lamp for serious readers. Full draft: Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md (free).",
+      "blurb": "Companion to the interactive lamp — touring order for the seven positions. Not a corpus dump.",
       "draft": "Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md"
     },
     {
@@ -616,13 +618,13 @@
     {
       "id": "MS-06",
       "title": "Walk the lamp — position guide",
-      "altitude": "member",
+      "altitude": "library",
       "access": "free",
       "pos": "all",
-      "blurb": "Companion to the interactive lamp for serious readers. Full draft: Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md — free.",
-      "publicHref": "menorah.html",
+      "blurb": "Companion to the interactive lamp — touring order for the seven positions.",
+      "publicHref": "library/walk-the-lamp.html",
       "memberHref": null,
-      "status": "locked"
+      "status": "live"
     },
     {
       "id": "MS-07",
@@ -808,6 +810,10 @@
       "audience": "Positions 1–7",
       "access": "free",
       "steps": [
+        {
+          "label": "Study sheet — Walk the lamp (MS-06)",
+          "href": "library/walk-the-lamp.html"
+        },
         {
           "label": "Position 1",
           "href": "branch.html#/1"
