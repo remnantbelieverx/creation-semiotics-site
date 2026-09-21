@@ -87,7 +87,8 @@ emails as an automation on tag `verdict-want`.
 ## Theological spine
 
 - **Verdict** — Entry 1.1 (Conscience), CDP-XIII Robe Exchange; general-revelation altitude.
-- **Menorah** — Menorah Disciplines Map + Entry 3.2 triads; Library coordinate system.
+- **Menorah** — Menorah Disciplines Map + Entry 4.4 triads (Addenda A–E); Library coordinate system.
+  Entry 3.2 is the golden ratio / unapproachable light, not the canon map.
   Public copy stays plain; sod-level material stays off the public path.
 
 ## Deliberately deferred
