@@ -354,27 +354,27 @@ const POSITIONS = {
       lens:"Threshold", pair:7,
       body:"The initiating confrontation with what is ultimate — standing at the limit of what the creature can know from below and feeling the weight of what it cannot answer.",
       disc:["Political Science","Political Philosophy","Ethics","Social Ethics","Sociology","Philosophy of History","Existential Philosophy","Anthropology","History (threshold)"],
-      books:["Ezekiel","Zephaniah","Amos","Nahum","Joel","Micah","Obadiah","1 Kings","1 Samuel"] },
+      books:["Malachi","Zephaniah","Amos","Nahum","Joel","Micah","Obadiah","1 Kings","Jonah"] },
   2:{ side:"arche", sideLabel:"Archē · Left", spirit:"Knowledge", heb:"da'at",
       lens:"First Principle", pair:6,
       body:"The systematic, foundational reception of what is actually there — letting reality speak before constructing anything from it.",
       disc:["Natural Science","Philology / Linguistics","Geography","History (archival)","Taxonomy","Empirical Social Science","Psychology","Ethnography","Humanities","Semiotics (observational)"],
-      books:["Hosea","Jonah","Zechariah","2 Kings","1–2 Chronicles","Haggai","Ezra","Nehemiah"] },
+      books:["Hosea","Daniel","Zechariah","2 Kings","1–2 Chronicles","Haggai","Ezra","Nehemiah"] },
   3:{ side:"arche", sideLabel:"Archē · Left", spirit:"Wisdom", heb:"chokmah",
       lens:"Applied Knowledge", pair:5,
       body:"Knowledge received and now governing construction and making — the discipline of building from received structure.",
       disc:["Formal Science","Epistemology","Engineering / Applied Tech","Architecture","Structural Science","Logic (as method)","Music Theory / Poetics","Metaphysics / Ontology","Systems Thinking","Philosophical Anthropology"],
-      books:["Job","Daniel","Song of Songs","Lamentations","Habakkuk","Psalms","Proverbs","Ecclesiastes","Esther"] },
+      books:["Job","Ruth","Song of Songs","Lamentations","Habakkuk","Psalms","Proverbs","Ecclesiastes","Esther"] },
   4:{ side:"center", sideLabel:"Shamash · Center", spirit:"The Spirit of the LORD", heb:"Ruach YHWH",
       lens:"The Fire Itself", pair:null,
       body:"The central shaft — the epistemological threshold where the regime turns from seeing-is-believing to believing-precedes-seeing. The one source of fire for all six branches. Here Scripture stands, and theology tends the lamp.",
       disc:["Scripture","Theology tends the lamp"],
-      books:["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","2 Samuel","Isaiah","Jeremiah","Malachi"] },
+      books:["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","1 Samuel","2 Samuel","Isaiah","Jeremiah","Ezekiel"] },
   5:{ side:"telos", sideLabel:"Telos · Right", spirit:"Understanding", heb:"binah",
       lens:"Divine Timing", pair:3,
       body:"The same building capacity as Wisdom, now after the center-crossing — where timing belongs to God and construction proceeds before the outcome is visible.",
       disc:["Narrative Theology","Salvation History","Typology","Eschatological Ethics","Systematic Theology","Church History","Soteriology","Christology","Trinitarian Theology","Missiology (binah)"],
-      books:["Romans","Colossians","John","Galatians","Ephesians","Acts","Mark","Luke","Matthew"] },
+      books:["Romans","Colossians","John","Galatians","Ephesians","Acts","Luke","Mark","Matthew"] },
   6:{ side:"telos", sideLabel:"Telos · Right", spirit:"Counsel", heb:"'etsah",
       lens:"Friend, not Servant", pair:2,
       body:"The same receptive posture as Knowledge, now in the sod register — receiving not by method or observation but as the Friend told by the Master what He is doing.",
@@ -384,39 +384,41 @@ const POSITIONS = {
       lens:"Co-regency", pair:1,
       body:"The same threshold encounter as the Fear of the LORD, now with authority received and enacted — not standing at the boundary asking who governs, but governing as the King's under-regent.",
       disc:["Pastoral Discernment","Confessional Theology","Practical Theology","Theological Polemics","Combat Apologetics","Theology of Suffering","Covenant Theology","Mystical Theology","Eschatology (gevurah)","Missiology (gevurah)"],
-      books:["Hebrews","1 John","Revelation","2 Peter","Jude","1 Peter","3 John","2 John","James"] },
+      books:["Hebrews","1 John","Revelation","2 Peter","Jude","1 Peter","3 John","James","2 John"] },
 };
 
-/* ---------------- TRIADS: cup/knob/flower books per triad (Entry 3.2 Menorah Canon) -------- */
+/* ---------------- TRIADS: cup/knob/flower books per triad (Entry 4.4 + Addenda B–E) -------- */
 /* Branch triads are ordered innermost -> outermost (matches t=0.32, 0.57, 0.82).
    Shaft triads are ordered top -> base (matches frac=0.16, 0.40, 0.64, 0.88).
-   Within each triad: cup is farthest from the lamp tip, flower is closest. */
+   Within each triad: cup is farthest from the lamp tip, flower is closest.
+   Book slots follow Entry 4.4 as corrected by Addenda B (four-book rotation),
+   C (Mark–Luke), D (Ezekiel–Malachi), and E (M3 James–2 John). */
 const TRIADS = {
   1: [
-    { id:"F1", label:"INNER",  cup:"Ezekiel",  knob:"Zephaniah", flower:"Amos" },
+    { id:"F1", label:"INNER",  cup:"Malachi",  knob:"Zephaniah", flower:"Amos" },
     { id:"F2", label:"MIDDLE", cup:"Nahum",    knob:"Joel",      flower:"Micah" },
-    { id:"F3", label:"OUTER",  cup:"Obadiah",  knob:"1 Kings",   flower:"1 Samuel" },
+    { id:"F3", label:"OUTER",  cup:"Obadiah",  knob:"1 Kings",   flower:"Jonah" },
   ],
   2: [
-    { id:"K1", label:"INNER",  cup:"Hosea",   knob:"Jonah",        flower:"Zechariah" },
+    { id:"K1", label:"INNER",  cup:"Hosea",   knob:"Daniel",        flower:"Zechariah" },
     { id:"K2", label:"MIDDLE", cup:"2 Kings", knob:"1 Chronicles", flower:"2 Chronicles" },
     { id:"K3", label:"OUTER",  cup:"Haggai",  knob:"Ezra",         flower:"Nehemiah" },
   ],
   3: [
-    { id:"W1", label:"INNER",  cup:"Job",          knob:"Daniel",       flower:"Song of Solomon" },
+    { id:"W1", label:"INNER",  cup:"Job",          knob:"Ruth",         flower:"Song of Solomon" },
     { id:"W2", label:"MIDDLE", cup:"Lamentations", knob:"Habakkuk",     flower:"Psalms" },
     { id:"W3", label:"OUTER",  cup:"Proverbs",     knob:"Ecclesiastes", flower:"Esther" },
   ],
   4: [
-    { id:"SHAFT 4", label:"TOP",   cup:"Isaiah",  knob:"Jeremiah",    flower:"Malachi" },
-    { id:"SHAFT 3", label:"UPPER", cup:"Judges",  knob:"Ruth",        flower:"2 Samuel" },
+    { id:"SHAFT 4", label:"TOP",   cup:"Isaiah",  knob:"Jeremiah",    flower:"Ezekiel" },
+    { id:"SHAFT 3", label:"UPPER", cup:"Judges",  knob:"1 Samuel",    flower:"2 Samuel" },
     { id:"SHAFT 2", label:"LOWER", cup:"Numbers", knob:"Deuteronomy", flower:"Joshua" },
     { id:"SHAFT 1", label:"BASE",  cup:"Genesis", knob:"Exodus",      flower:"Leviticus" },
   ],
   5: [
     { id:"U1", label:"INNER",  cup:"Romans",    knob:"Colossians", flower:"John" },
     { id:"U2", label:"MIDDLE", cup:"Galatians", knob:"Ephesians",  flower:"Acts" },
-    { id:"U3", label:"OUTER",  cup:"Mark",      knob:"Luke",       flower:"Matthew" },
+    { id:"U3", label:"OUTER",  cup:"Luke",      knob:"Mark",       flower:"Matthew" },
   ],
   6: [
     { id:"C1", label:"INNER",  cup:"2 Corinthians",   knob:"Philemon",        flower:"2 Timothy" },
@@ -426,7 +428,7 @@ const TRIADS = {
   7: [
     { id:"M1", label:"INNER",  cup:"Hebrews", knob:"1 John", flower:"Revelation" },
     { id:"M2", label:"MIDDLE", cup:"2 Peter", knob:"Jude",   flower:"1 Peter" },
-    { id:"M3", label:"OUTER",  cup:"3 John",  knob:"2 John", flower:"James" },
+    { id:"M3", label:"OUTER",  cup:"3 John",  knob:"James",  flower:"2 John" },
   ],
 };
 
@@ -480,7 +482,13 @@ function ornament(x,y,angDeg,s,position,triadIdx){
   TRIAD_LABEL_DATA.push({ornId,x:lx,y:ly,anchor:ta});
 
   // Build the SVG: three triad-part groups, each with its visual + a generous transparent hit target
-  let g=`<g class="ornament" transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(1)}) scale(${s})">`;
+  // NOTE (2026-08-06, owner review, revised): the triad's LOCAL bbox spans
+  // flower petal tips at y≈-29.5 to cup bottom at y≈+10.5 — geometric center
+  // at y≈-9.5 (measured via getBBox). translate(0, 9.5*s) in scaled space
+  // (before rotate in the list) puts that midpoint exactly on the branch line,
+  // so the extended part is equal outside and inside the curve.
+  const centerShift=(9.5*s).toFixed(1);
+  let g=`<g class="ornament" transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(1)}) translate(0,${centerShift}) scale(${s})">`;
   // CUP (gaviya) — local y +2 to +12
   g+=`<g class="triad-part" data-orn-id="${ornId}" data-triad="${triad.id}" data-part="CUP" data-book="${triad.cup}">`
    + '<path d="M -11 6 C -11 -2 -6 -2 0 -2 C 6 -2 11 -2 11 6 C 7 12 -7 12 -11 6 Z" fill="#a87d14"/>'
