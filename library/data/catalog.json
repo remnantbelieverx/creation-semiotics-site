@@ -53,7 +53,9 @@
       "title": "Snowflake — multi-lock study",
       "pos": "2",
       "access": "free",
-      "related_free": "entry.html#/snowflake",
+      "status": "live",
+      "href": "library/snowflake.html",
+      "related_free": "library/snowflake.html",
       "outline": [
         "Lock inventory: which confirmations are independent vs derived",
         "Bond-angle → lattice chain with precision boundary restated",
@@ -62,7 +64,7 @@
         "Common overclaims to refuse (five-fold myths, 'secret code' icing)",
         "One discussion question for a small group"
       ],
-      "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file. Full draft: Hermes/Drafts/Library-Study-MS-01-Snowflake.md (free).",
+      "blurb": "Six-from-one as physical necessity; pairing derived. Not a paste of the vault file.",
       "draft": "Hermes/Drafts/Library-Study-MS-01-Snowflake.md"
     },
     {
@@ -565,13 +567,13 @@
     {
       "id": "MS-01",
       "title": "Snowflake — multi-lock study",
-      "altitude": "member",
+      "altitude": "library",
       "access": "free",
       "pos": "2",
-      "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file. Full draft: Hermes/Drafts/Library-Study-MS-01-Snowflake.md — free.",
-      "publicHref": "entry.html#/snowflake",
+      "blurb": "Six-from-one as physical necessity; pairing derived.",
+      "publicHref": "library/snowflake.html",
       "memberHref": null,
-      "status": "locked"
+      "status": "live"
     },
     {
       "id": "MS-02",
@@ -748,6 +750,10 @@
       "audience": "Physical signs",
       "access": "free",
       "steps": [
+        {
+          "label": "Study sheet — Snowflake (MS-01)",
+          "href": "library/snowflake.html"
+        },
         {
           "label": "Snowflake",
           "href": "entry.html#/snowflake"
