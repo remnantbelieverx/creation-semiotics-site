@@ -72,15 +72,17 @@
       "title": "Triple point — modalism correction brief",
       "pos": "2",
       "access": "free",
-      "related_free": "entry.html#/triplepoint",
+      "related_free": "library/triple-point.html",
       "outline": [
         "Phase diagram coordinate (public physics)",
         "Why sequential water analogies fail",
         "What T1 claims and refuses to claim",
         "One-page pastor handout structure"
       ],
-      "blurb": "How to teach the triple point without overclaiming the Trinity. Full draft: Hermes/Drafts/Library-Study-MS-02-TriplePoint.md (free).",
-      "draft": "Hermes/Drafts/Library-Study-MS-02-TriplePoint.md"
+      "blurb": "The sequential water lesson teaches succession. The triple point shows three phases at once, and it still does not prove the Trinity.",
+      "draft": "Hermes/Drafts/Library-Study-MS-02-TriplePoint.md",
+      "status": "live",
+      "href": "library/triple-point.html"
     },
     {
       "id": "MS-03",
@@ -104,15 +106,17 @@
       "title": "Fire & shamash — seven properties pack",
       "pos": "4",
       "access": "free",
-      "related_free": "entry.html#/fire",
+      "related_free": "library/fire-shamash.html",
       "outline": [
         "Property list with one sentence each",
         "Rising flame as load-bearing constant",
         "Aaronic blessing adjacency (public)",
         "Slide-ready image brief (free)"
       ],
-      "blurb": "Shamash-centered study connecting fire exhibit to lamp center. Full draft: Hermes/Drafts/Library-Study-MS-04-Fire-Shamash.md (free).",
-      "draft": "Hermes/Drafts/Library-Study-MS-04-Fire-Shamash.md"
+      "blurb": "The exhibit’s seven behaviors of fire, and the center of the lamp as servant light. A map of mechanisms, not a law of nature.",
+      "draft": "Hermes/Drafts/Library-Study-MS-04-Fire-Shamash.md",
+      "status": "live",
+      "href": "library/fire-shamash.html"
     },
     {
       "id": "MS-05",
@@ -250,14 +254,16 @@
       "title": "Psalm 19 — two books, one Speaker",
       "pos": "4",
       "access": "free",
-      "related_free": "entry.html#/psalm-19",
+      "related_free": "library/psalm-19.html",
       "outline": [
         "Heavens that declare without speech",
         "Law that revives the soul",
         "How to refuse nature-only or book-only religion",
         "Bridge to Verdict and free Signs"
       ],
-      "blurb": "Shamash-thread reading of Psalm 19 for Library members."
+      "blurb": "Psalm 19 holds the sky that declares and the word that revives under one Speaker.",
+      "status": "live",
+      "href": "library/psalm-19.html"
     }
   ],
   "tiers": [
@@ -580,13 +586,13 @@
     {
       "id": "MS-02",
       "title": "Triple point — modalism correction brief",
-      "altitude": "member",
+      "altitude": "library",
       "access": "free",
       "pos": "2",
-      "blurb": "How to teach the triple point without overclaiming the Trinity. Full draft: Hermes/Drafts/Library-Study-MS-02-TriplePoint.md — free.",
-      "publicHref": "entry.html#/triplepoint",
+      "blurb": "The sequential water lesson teaches succession. The triple point shows three phases at once, and it still does not prove the Trinity.",
+      "publicHref": "library/triple-point.html",
       "memberHref": null,
-      "status": "locked"
+      "status": "live"
     },
     {
       "id": "MS-03",
@@ -602,13 +608,13 @@
     {
       "id": "MS-04",
       "title": "Fire & shamash — seven properties pack",
-      "altitude": "member",
+      "altitude": "library",
       "access": "free",
       "pos": "4",
-      "blurb": "Shamash-centered study connecting fire exhibit to lamp center. Full draft: Hermes/Drafts/Library-Study-MS-04-Fire-Shamash.md — free.",
-      "publicHref": "entry.html#/fire",
+      "blurb": "The exhibit’s seven behaviors of fire, and the center of the lamp as servant light. A map of mechanisms, not a law of nature.",
+      "publicHref": "library/fire-shamash.html",
       "memberHref": null,
-      "status": "locked"
+      "status": "live"
     },
     {
       "id": "MS-05",
@@ -712,13 +718,13 @@
     {
       "id": "MS-14",
       "title": "Psalm 19 — two books, one Speaker",
-      "altitude": "member",
+      "altitude": "library",
       "access": "free",
       "pos": "4",
-      "blurb": "Shamash-thread reading of Psalm 19 for Library members.",
-      "publicHref": "entry.html#/psalm-19",
+      "blurb": "Psalm 19 holds the sky that declares and the word that revives under one Speaker.",
+      "publicHref": "library/psalm-19.html",
       "memberHref": null,
-      "status": "locked"
+      "status": "live"
     }
   ],
   "paths": [
@@ -769,6 +775,10 @@
           "href": "entry.html#/triplepoint"
         },
         {
+          "label": "Study sheet — Triple point (MS-02)",
+          "href": "library/triple-point.html"
+        },
+        {
           "label": "Knowledge branch",
           "href": "branch.html#/2"
         }
@@ -787,6 +797,10 @@
         {
           "label": "Fire — seven properties",
           "href": "entry.html#/fire"
+        },
+        {
+          "label": "Study sheet — Fire (MS-04)",
+          "href": "library/fire-shamash.html"
         },
         {
           "label": "Aaronic blessing",
@@ -877,8 +891,16 @@
           "href": "entry.html#/fire"
         },
         {
+          "label": "Study sheet — Fire (MS-04)",
+          "href": "library/fire-shamash.html"
+        },
+        {
           "label": "Psalm 19",
           "href": "entry.html#/psalm-19"
+        },
+        {
+          "label": "Study sheet — Psalm 19 (MS-14)",
+          "href": "library/psalm-19.html"
         },
         {
           "label": "Wisdom branch",

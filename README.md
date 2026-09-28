@@ -25,6 +25,9 @@ architecture or phase gates change; this README stays run/routes-focused.
 | `/library/menorah-pairing.html` | `library/menorah-pairing.html` | **library** | MS-03 study sheet — three pairs + unpaired center |
 | `/library/snowflake.html` | `library/snowflake.html` | **library** | MS-01 study sheet — six-from-one, pairing derived |
 | `/library/conscience-path.html` | `library/conscience-path.html` | **library** | MS-05 study sheet — conscience, Verdict, care |
+| `/library/triple-point.html` | `library/triple-point.html` | **library** | MS-02 study sheet — succession versus the triple point |
+| `/library/fire-shamash.html` | `library/fire-shamash.html` | **library** | MS-04 study sheet — seven behaviors, servant light |
+| `/library/psalm-19.html` | `library/psalm-19.html` | **library** | MS-14 study sheet — two books, one Speaker |
 | `/signature.html` | `signature.html` | **library** | The Signature — weekly letter archive + subscribe |
 
 ## Design system
