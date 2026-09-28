@@ -119,14 +119,16 @@
       "title": "Conscience → Verdict → Care path deep",
       "pos": "1",
       "access": "free",
-      "related_free": "entry.html#/conscience",
+      "status": "live",
+      "href": "library/conscience-path.html",
+      "related_free": "library/conscience-path.html",
       "outline": [
         "Forensic Greek terms (public altitude)",
         "How The Verdict maps Entry 1.1",
         "Robe Exchange as legal exchange (summary)",
         "Follow-up: Care + church help without pressure"
       ],
-      "blurb": "Pastoral-ready path from tribunal within to next steps. Full draft: Hermes/Drafts/Library-Study-MS-05-Conscience-Verdict-Care.md (free).",
+      "blurb": "One free path from the court within, through The Verdict, into care. No score, no paywall.",
       "draft": "Hermes/Drafts/Library-Study-MS-05-Conscience-Verdict-Care.md"
     },
     {
@@ -614,10 +616,10 @@
       "altitude": "member",
       "access": "free",
       "pos": "1",
-      "blurb": "Pastoral-ready path from tribunal within to next steps. Full draft: Hermes/Drafts/Library-Study-MS-05-Conscience-Verdict-Care.md — free.",
-      "publicHref": "entry.html#/conscience",
+      "blurb": "One free path from the court within, through The Verdict, into care.",
+      "publicHref": "library/conscience-path.html",
       "memberHref": null,
-      "status": "locked"
+      "status": "live"
     },
     {
       "id": "MS-06",
@@ -737,6 +739,10 @@
         {
           "label": "Care — next steps",
           "href": "care/welcome.html"
+        },
+        {
+          "label": "Path sheet for a mentor",
+          "href": "library/conscience-path.html"
         },
         {
           "label": "The Lamp",
