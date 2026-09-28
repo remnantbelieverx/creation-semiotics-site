@@ -15,10 +15,16 @@
 
   /* Defaults — owner may override in a prior inline script */
   if (typeof cfg.domain !== "string") cfg.domain = "";
-  if (typeof cfg.src !== "string") cfg.src = "https://plausible.io/js/script.tagged-events.js";
+  /* hash: Verdict, Branch, and Entry are hash routes. tagged-events: funnel goals. */
+  if (typeof cfg.src !== "string") cfg.src = "https://plausible.io/js/script.hash.tagged-events.js";
   if (typeof cfg.enabled !== "boolean") {
     cfg.enabled = !!(cfg.domain && String(cfg.domain).trim());
   }
+
+  /* Queue events that fire before the Plausible script finishes loading. */
+  w.plausible = w.plausible || function () {
+    (w.plausible.q = w.plausible.q || []).push(arguments);
+  };
 
   function loadPlausible() {
     if (!cfg.enabled || !cfg.domain) return;
@@ -44,9 +50,17 @@
       w.dataLayer = w.dataLayer || [];
       w.dataLayer.push(Object.assign({ event: event }, payload));
 
-      if (typeof w.plausible === "function") {
+      /* The script already records page loads and hash changes.
+         Forward only named funnel events, never an address or a question. */
+      if (event !== "pageview" && event !== "hash_change" && typeof w.plausible === "function") {
+        var safe = {};
         var keys = props ? Object.keys(props) : [];
-        if (keys.length) w.plausible(event, { props: props });
+        for (var i = 0; i < keys.length; i++) {
+          var key = keys[i];
+          if (key === "email" || key === "message" || key === "question") continue;
+          safe[key] = props[key];
+        }
+        if (Object.keys(safe).length) w.plausible(event, { props: safe });
         else w.plausible(event);
       }
 
