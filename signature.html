@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/chrome.css">
 <script>window.CS_ANALYTICS = window.CS_ANALYTICS || { domain: "remnantbelieverx.github.io" };</script>
+<script src="js/esp-config.js"></script>
 <script defer src="js/analytics.js"></script>
 <style>
   main{max-width:42rem;margin:0 auto;padding:2.5rem 1.25rem 4rem}
@@ -82,18 +83,51 @@
     <p><strong style="color:var(--parchment)">Receive The Signature by email.</strong>
       One short letter most weeks — a sign from creation, carefully stated. The
       Verdict stays free; these letters are for those who want to keep noticing.</p>
-    <form class="btndown-form" action="https://buttondown.com/api/emails/embed-subscribe/ebreo" method="post" target="popupwindow"
-      onsubmit="window.open('https://buttondown.com/ebreo','popupwindow','popup=yes,width=520,height=720'); return true;">
+    <form class="btndown-form" id="sigSubscribe" action="https://buttondown.com/api/emails/embed-subscribe/ebreo" method="post" target="popupwindow">
       <input type="email" name="email" id="bd-email" required placeholder="you@example.com" aria-label="Email address">
       <input type="hidden" value="1" name="embed">
       <button type="submit" class="btn btn-primary">Subscribe</button>
     </form>
+    <p id="sigNote" hidden style="margin-top:.8rem"></p>
     <p class="fine-print" style="margin-top:.8rem;color:var(--muted);font-size:.8rem">
       No spam. Unsubscribe anytime. Gospel content never requires a subscription.</p>
   </div>
 </main>
 
 <script>
+(function wireSignatureSubscribe(){
+  const form = document.getElementById("sigSubscribe");
+  const note = document.getElementById("sigNote");
+  if(!form) return;
+  const proxy = ((window.CS_ESP && window.CS_ESP.subscribeProxy) || "").trim();
+  form.addEventListener("submit", async function(event){
+    if(!proxy){
+      window.open("https://buttondown.com/ebreo", "popupwindow", "popup=yes,width=520,height=720");
+      return;
+    }
+    event.preventDefault();
+    const email = (document.getElementById("bd-email").value || "").trim().toLowerCase();
+    if(!email){ form.reportValidity(); return; }
+    note.hidden = false;
+    note.textContent = "Sending…";
+    try{
+      const res = await fetch(proxy, {
+        method: "POST",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email, list: "signature" })
+      });
+      const data = await res.json().catch(function(){ return {}; });
+      if(res.ok && (data.ok || data.id || data.email_address)){
+        note.textContent = "Check " + email + " for a confirmation link from Buttondown. You can stay on this page.";
+        form.reset();
+        return;
+      }
+      note.textContent = (data && data.error) || "Could not add this address. Try again in a moment.";
+    }catch(_){
+      note.textContent = "Could not reach the letter list. Try again in a moment.";
+    }
+  });
+})();
 (function loadLetters(){
   const mount = document.getElementById("letters");
   const empty = document.getElementById("emptyState");

@@ -142,6 +142,9 @@
     font-family:var(--font-display);font-style:italic;font-weight:500;
     font-size:18px;color:var(--parchment);margin-bottom:6px;line-height:1.15;
   }
+  .book-hold{
+    margin-top:8px;font-size:12px;line-height:1.45;color:var(--muted);
+  }
   .book-register{font-size:12px;line-height:1.45;color:var(--muted)}
 
   .entry-card{
@@ -279,21 +282,25 @@ const BRANCHES = {
     triads:[
       { id:"F1", label:"INNERMOST", pos:"closest to the shamash", movement:"Disputation at the threshold · day of the LORD · plumb line of justice.",
         books:[
-          {part:"CUP", name:"Malachi", reg:"You say… but I say — accusation held at the door."},
+          {part:"CUP", name:"Malachi", reg:"You say… but I say — accusation held at the door.",
+            hold:"A soft cup. The letter disputes; it does not close."},
           {part:"KNOB", name:"Zephaniah", reg:"The great day pressed into a people."},
           {part:"FLOWER", name:"Amos", reg:"Justice rolling down — threshold as summons."},
         ]},
       { id:"F2", label:"MIDDLE", pos:"structural register", movement:"Burden · assembly · indictment of the proud.",
         books:[
-          {part:"CUP", name:"Nahum", reg:"The city under judgment."},
+          {part:"CUP", name:"Nahum", reg:"The city under judgment.",
+            hold:"A judgment oracle. Recorded as a soft cup."},
           {part:"KNOB", name:"Joel", reg:"The assembly called to the threshold."},
           {part:"FLOWER", name:"Micah", reg:"What the LORD requires — walk humbly."},
         ]},
       { id:"F3", label:"OUTERMOST", pos:"surface register", movement:"Brother-violence · throne history · first-person fear confessed.",
         books:[
-          {part:"CUP", name:"Obadiah", reg:"Edom at the door."},
+          {part:"CUP", name:"Obadiah", reg:"Edom at the door.",
+            hold:"A judgment oracle. Recorded as a soft cup."},
           {part:"KNOB", name:"1 Kings", reg:"Thrones under the fear of YHWH."},
-          {part:"FLOWER", name:"Jonah", reg:"I am a Hebrew, and I fear the LORD."},
+          {part:"FLOWER", name:"Jonah", reg:"I am a Hebrew, and I fear the LORD.",
+            hold:"Placed by Jonah 1:9. This triad stays only moderate."},
         ]},
     ],
     disc:["Political Science","Political Philosophy","Ethics","Social Ethics","Sociology","Philosophy of History","Existential Philosophy","Anthropology","History (threshold)"],
@@ -381,13 +388,15 @@ const BRANCHES = {
         books:[
           {part:"CUP", name:"Job", reg:"Direct encounter — \"I know that my Redeemer lives.\""},
           {part:"KNOB", name:"Ruth", reg:"The go'el mechanism actually walked — loyalty under the wings."},
-          {part:"FLOWER", name:"Song of Solomon", reg:"The face of the Beloved — wisdom arrived at its bloom."},
+          {part:"FLOWER", name:"Song of Solomon", reg:"Love named. The face-claim is not settled.",
+            hold:"The filed map doubts reading this flower as a revealed face. The seat was not moved."},
         ]},
       { id:"W2", label:"MIDDLE", pos:"structural register · disciplined inquiry", movement:"Structure under devastation · disciplined inquiry · doxological bloom.",
         books:[
           {part:"CUP", name:"Lamentations", reg:"Formal integrity maintained inside total devastation."},
           {part:"KNOB", name:"Habakkuk", reg:"\"I will take my stand at my watchpost\" — inquiry pressing."},
-          {part:"FLOWER", name:"Psalms", reg:"Formal doxological construction — wisdom in full bloom."},
+          {part:"FLOWER", name:"Psalms", reg:"Formal doxological construction — wisdom in full bloom.",
+            hold:"The flower is the closing praise, Psalms 146–150, not every psalm."},
         ]},
       { id:"W3", label:"OUTERMOST", pos:"surface register · meeting the world", movement:"Governing axioms · stress-tested under experience · enacted in hiddenness.",
         books:[
@@ -441,7 +450,8 @@ const BRANCHES = {
       { id:"SHAFT 3", label:"UPPER", pos:"upper shaft", movement:"Cycles of forgetting · kingship formed · the king's heart.",
         books:[
           {part:"CUP", name:"Judges", reg:"Everyone did what was right in his own eyes."},
-          {part:"KNOB", name:"1 Samuel", reg:"Samuel anoints; Saul falls; David is formed under pursuit."},
+          {part:"KNOB", name:"1 Samuel", reg:"Samuel anoints; Saul falls; David is formed under pursuit.",
+            hold:"Here because the book ends with Saul’s death, unresolved."},
           {part:"FLOWER", name:"2 Samuel", reg:"The man after God's heart — and the wound."},
         ]},
       { id:"SHAFT 2", label:"LOWER", pos:"lower shaft", movement:"Numbered people · renewed covenant · land entered.",
@@ -507,7 +517,8 @@ const BRANCHES = {
       { id:"U3", label:"OUTERMOST", pos:"surface register", movement:"Received testimony held · urgency still unresolved · the King arrived.",
         books:[
           {part:"CUP", name:"Luke", reg:"An orderly account — that you may have certainty."},
-          {part:"KNOB", name:"Mark", reg:"Immediately — and they were afraid."},
+          {part:"KNOB", name:"Mark", reg:"Immediately — and they were afraid.",
+            hold:"The knob, because Mark 16:8 does not resolve."},
           {part:"FLOWER", name:"Matthew", reg:"All authority — go therefore."},
         ]},
     ],
@@ -598,8 +609,10 @@ const BRANCHES = {
       { id:"M3", label:"OUTERMOST", pos:"surface register", movement:"Truth received · doers of the word · joy made complete.",
         books:[
           {part:"CUP", name:"3 John", reg:"Fellow workers for the truth."},
-          {part:"KNOB", name:"James", reg:"Be doers of the word, and not hearers only."},
-          {part:"FLOWER", name:"2 John", reg:"Face to face — that our joy may be complete."},
+          {part:"KNOB", name:"James", reg:"Be doers of the word, and not hearers only.",
+            hold:"A letter of practice, not one closing disclosure."},
+          {part:"FLOWER", name:"2 John", reg:"Face to face — that our joy may be complete.",
+            hold:"A modest flower: joy at meeting face to face."},
         ]},
     ],
     disc:["Pastoral Discernment","Confessional Theology","Practical Theology","Theological Polemics","Combat Apologetics","Theology of Suffering","Covenant Theology","Mystical Theology","Eschatology (gevurah)","Missiology (gevurah)"],
@@ -687,6 +700,7 @@ function renderBranch(p){
             <div class="book-part-label">${bk.part}</div>
             <div class="book-name">${bk.name}</div>
             <div class="book-register">${bk.reg}</div>
+            ${bk.hold ? `<div class="book-hold">${bk.hold}</div>` : ""}
           </div>`).join("")}
       </div>
     </div>`).join("");

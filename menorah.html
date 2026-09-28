@@ -281,6 +281,10 @@
   .triad-books-grid b{
     color:var(--parchment);font-weight:400;font-style:italic;font-size:15px;line-height:1.25;
   }
+  .triad-books-grid em{
+    display:block;margin-top:.35rem;font-style:normal;
+    font-size:.78rem;line-height:1.4;color:var(--muted);
+  }
   @media (max-width:560px){
     .triad-books-grid{grid-template-columns:1fr}
   }
@@ -412,9 +416,15 @@ const POSITIONS = {
    C (Mark–Luke), D (Ezekiel–Malachi), and E (M3 James–2 John). */
 const TRIADS = {
   1: [
-    { id:"F1", label:"INNER",  cup:"Malachi",  knob:"Zephaniah", flower:"Amos" },
-    { id:"F2", label:"MIDDLE", cup:"Nahum",    knob:"Joel",      flower:"Micah" },
-    { id:"F3", label:"OUTER",  cup:"Obadiah",  knob:"1 Kings",   flower:"Jonah" },
+    { id:"F1", label:"INNER",  cup:"Malachi",  knob:"Zephaniah", flower:"Amos",
+      holds:{ cup:"A soft cup. The letter disputes; it does not close in a resolved disclosure." } },
+    { id:"F2", label:"MIDDLE", cup:"Nahum",    knob:"Joel",      flower:"Micah",
+      holds:{ cup:"A judgment oracle. The library records this cup as a soft fit." } },
+    { id:"F3", label:"OUTER",  cup:"Obadiah",  knob:"1 Kings",   flower:"Jonah",
+      holds:{
+        cup:"A judgment oracle. The library records this cup as a soft fit.",
+        flower:"Placed by Jonah 1:9. This triad stays only moderate."
+      } },
   ],
   2: [
     { id:"K1", label:"INNER",  cup:"Hosea",   knob:"Daniel",        flower:"Zechariah" },
@@ -422,20 +432,24 @@ const TRIADS = {
     { id:"K3", label:"OUTER",  cup:"Haggai",  knob:"Ezra",         flower:"Nehemiah" },
   ],
   3: [
-    { id:"W1", label:"INNER",  cup:"Job",          knob:"Ruth",         flower:"Song of Solomon" },
-    { id:"W2", label:"MIDDLE", cup:"Lamentations", knob:"Habakkuk",     flower:"Psalms" },
+    { id:"W1", label:"INNER",  cup:"Job",          knob:"Ruth",         flower:"Song of Solomon",
+      holds:{ flower:"The filed map doubts reading this flower as a revealed face. The seat was not moved." } },
+    { id:"W2", label:"MIDDLE", cup:"Lamentations", knob:"Habakkuk",     flower:"Psalms",
+      holds:{ flower:"The flower is the closing praise, Psalms 146–150, not every psalm." } },
     { id:"W3", label:"OUTER",  cup:"Proverbs",     knob:"Ecclesiastes", flower:"Esther" },
   ],
   4: [
     { id:"SHAFT 4", label:"TOP",   cup:"Isaiah",  knob:"Jeremiah",    flower:"Ezekiel" },
-    { id:"SHAFT 3", label:"UPPER", cup:"Judges",  knob:"1 Samuel",    flower:"2 Samuel" },
+    { id:"SHAFT 3", label:"UPPER", cup:"Judges",  knob:"1 Samuel",    flower:"2 Samuel",
+      holds:{ knob:"Here because the book ends with Saul’s death, unresolved." } },
     { id:"SHAFT 2", label:"LOWER", cup:"Numbers", knob:"Deuteronomy", flower:"Joshua" },
     { id:"SHAFT 1", label:"BASE",  cup:"Genesis", knob:"Exodus",      flower:"Leviticus" },
   ],
   5: [
     { id:"U1", label:"INNER",  cup:"Romans",    knob:"Colossians", flower:"John" },
     { id:"U2", label:"MIDDLE", cup:"Galatians", knob:"Ephesians",  flower:"Acts" },
-    { id:"U3", label:"OUTER",  cup:"Luke",      knob:"Mark",       flower:"Matthew" },
+    { id:"U3", label:"OUTER",  cup:"Luke",      knob:"Mark",       flower:"Matthew",
+      holds:{ knob:"The knob, because Mark 16:8 does not resolve." } },
   ],
   6: [
     { id:"C1", label:"INNER",  cup:"2 Corinthians",   knob:"Philemon",        flower:"2 Timothy" },
@@ -445,7 +459,11 @@ const TRIADS = {
   7: [
     { id:"M1", label:"INNER",  cup:"Hebrews", knob:"1 John", flower:"Revelation" },
     { id:"M2", label:"MIDDLE", cup:"2 Peter", knob:"Jude",   flower:"1 Peter" },
-    { id:"M3", label:"OUTER",  cup:"3 John",  knob:"James",  flower:"2 John" },
+    { id:"M3", label:"OUTER",  cup:"3 John",  knob:"James",  flower:"2 John",
+      holds:{
+        knob:"A letter of practice, not one closing disclosure.",
+        flower:"A modest flower: joy at meeting face to face."
+      } },
   ],
 };
 
@@ -657,9 +675,10 @@ function renderPanel(p){
         <div class="triad-row">
           <div class="triad-row-id">${t.id} · ${t.label}</div>
           <div class="triad-books-grid">
-            <span><i>Cup</i><b>${t.cup}</b></span>
-            <span><i>Knob</i><b>${t.knob}</b></span>
-            <span><i>Flower</i><b>${t.flower}</b></span>
+            ${["cup","knob","flower"].map(part => {
+              const hold = (t.holds && t.holds[part]) || "";
+              return `<span><i>${part[0].toUpperCase()+part.slice(1)}</i><b>${t[part]}</b>${hold ? `<em>${hold}</em>` : ""}</span>`;
+            }).join("")}
           </div>
         </div>`).join("")}
     </div>
