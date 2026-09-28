@@ -53,9 +53,7 @@
       "title": "Snowflake — multi-lock study",
       "pos": "2",
       "access": "free",
-      "status": "live",
-      "href": "library/snowflake.html",
-      "related_free": "library/snowflake.html",
+      "related_free": "entry.html#/snowflake",
       "outline": [
         "Lock inventory: which confirmations are independent vs derived",
         "Bond-angle → lattice chain with precision boundary restated",
@@ -64,7 +62,7 @@
         "Common overclaims to refuse (five-fold myths, 'secret code' icing)",
         "One discussion question for a small group"
       ],
-      "blurb": "Six-from-one as physical necessity; pairing derived. Not a paste of the vault file.",
+      "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file. Full draft: Hermes/Drafts/Library-Study-MS-01-Snowflake.md (free).",
       "draft": "Hermes/Drafts/Library-Study-MS-01-Snowflake.md"
     },
     {
@@ -87,16 +85,14 @@
       "title": "Menorah pairing — architecture notes",
       "pos": "3",
       "access": "free",
-      "status": "live",
-      "href": "library/menorah-pairing.html",
-      "related_free": "library/menorah-pairing.html",
+      "related_free": "entry.html#/menorah-pairing",
       "outline": [
         "Outer / middle / inner pairs at a glance",
         "Isaiah 11:2 couplets (public summary)",
         "How Branch navigation uses the pairs",
         "What stays vault-side (full lock tables)"
       ],
-      "blurb": "Working map of the three height-pairs and the unpaired center. Not a lock dump.",
+      "blurb": "Working map of bilateral architecture for Library readers. Full draft: Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md (free).",
       "draft": "Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md"
     },
     {
@@ -134,16 +130,14 @@
       "title": "Walk the lamp — position guide",
       "pos": "all",
       "access": "free",
-      "status": "live",
-      "href": "library/walk-the-lamp.html",
-      "related_free": "library/walk-the-lamp.html",
+      "related_free": "menorah.html",
       "outline": [
         "One paragraph per Spirit-lens",
         "Suggested first entry per branch",
         "Bilateral pairs in reading order",
         "What not to invent on thin shelves (esp. Counsel)"
       ],
-      "blurb": "Companion to the interactive lamp — touring order for the seven positions. Not a corpus dump.",
+      "blurb": "Companion to the interactive lamp for serious readers. Full draft: Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md (free).",
       "draft": "Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md"
     },
     {
@@ -388,8 +382,8 @@
     },
     {
       "id": "A-09",
-      "title": "Entry 3.2 — Golden Ratio",
-      "source": "Entry 3.2 — Golden Ratio",
+      "title": "Entry 3.2 — Menorah & Canon",
+      "source": "Entry 3.2 — Menorah & Canon",
       "pos": "3",
       "surface": "public",
       "altitude": "library",
@@ -397,7 +391,7 @@
       "status": "live",
       "publicHref": "entry.html#/golden-ratio-canon",
       "memberHref": null,
-      "blurb": "φ in plant growth; unapproachable and not far; not the 66-book canon map",
+      "blurb": "Public summary only; not full canon table dump",
       "slug": "golden-ratio-canon"
     },
     {
@@ -567,13 +561,13 @@
     {
       "id": "MS-01",
       "title": "Snowflake — multi-lock study",
-      "altitude": "library",
+      "altitude": "member",
       "access": "free",
       "pos": "2",
-      "blurb": "Six-from-one as physical necessity; pairing derived.",
-      "publicHref": "library/snowflake.html",
+      "blurb": "Extended study sheet for Entry 2.1 — locks and precision, not a paste of the vault file. Full draft: Hermes/Drafts/Library-Study-MS-01-Snowflake.md — free.",
+      "publicHref": "entry.html#/snowflake",
       "memberHref": null,
-      "status": "live"
+      "status": "locked"
     },
     {
       "id": "MS-02",
@@ -589,13 +583,13 @@
     {
       "id": "MS-03",
       "title": "Menorah pairing — architecture notes",
-      "altitude": "library",
+      "altitude": "member",
       "access": "free",
       "pos": "3",
-      "blurb": "Working map of the three height-pairs and the unpaired center.",
-      "publicHref": "library/menorah-pairing.html",
+      "blurb": "Working map of bilateral architecture for Library readers. Full draft: Hermes/Drafts/Library-Study-MS-03-Menorah-Pairing.md — free.",
+      "publicHref": "entry.html#/menorah-pairing",
       "memberHref": null,
-      "status": "live"
+      "status": "locked"
     },
     {
       "id": "MS-04",
@@ -622,13 +616,13 @@
     {
       "id": "MS-06",
       "title": "Walk the lamp — position guide",
-      "altitude": "library",
+      "altitude": "member",
       "access": "free",
       "pos": "all",
-      "blurb": "Companion to the interactive lamp — touring order for the seven positions.",
-      "publicHref": "library/walk-the-lamp.html",
+      "blurb": "Companion to the interactive lamp for serious readers. Full draft: Hermes/Drafts/Library-Study-MS-06-Walk-the-Lamp.md — free.",
+      "publicHref": "menorah.html",
       "memberHref": null,
-      "status": "live"
+      "status": "locked"
     },
     {
       "id": "MS-07",
@@ -751,10 +745,6 @@
       "access": "free",
       "steps": [
         {
-          "label": "Study sheet — Snowflake (MS-01)",
-          "href": "library/snowflake.html"
-        },
-        {
           "label": "Snowflake",
           "href": "entry.html#/snowflake"
         },
@@ -818,10 +808,6 @@
       "audience": "Positions 1–7",
       "access": "free",
       "steps": [
-        {
-          "label": "Study sheet — Walk the lamp (MS-06)",
-          "href": "library/walk-the-lamp.html"
-        },
         {
           "label": "Position 1",
           "href": "branch.html#/1"

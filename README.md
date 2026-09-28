@@ -21,9 +21,6 @@ architecture or phase gates change; this README stays run/routes-focused.
 | `/entry.html` · `#/<slug>` | `entry.html` | **library** | Public entry reader (allowlist summaries) |
 | `/care/welcome.html` | `care/welcome.html` | **grace** | Next steps + church help |
 | `/library.html` | `library.html` | **library** | Free Library — shelves, paths, study sheets, catalog |
-| `/library/walk-the-lamp.html` | `library/walk-the-lamp.html` | **library** | MS-06 study sheet — seven-position tour |
-| `/library/menorah-pairing.html` | `library/menorah-pairing.html` | **library** | MS-03 study sheet — three pairs + unpaired center |
-| `/library/snowflake.html` | `library/snowflake.html` | **library** | MS-01 study sheet — six-from-one, pairing derived |
 | `/signature.html` | `signature.html` | **library** | The Signature — weekly letter archive + subscribe |
 
 ## Design system
@@ -89,8 +86,7 @@ emails as an automation on tag `verdict-want`.
 ## Theological spine
 
 - **Verdict** — Entry 1.1 (Conscience), CDP-XIII Robe Exchange; general-revelation altitude.
-- **Menorah** — Menorah Disciplines Map + Entry 4.4 triads (Addenda A–E); Library coordinate system.
-  Entry 3.2 is the golden ratio / unapproachable light, not the canon map.
+- **Menorah** — Menorah Disciplines Map + Entry 3.2 triads; Library coordinate system.
   Public copy stays plain; sod-level material stays off the public path.
 
 ## Deliberately deferred
